@@ -11,7 +11,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <Drawer title="E-Commerce" placement="left" onClose={() => setNavIsVisible(false)} visible={navIsVisible}>
+      <Drawer title="nAcademy" placement="left" onClose={() => setNavIsVisible(false)} visible={navIsVisible}>
         <MenuTopics />
       </Drawer>
     </nav>

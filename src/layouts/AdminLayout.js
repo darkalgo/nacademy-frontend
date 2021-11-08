@@ -45,13 +45,13 @@ function AdminLayout() {
 
   return (
     <Layout>
-      <Drawer title="E-Commerce" placement="left" onClose={closeSidenav} visible={navIsVisible}>
+      <Drawer title="nAcademy" placement="left" onClose={closeSidenav} visible={navIsVisible}>
         <MenuTopics onClick={closeSidenav} />
       </Drawer>
 
       <Sider breakpoint="lg" collapsedWidth="0" trigger={null} className="sidebar-layout">
-        <div className="logo">E-Commerce</div>
-        <MenuTopics />
+        <div className="logo">nAcademy</div>
+        <MenuTopics onClick={() => {}} />
       </Sider>
 
       <Layout>
@@ -66,7 +66,7 @@ function AdminLayout() {
             <AppRoutes />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>E-commerce ©{new Date().getFullYear()} Created by NanoSoft</Footer>
+        <Footer style={{ textAlign: "center" }}>nAcademy ©{new Date().getFullYear()} Created by NanoSoft</Footer>
       </Layout>
     </Layout>
   );

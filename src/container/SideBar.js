@@ -8,7 +8,7 @@ const { Sider } = Layout;
 function SideBar() {
   return (
     <Sider breakpoint="lg" collapsedWidth="0" trigger={null} className="sidebar-layout">
-      <div className="logo">E-Commerce</div>
+      <div className="logo">nAcademy</div>
       <MenuTopics />
     </Sider>
   );
