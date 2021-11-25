@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Layout, Divider } from "antd";
-import { KeyOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Layout, Typography, Row, Col } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory, Link } from "react-router-dom";
 
 import "../styles/PageStyles/Login.less";
 
 const { Header, Content } = Layout;
+const { Title } = Typography;
 
-function Login() {
+const Login = () => {
   const [form] = Form.useForm();
   const history = useHistory();
 
@@ -16,70 +17,72 @@ function Login() {
   const onFinish = (values) => {
     localStorage.setItem("accessToken", "lsdkfjlsdkf");
     history.push("/");
+    window.location.reload(false);
   };
 
   return (
-    <Layout className="login-layout">
-      <Header className="login-header">
-        <div>dslkfj</div>
-        <div className="systemlogin-text">System Login</div>
-      </Header>
-      <div className="head-divider">
-        <Divider />
-      </div>
-      <Content>
+    <div className="login-layout">
+      <div style={{ padding: "20px 20px" }}>
         <Form form={form} name="normal_login" className="login-form" onFinish={onFinish}>
-          <div className="systemlogin-mbl">System Login</div>
-          <Form.Item
-            name="email"
-            label="Email"
-            labelCol={{ span: 24 }}
-            rules={[
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              {
-                required: true,
-                message: "Please input your E-mail!",
-              },
-            ]}>
-            <Input placeholder="Enter your email" />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            labelCol={{ span: 24 }}
-            rules={[
-              {
-                required: true,
-                message: "Please input your Password!",
-              },
-            ]}>
-            <Input.Password placeholder="Enter your password" />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" disabled={loading} htmlType="submit" className="login-form-button">
-              {loading && <LoadingOutlined />} Log In
-            </Button>
-          </Form.Item>
-          <Form.Item>
-            <div style={{ textAlign: "center" }}>
+          <Row justify="center">
+            <Title level={3}>Good to see you again!</Title>
+          </Row>
+          <Row justify="center">
+            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+              <Form.Item
+                name="email"
+                label="Email"
+                labelCol={{ span: 24 }}
+                rules={[
+                  {
+                    type: "email",
+                    message: "The input is not valid E-mail!",
+                  },
+                  {
+                    required: true,
+                    message: "Please input your E-mail!",
+                  },
+                ]}>
+                <Input placeholder="Enter your email" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+              <Form.Item
+                name="password"
+                label="Password"
+                labelCol={{ span: 24 }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Password!",
+                  },
+                ]}>
+                <Input.Password placeholder="Enter your password" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+              <Form.Item>
+                <Button block type="primary" disabled={loading} htmlType="submit" className="login-form-button">
+                  {loading && <LoadingOutlined />} Log In
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Form.Item>
               <Link className="login-form-forgot" to="/forgot-password">
-                <span>
-                  <KeyOutlined />
-                </span>
-                Forgot password?
+                <Title level={5}>Forgot password?</Title>
               </Link>
-            </div>
-            <div className="fp-divider">
-              <Divider />
-            </div>
-          </Form.Item>
+            </Form.Item>
+          </Row>
         </Form>
-      </Content>
-    </Layout>
+      </div>
+    </div>
   );
-}
+};
 
 export default Login;

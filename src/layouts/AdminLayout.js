@@ -22,7 +22,6 @@ function AdminLayout() {
   };
 
   const logout = () => {
-    setLoading(true);
     BaseAPI.get("/auth/logout", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("accessToken"),
@@ -30,13 +29,15 @@ function AdminLayout() {
     })
       .then(() => {
         localStorage.clear();
-        history.push("/login");
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
         localStorage.clear();
         history.push("/login");
-      })
-      .finally(() => setLoading(false));
+        window.location.reload(false);
+      });
   };
 
   const openSidenav = () => {
@@ -55,7 +56,7 @@ function AdminLayout() {
       </Sider>
 
       <Layout>
-        <Header className="site-layout-sub-header-background ">
+        <Header style={{ backgroundColor: "#fff" }}>
           <Button className="menu" type="primary" icon={<MenuOutlined />} onClick={openSidenav} />
           <Button className="logout-btn" onClick={logout} danger icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
             Logout
