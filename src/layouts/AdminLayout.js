@@ -67,7 +67,6 @@ function AdminLayout() {
             <AppRoutes />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center" }}>nAcademy ©{new Date().getFullYear()} Created by NanoSoft</Footer>
       </Layout>
     </Layout>
   );

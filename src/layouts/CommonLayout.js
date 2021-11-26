@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Layout, Menu, Typography } from "antd";
+import { Layout, Menu } from "antd";
 import { Link, Switch, Route } from "react-router-dom";
 
 import { AppRootContextProvider } from "../contexts/AppRootContext";
@@ -10,8 +10,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Registration from "../pages/Registration";
 
-const { Header, Content, Footer, Sider } = Layout;
-const { Title } = Typography;
+const { Content, Footer, Header } = Layout;
 
 const CommonLayout = () => {
   useEffect(() => {
@@ -25,13 +24,13 @@ const CommonLayout = () => {
           <Header className="site-layout-sub-header-background">
             <div>
               <Menu mode="horizontal">
-                <Menu.Item>
+                <Menu.Item key="home">
                   Home <Link to="/home" />
                 </Menu.Item>
-                <Menu.Item>
+                <Menu.Item key="login">
                   Login <Link to="/login" />
                 </Menu.Item>
-                <Menu.Item>
+                <Menu.Item key="registration">
                   Registration <Link to="/registration" />
                 </Menu.Item>
               </Menu>
@@ -46,6 +45,7 @@ const CommonLayout = () => {
             <LoggedInRoute component={AdminLayout} />
           </Switch>
         </Content>
+        <Footer style={{ textAlign: "center" }}>nAcademy ©{new Date().getFullYear()} Created by NanoSoft</Footer>
       </Layout>
     </AppRootContextProvider>
   );

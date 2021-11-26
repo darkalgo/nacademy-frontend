@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Layout, Typography, Row, Col } from "antd";
+import { Form, Input, Button, Typography, Row, Col } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory, Link } from "react-router-dom";
 
 import "../styles/PageStyles/Login.less";
 
-const { Header, Content } = Layout;
 const { Title } = Typography;
 
 const Login = () => {
@@ -28,7 +27,7 @@ const Login = () => {
             <Title level={3}>Good to see you again!</Title>
           </Row>
           <Row justify="center">
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+            <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item
                 name="email"
                 label="Email"
@@ -48,7 +47,7 @@ const Login = () => {
             </Col>
           </Row>
           <Row justify="center">
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+            <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item
                 name="password"
                 label="Password"
@@ -64,7 +63,7 @@ const Login = () => {
             </Col>
           </Row>
           <Row justify="center">
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+            <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item>
                 <Button block type="primary" disabled={loading} htmlType="submit" className="login-form-button">
                   {loading && <LoadingOutlined />} Log In
