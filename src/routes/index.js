@@ -13,6 +13,7 @@ function AppRoutes() {
   return (
     <div>
       <Switch>
+        {/* tutor routes */}
         <Route exact path="/tutor/dashboard" component={TutorDashboard} />
         <Route exact path="/tutor/time-slot" component={TutorTimeSlot} />
         <Route exact path="/tutor/upcoming-classes" component={TutorUpcomingClasses} />
