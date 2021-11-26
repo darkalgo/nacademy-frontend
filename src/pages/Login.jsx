@@ -14,7 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values) => {
-    localStorage.setItem("accessToken", "lsdkfjlsdkf");
+    sessionStorage.setItem("accessToken", "lsdkfjlsdkf");
     history.push("/");
     window.location.reload(false);
   };

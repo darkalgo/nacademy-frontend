@@ -3,6 +3,11 @@ export const accountType = [
   { label: "Student", value: "Student" },
 ];
 
+export const genders = [
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
+];
+
 export const classNames = [
   { id: "Class 1", name: "Class 1" },
   { id: "Class 2", name: "Class 2" },

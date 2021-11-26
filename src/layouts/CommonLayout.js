@@ -20,7 +20,7 @@ const CommonLayout = () => {
   return (
     <AppRootContextProvider>
       <Layout>
-        {!localStorage.getItem("accessToken") && (
+        {!sessionStorage.getItem("accessToken") && (
           <Header className="site-layout-sub-header-background">
             <div>
               <Menu mode="horizontal">

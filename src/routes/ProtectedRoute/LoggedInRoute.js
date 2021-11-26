@@ -6,7 +6,7 @@ const LoggedInRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) => {
-        if (localStorage && localStorage.getItem("accessToken")) {
+        if (sessionStorage && sessionStorage.getItem("accessToken")) {
           return <Component {...props} />;
         } else {
           return <Redirect to="/login" />;

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
-import { accountType, classNames, groupNames, subjectNames } from "../utils/Constants";
+import { accountType, classNames, genders, groupNames, subjectNames } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
 
-const { Title } = Typography;
+const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -16,6 +16,7 @@ const Registration = () => {
   const [form] = Form.useForm();
 
   const [selectedAccount, setSelectedAccount] = useState("Tutor");
+  const [gender, setGender] = useState("Male");
 
   const onFinish = (values) => {
     console.log(values);
@@ -76,6 +77,14 @@ const Registration = () => {
             <Form.Item name="dob" label="Date Of Birth" labelCol={{ span: 24 }} rules={[{ required: true, message: "DoB is required" }]}>
               <DatePicker style={{ width: "100%" }} />
             </Form.Item>
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Text>
+              Select gender &nbsp; &nbsp;
+              <Radio.Group options={genders} onChange={(e) => setGender(e.target.value)} value={gender} optionType="button" buttonStyle="solid" />
+            </Text>
           </Col>
         </Row>
         <Row justify="center">

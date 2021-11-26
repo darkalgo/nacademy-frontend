@@ -24,17 +24,17 @@ function AdminLayout() {
   const logout = () => {
     BaseAPI.get("/auth/logout", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     })
       .then(() => {
-        localStorage.clear();
+        sessionStorage.clear();
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        localStorage.clear();
+        sessionStorage.clear();
         history.push("/login");
         window.location.reload(false);
       });
