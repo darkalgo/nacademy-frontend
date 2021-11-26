@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, Drawer, Layout } from "antd";
-import { LogoutOutlined, LoadingOutlined, MenuOutlined } from "@ant-design/icons";
-import { useHistory } from "react-router-dom";
+import { Avatar, Button, Drawer, Dropdown, Layout, Menu } from "antd";
+import { LogoutOutlined, LoadingOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { Link, useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../utils/Api";
 import MenuTopics from "../container/MenuTopics";
@@ -9,7 +9,7 @@ import AppRoutes from "../routes";
 import "../styles/Navbar.less";
 import "../styles/Sidebar.less";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 function AdminLayout() {
   const history = useHistory();
@@ -44,6 +44,17 @@ function AdminLayout() {
     setNavIsVisible(true);
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="1" icon={<UserOutlined />}>
+        User Profile <Link to="/tutor/profile" />
+      </Menu.Item>
+      <Menu.Item key="2" onClick={logout} icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
+        Logout
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <Layout>
       <Drawer title="nAcademy" placement="left" onClose={closeSidenav} visible={navIsVisible}>
@@ -58,9 +69,9 @@ function AdminLayout() {
       <Layout>
         <Header style={{ backgroundColor: "#fff" }}>
           <Button className="menu" type="primary" icon={<MenuOutlined />} onClick={openSidenav} />
-          <Button className="logout-btn" onClick={logout} danger icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
-            Logout
-          </Button>
+          <Dropdown className="logout-btn" overlay={menu} placement="topRight" arrow>
+            <Avatar style={{ backgroundColor: "#039be5" }} icon={<UserOutlined />} />
+          </Dropdown>
         </Header>
         <Content style={{ margin: "24px 16px 0" }}>
           <div className="site-layout-background" style={{ padding: "12px 24px", minHeight: 800 }}>
