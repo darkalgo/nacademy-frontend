@@ -1,15 +1,15 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 
-import AdminApproveTutor from "../pages/Students/AdminApproveTutor";
-import AdminCreateNotice from "../pages/Students/AdminCreateNotice";
-import AdminDashboard from "../pages/Students/AdminDashboard";
-import AdminPayTutor from "../pages/Students/AdminPayTutor";
-import AdminStudentList from "../pages/Students/AdminStudentList";
-import AdminTutorList from "../pages/Students/AdminTutorList";
-import AdminViewNotice from "../pages/Students/AdminViewNotice";
-import AdminViewFeedback from "../pages/Students/AdminViewFeedback";
-import AdminViewTransactions from "../pages/Students/AdminViewTransactions";
+import AdminApproveTutor from "../pages/Admin/AdminApproveTutor";
+import AdminCreateNotice from "../pages/Admin/AdminCreateNotice";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminPayTutor from "../pages/Admin/AdminPayTutor";
+import AdminStudentList from "../pages/Admin/AdminStudentList";
+import AdminTutorList from "../pages/Admin/AdminTutorList";
+import AdminViewNotice from "../pages/Admin/AdminViewNotice";
+import AdminViewFeedback from "../pages/Admin/AdminViewFeedback";
+import AdminViewTransactions from "../pages/Admin/AdminViewTransactions";
 import StudentBookTutors from "../pages/Students/StudentBookTutors";
 import StudentCompletedClasses from "../pages/Students/StudentCompletedClasses";
 import StudentDashboard from "../pages/Students/StudentDashboard";
