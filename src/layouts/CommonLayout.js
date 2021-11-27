@@ -55,7 +55,7 @@ const CommonLayout = () => {
             <LoggedInRoute component={AdminLayout} />
           </Switch>
         </Content>
-        <Footer style={{ textAlign: "center" }}>nAcademy ©{new Date().getFullYear()} Created by NanoSoft</Footer>
+        <Footer style={{ textAlign: "center", backgroundColor: "#07294d", color: "#fff" }}>nAcademy ©{new Date().getFullYear()} Created by NanoSoft</Footer>
       </Layout>
     </AppRootContextProvider>
   );

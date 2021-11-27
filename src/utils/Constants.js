@@ -43,6 +43,14 @@ export const subjectNames = [
   { id: "ICT", name: "ICT" },
 ];
 
+export const occupations = [
+  { id: "Student", name: "Student" },
+  { id: "Teacher", name: "Teacher" },
+  { id: "Job", name: "Job" },
+  { id: "Business", name: "Business" },
+  { id: "None", name: "None" },
+];
+
 export const districtName = [
   { id: "Chittagong", name: "Chittagong" },
   { id: "Dhaka ", name: "Dhaka " },
