@@ -9,7 +9,7 @@ const LoggedInRoute = ({ component: Component, ...rest }) => {
         if (sessionStorage && sessionStorage.getItem("accessToken")) {
           return <Component {...props} />;
         } else {
-          return <Redirect to="/login" />;
+          return <Redirect to="/" />;
         }
       }}
     />

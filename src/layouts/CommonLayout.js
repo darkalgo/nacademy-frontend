@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link, Switch, Route } from "react-router-dom";
+import { Link, Switch, Route, useLocation } from "react-router-dom";
 
 import { AppRootContextProvider } from "../contexts/AppRootContext";
 
@@ -9,13 +9,23 @@ import LoggedInRoute from "../routes/ProtectedRoute/LoggedInRoute";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Registration from "../pages/Registration";
+import { toTitleCase } from "../utils/Helper";
 
 const { Content, Footer, Header } = Layout;
 
 const CommonLayout = () => {
+  const location = useLocation();
+
+  const [path, setPath] = useState("");
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    setPath(location.pathname);
+    const firstSplittedString = location.pathname.split("/")[1];
+    const replacedString = firstSplittedString.replace("-", " ");
+    document.title = `${toTitleCase(replacedString || "home")} - nAcademy`;
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <AppRootContextProvider>
@@ -23,9 +33,9 @@ const CommonLayout = () => {
         {!sessionStorage.getItem("accessToken") && (
           <Header className="site-layout-sub-header-background">
             <div>
-              <Menu mode="horizontal">
-                <Menu.Item key="home">
-                  Home <Link to="/home" />
+              <Menu mode="horizontal" selectedKeys={[path.split("/")[1]]}>
+                <Menu.Item key="">
+                  Home <Link to="/" />
                 </Menu.Item>
                 <Menu.Item key="login">
                   Login <Link to="/login" />
@@ -39,7 +49,7 @@ const CommonLayout = () => {
         )}
         <Content>
           <Switch>
-            <Route exact path="/home" component={Home} />
+            <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/registration" component={Registration} />
             <LoggedInRoute component={AdminLayout} />
