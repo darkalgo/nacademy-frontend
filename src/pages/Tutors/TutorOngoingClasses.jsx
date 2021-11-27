@@ -77,7 +77,7 @@ const TutorOngoingClasses = () => {
             </Link>
           </Col>
           <Col xs={{ span: 6 }} className="mt-2">
-            <Button block type="primary" icon={<CheckCircleOutlined />}>
+            <Button block type="primary" icon={<CheckCircleOutlined />} className="bg white-text">
               Join Class
             </Button>
           </Col>
