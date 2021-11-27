@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 
-const TeacherListTable = () => {
+const OnlineTutorsTable = () => {
   const columns = [
     {
       title: "Teacher Name",
@@ -19,12 +19,22 @@ const TeacherListTable = () => {
       key: "age",
     },
     {
+      title: "Department Name",
+      dataIndex: "age",
+      key: "age",
+    },
+    {
+      title: "Institution Name",
+      dataIndex: "age",
+      key: "age",
+    },
+    {
       title: "Subject",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Class Taken Date",
+      title: "Rating",
       dataIndex: "address",
       key: "address",
     },
@@ -56,4 +66,4 @@ const TeacherListTable = () => {
   return <Table columns={columns} dataSource={data} />;
 };
 
-export default TeacherListTable;
+export default OnlineTutorsTable;
