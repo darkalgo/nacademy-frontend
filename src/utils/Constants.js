@@ -51,6 +51,16 @@ export const occupations = [
   { id: "None", name: "None" },
 ];
 
+export const weekdays = [
+  { id: "Saturday", name: "Saturday" },
+  { id: "Sunday", name: "Sunday" },
+  { id: "Monday", name: "Monday" },
+  { id: "Tuesday", name: "Tuesday " },
+  { id: "Wednesday", name: "Wednesday" },
+  { id: "Thursday", name: "Thursday" },
+  { id: "Friday", name: "Friday" },
+];
+
 export const districtName = [
   { id: "Chittagong", name: "Chittagong" },
   { id: "Dhaka ", name: "Dhaka " },
