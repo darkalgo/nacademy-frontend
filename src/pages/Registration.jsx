@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
-import { accountType, classNames, genders, groupNames, subjectNames } from "../utils/Constants";
+import { accountType, classNames, districtName, genders, groupNames, subjectNames } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
 
 const { Text, Title } = Typography;
@@ -96,8 +96,14 @@ const Registration = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Form.Item name="city" label="City" labelCol={{ span: 24 }} rules={[{ required: true, message: "City is required" }]}>
-              <Select></Select>
+            <Form.Item name="district" label="District" labelCol={{ span: 24 }} rules={[{ required: true, message: "District is required" }]}>
+              <Select>
+                {districtName.map((el) => (
+                  <Option key={el.id} value={el.id}>
+                    {el.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
         </Row>
@@ -156,7 +162,13 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="favorite_subject" label="Favorite Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Favorite subject name is required" }]}>
-                  <Input />
+                  <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]}>
+                    {subjectNames.map((el) => (
+                      <Option value={el.id} key={el.id}>
+                        {el.name}
+                      </Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
