@@ -22,7 +22,7 @@ const StudentOngoingClasses = () => {
       setTextColor("#ff9800");
     } else if (value === 4) {
       setReviewMode("Good");
-      setTextColor("#03a9f4");
+      setTextColor("#26a69a");
     } else if (value === 5) {
       setReviewMode("Excellent");
       setTextColor("#00c853");

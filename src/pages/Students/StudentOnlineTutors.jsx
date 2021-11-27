@@ -12,12 +12,12 @@ const StudentOnlineTutors = () => {
       <Row justify="center">
         <Title level={2}>Currently Online</Title>
       </Row>
-      <Row justify="center">
+      <Row justify="center" className="mb-2">
         <span style={{ fontSize: "5em", color: "#00c853", fontWeight: "bold" }}>45</span>
       </Row>
       <Row>
         <Col xs={{ span: 24 }}>
-          <AppCard heading="Teacher Information">
+          <AppCard heading="Online Teacher Information">
             <OnlineTutorsTable />
           </AppCard>
         </Col>
