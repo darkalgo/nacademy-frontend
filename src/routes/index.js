@@ -1,5 +1,25 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
+
+import AdminApproveTutor from "../pages/Students/AdminApproveTutor";
+import AdminCreateNotice from "../pages/Students/AdminCreateNotice";
+import AdminDashboard from "../pages/Students/AdminDashboard";
+import AdminPayTutor from "../pages/Students/AdminPayTutor";
+import AdminStudentList from "../pages/Students/AdminStudentList";
+import AdminTutorList from "../pages/Students/AdminTutorList";
+import AdminViewNotice from "../pages/Students/AdminViewNotice";
+import AdminViewFeedback from "../pages/Students/AdminViewFeedback";
+import AdminViewTransactions from "../pages/Students/AdminViewTransactions";
+import StudentBookTutors from "../pages/Students/StudentBookTutors";
+import StudentCompletedClasses from "../pages/Students/StudentCompletedClasses";
+import StudentDashboard from "../pages/Students/StudentDashboard";
+import StudentFeedback from "../pages/Students/StudentFeedback";
+import StudentNotices from "../pages/Students/StudentNotices";
+import StudentOngoingClasses from "../pages/Students/StudentOngoingClasses";
+import StudentOnlineTutors from "../pages/Students/StudentOnlineTutors";
+import StudentProfile from "../pages/Students/StudentProfile";
+import StudentSubscription from "../pages/Students/StudentSubscription";
+import StudentUpcomingClasses from "../pages/Students/StudentUpcomingClasses";
 import TutorCompletedClasses from "../pages/Tutors/TutorCompletedClasses";
 import TutorDashboard from "../pages/Tutors/TutorDashboard";
 import TutorFeedback from "../pages/Tutors/TutorFeedback";
@@ -22,6 +42,29 @@ function AppRoutes() {
         <Route exact path="/tutor/notices" component={TutorNotices} />
         <Route exact path="/tutor/feedback" component={TutorFeedback} />
         <Route exact path="/tutor/profile" component={TutorProfile} />
+
+        {/* student routes */}
+        <Route exact path="/student/dashboard" component={StudentDashboard} />
+        <Route exact path="/student/online-tutors" component={StudentOnlineTutors} />
+        <Route exact path="/student/book-tutors" component={StudentBookTutors} />
+        <Route exact path="/student/upcoming-classes" component={StudentUpcomingClasses} />
+        <Route exact path="/student/ongoing-classes" component={StudentOngoingClasses} />
+        <Route exact path="/student/completed-classes" component={StudentCompletedClasses} />
+        <Route exact path="/student/notices" component={StudentNotices} />
+        <Route exact path="/student/feedback" component={StudentFeedback} />
+        <Route exact path="/student/profile" component={StudentProfile} />
+        <Route exact path="/student/subscription" component={StudentSubscription} />
+
+        {/* admin routes */}
+        <Route exact path="/admin/dashboard" component={AdminDashboard} />
+        <Route exact path="/admin/student-list" component={AdminStudentList} />
+        <Route exact path="/admin/tutor-list" component={AdminTutorList} />
+        <Route exact path="/admin/approve-tutor" component={AdminApproveTutor} />
+        <Route exact path="/admin/pay-tutor" component={AdminPayTutor} />
+        <Route exact path="/admin/view-transactions" component={AdminViewTransactions} />
+        <Route exact path="/admin/create-notice" component={AdminCreateNotice} />
+        <Route exact path="/admin/view-notice" component={AdminViewNotice} />
+        <Route exact path="/admin/view-feedback" component={AdminViewFeedback} />
       </Switch>
     </div>
   );
