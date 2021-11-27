@@ -56,7 +56,7 @@ const UpcomingClassCard = () => {
           <Title level={5}>Biology </Title>
         </Col>
         <Col xs={{ span: 24 }}>
-          <Button block type="primary" icon={<CalendarFilled />} className="bg white-text">
+          <Button block type="primary" icon={<CalendarFilled />} className="bg white-text" size="large">
             Reschedule Class Time
           </Button>
         </Col>
