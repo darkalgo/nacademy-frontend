@@ -47,7 +47,7 @@ function AdminLayout() {
   const menu = (
     <Menu>
       <Menu.Item key="1" icon={<UserOutlined />}>
-        User Profile <Link to="/tutor/profile" />
+        User Profile <Link to="/student/profile" />
       </Menu.Item>
       <Menu.Item key="2" onClick={logout} icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
         Logout

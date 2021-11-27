@@ -15,7 +15,7 @@ const Login = () => {
 
   const onFinish = (values) => {
     sessionStorage.setItem("accessToken", "lsdkfjlsdkf");
-    history.push("/tutor/dashboard");
+    history.push("/student/dashboard");
     window.location.reload(false);
   };
 
