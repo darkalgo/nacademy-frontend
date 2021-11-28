@@ -1,10 +1,10 @@
 import React from "react";
 import { Table } from "antd";
 
-const OnlineTutorsTable = () => {
+const StudentTransactionHistoryTable = () => {
   const columns = [
     {
-      title: "Teacher Name",
+      title: "Student Name",
       dataIndex: "name",
       key: "name",
     },
@@ -19,17 +19,17 @@ const OnlineTutorsTable = () => {
       key: "age",
     },
     {
-      title: "Department Name",
+      title: "Class Name",
       dataIndex: "age",
       key: "age",
     },
     {
-      title: "Subject",
+      title: "Taken Package",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Rating",
+      title: "Date",
       dataIndex: "address",
       key: "address",
     },
@@ -61,4 +61,4 @@ const OnlineTutorsTable = () => {
   return <Table columns={columns} dataSource={data} />;
 };
 
-export default OnlineTutorsTable;
+export default StudentTransactionHistoryTable;

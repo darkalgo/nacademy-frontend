@@ -3,7 +3,7 @@ import { Menu } from "antd";
 
 import { Link, useLocation } from "react-router-dom";
 import { toTitleCase } from "../utils/Helper";
-import { STUDENT_MENUS, TUTOR_MENUS } from "./MenuItems";
+import { ADMIN_MENUS, STUDENT_MENUS, TUTOR_MENUS } from "./MenuItems";
 
 const TopicMenu = ({ onClick }) => {
   const location = useLocation();
@@ -22,7 +22,7 @@ const TopicMenu = ({ onClick }) => {
   return (
     <div>
       <Menu mode="inline" selectedKeys={[path.split("/")[2]]} onClick={() => onClick()}>
-        {STUDENT_MENUS.map((el) => (
+        {ADMIN_MENUS.map((el) => (
           <Menu.Item key={el.key} icon={el.icon}>
             {el.name} <Link to={el.to} />
           </Menu.Item>
