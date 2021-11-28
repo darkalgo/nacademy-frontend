@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
 
 import { emailValidation, mobileNumberValidation } from "../../utils/Validations";
-import { districtName, genders, groupNames, occupations, subjectNames } from "../../utils/Constants";
+import { districtName, genders, occupations, subjectNames } from "../../utils/Constants";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;

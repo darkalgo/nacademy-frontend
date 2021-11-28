@@ -215,6 +215,31 @@ const Registration = () => {
             </Form.Item>
           </Col>
         </Row>
+        <Row justify="center">
+          <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Form.Item
+              name="confirm"
+              label="Confirm Password"
+              labelCol={{ span: 24 }}
+              dependencies={["password"]}
+              rules={[
+                {
+                  required: true,
+                  message: "Please confirm your password!",
+                },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject("The two passwords that you entered do not match!");
+                  },
+                }),
+              ]}>
+              <Input.Password />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row justify="center" style={{ marginTop: "1.5em" }}>
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item>

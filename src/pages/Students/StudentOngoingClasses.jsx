@@ -39,7 +39,7 @@ const StudentOngoingClasses = () => {
         <Title level={2}>Ongoing Class</Title>
       </Row>
 
-      <Card className="card" className="mb-2">
+      <Card className="card mb-2">
         <Row gutter={[8, 8]} justify="center">
           <Col xs={{ span: 8 }}>
             <Title level={5} className="primary-color">
