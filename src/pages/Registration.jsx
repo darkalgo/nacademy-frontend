@@ -127,6 +127,7 @@ const Registration = () => {
             </Form.Item>
           </Col>
         </Row>
+
         {selectedAccount === "Student" ? (
           <>
             <Row justify="center">
@@ -162,6 +163,19 @@ const Registration = () => {
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="department_name" label="Department Name" labelCol={{ span: 24 }}>
                   <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row justify="center">
+              <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+                <Form.Item name="tutor_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
+                  <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear>
+                    {classNames.map((el) => (
+                      <Option key={el.id} value={el.id}>
+                        {el.name}
+                      </Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </Col>
             </Row>
@@ -240,10 +254,10 @@ const Registration = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Row justify="center" style={{ marginTop: "1.5em" }}>
+        <Row justify="center" className="mt-2">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item>
-              <Button block type="primary" htmlType="submit">
+              <Button block type="primary" htmlType="submit" className="bg white-text">
                 Submit
               </Button>
             </Form.Item>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
 
 import { emailValidation, mobileNumberValidation } from "../../utils/Validations";
-import { districtName, genders, occupations, subjectNames } from "../../utils/Constants";
+import { classNames, districtName, genders, occupations, subjectNames } from "../../utils/Constants";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -25,7 +25,7 @@ const TutorProfile = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Form.Item name="name" label="Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Name is required" }]}>
+            <Form.Item name="name" label="Full Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Name is required" }]}>
               <Input />
             </Form.Item>
           </Col>
@@ -117,6 +117,19 @@ const TutorProfile = () => {
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item name="department_name" label="Department Name" labelCol={{ span: 24 }}>
               <Input />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Form.Item name="tutor_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
+              <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear>
+                {classNames.map((el) => (
+                  <Option key={el.id} value={el.id}>
+                    {el.name}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </Col>
         </Row>
