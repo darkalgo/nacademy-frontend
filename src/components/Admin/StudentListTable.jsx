@@ -1,10 +1,14 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
+import { FcAnswers } from "react-icons/fc";
+import { useHistory } from "react-router-dom";
 
-const OnlineTutorsTable = () => {
+const StudentListTable = () => {
+  const history = useHistory();
+
   const columns = [
     {
-      title: "Teacher Name",
+      title: "Student Name",
       dataIndex: "name",
       key: "name",
     },
@@ -14,24 +18,49 @@ const OnlineTutorsTable = () => {
       key: "age",
     },
     {
+      title: "Email",
+      dataIndex: "age",
+      key: "age",
+    },
+    {
+      title: "DoB",
+      dataIndex: "age",
+      key: "age",
+    },
+    {
       title: "Institution Name",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Department Name",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Subject",
       dataIndex: "address",
       key: "address",
     },
     {
-      title: "Rating",
+      title: "Class Name",
       dataIndex: "address",
       key: "address",
+    },
+    {
+      title: "Group",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Account Creation Date",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Currently Subscribed Package Name",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Action",
+      dataIndex: "address",
+      key: "address",
+      render: (text, record) => (
+        <Tooltip title="Package Details">
+          <FcAnswers className="icon-style" onClick={() => history.push("/admin/student-package/3")} />
+        </Tooltip>
+      ),
     },
   ];
 
@@ -61,4 +90,4 @@ const OnlineTutorsTable = () => {
   return <Table columns={columns} dataSource={data} scroll={{ x: 1500 }} />;
 };
 
-export default OnlineTutorsTable;
+export default StudentListTable;

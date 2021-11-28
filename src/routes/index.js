@@ -28,6 +28,7 @@ import TutorNotices from "../pages/Tutors/TutorNotices";
 import TutorProfile from "../pages/Tutors/TutorProfile";
 import TutorTimeSlot from "../pages/Tutors/TutorTimeSlot";
 import TutorUpcomingClasses from "../pages/Tutors/TutorUpcomingClasses";
+import AdminStudentPackage from "../pages/Admin/AdminStudentPackage";
 
 function AppRoutes() {
   return (
@@ -65,6 +66,7 @@ function AppRoutes() {
         <Route exact path="/admin/create-notice" component={AdminCreateNotice} />
         <Route exact path="/admin/view-notice" component={AdminViewNotice} />
         <Route exact path="/admin/view-feedback" component={AdminViewFeedback} />
+        <Route exact path="/admin/student-package/:id" component={AdminStudentPackage} />
       </Switch>
     </div>
   );
