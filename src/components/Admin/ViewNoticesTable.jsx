@@ -1,8 +1,11 @@
 import React from "react";
 import { Space, Table, Tooltip } from "antd";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
 const ViewNoticesTable = () => {
+  const history = useHistory();
+
   const columns = [
     {
       title: "Message Header",
@@ -31,7 +34,7 @@ const ViewNoticesTable = () => {
       render: (text, record) => (
         <Space size="large">
           <Tooltip title="View Details">
-            <EyeOutlined className="icon-style" />
+            <EyeOutlined className="icon-style" onClick={() => history.push("/admin/view-notice/3")} />
           </Tooltip>
           <Tooltip title="Delete Notice">
             <DeleteOutlined className="icon-style" style={{ color: "red" }} />
