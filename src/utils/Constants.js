@@ -15,6 +15,12 @@ export const paymentOptionList = [
   { label: "Bank", value: "Bank" },
 ];
 
+export const noticeType = [
+  { id: "Information", name: "Information" },
+  { id: "Success", name: "Success" },
+  { id: "Warning", name: "Warning" },
+];
+
 export const classNames = [
   { id: "Class 1", name: "Class 1" },
   { id: "Class 2", name: "Class 2" },
