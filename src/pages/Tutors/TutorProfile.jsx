@@ -20,9 +20,9 @@ const TutorProfile = () => {
   return (
     <div>
       <Form form={form} onFinish={onFinish}>
-        <Row justify="center">
+        <div className="center">
           <Title level={3}>Profile</Title>
-        </Row>
+        </div>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item name="name" label="Full Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Name is required" }]}>

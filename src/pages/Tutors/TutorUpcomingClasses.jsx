@@ -8,9 +8,9 @@ const { Title } = Typography;
 const TutorUpcomingClasses = () => {
   return (
     <div>
-      <Row justify="center">
+      <div className="center">
         <Title level={2}>List Of Upcoming Classes</Title>
-      </Row>
+      </div>
       <Row gutter={[16, 16]}>
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
           <UpcomingClassCard />

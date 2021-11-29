@@ -66,9 +66,9 @@ const TutorTimeSlot = () => {
 
   return (
     <>
-      <Row justify="center">
+      <div className="center">
         <Title level={2}>Teaching Time Slots</Title>
-      </Row>
+      </div>
       <Form form={form} onFinish={onFinish}>
         {dayNumber.map((x, i) => (
           <Row key={i} gutter={[16, 16]}>

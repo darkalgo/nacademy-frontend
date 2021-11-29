@@ -8,6 +8,13 @@ export const genders = [
   { label: "Female", value: "Female" },
 ];
 
+export const paymentOptionList = [
+  { label: "Cash", value: "Cash" },
+  { label: "bKash", value: "bKash" },
+  { label: "Nagad", value: "Nagad" },
+  { label: "Bank", value: "Bank" },
+];
+
 export const classNames = [
   { id: "Class 1", name: "Class 1" },
   { id: "Class 2", name: "Class 2" },

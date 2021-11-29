@@ -6,9 +6,9 @@ const { Title } = Typography;
 const TutorNotices = () => {
   return (
     <div>
-      <Row justify="center">
+      <div className="center">
         <Title level={2}>All Notices</Title>
-      </Row>
+      </div>
       <Alert
         message={
           <div>

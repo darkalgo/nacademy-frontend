@@ -34,9 +34,9 @@ const TutorFeedback = () => {
   return (
     <div>
       <Form form={form} onFinish={onFinish}>
-        <Row justify="center" className="mb-2">
+        <div  className="center mb-2">
           <Title level={2}>Share Your Feedback</Title>
-        </Row>
+        </div>
 
         <Row justify="center">
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>

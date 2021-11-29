@@ -70,9 +70,9 @@ const TutorCompletedClasses = () => {
   const onSearch = (value) => console.log(value);
   return (
     <>
-      <Row justify="center">
+      <div className="center">
         <Title level={2}>Completed Classes</Title>
-      </Row>
+      </div>
       <Row justify="end" className="mb-2">
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
           <Search placeholder="Search text" allowClear enterButton onSearch={onSearch} />

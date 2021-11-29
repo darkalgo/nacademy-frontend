@@ -7,9 +7,9 @@ const { Link, Title } = Typography;
 const TutorOngoingClasses = () => {
   return (
     <>
-      <Row justify="center">
+      <div className="center">
         <Title level={2}>Ongoing Class</Title>
-      </Row>
+      </div>
 
       <Card className="card">
         <Row gutter={[8, 8]} justify="center">
