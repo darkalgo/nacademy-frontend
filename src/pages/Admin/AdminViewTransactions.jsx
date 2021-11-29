@@ -9,7 +9,7 @@ const AdminViewTransactions = () => {
   return (
     <div>
       <div className="center">
-        <Title level={2}></Title>
+        <Title level={2}>Tutor Money Withdrawal History</Title>
       </div>
 
       <Row justify="end" className="mb-2">

@@ -68,7 +68,7 @@ const WithdrawalTransactionTable = () => {
       tags: ["cool", "teacher"],
     },
   ];
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} />;
+  return <Table columns={columns} dataSource={data} scroll={{ x: 1500 }} />;
 };
 
 export default WithdrawalTransactionTable;
