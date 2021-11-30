@@ -21,9 +21,25 @@ const CommonLayout = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     setPath(location.pathname);
-    const firstSplittedString = location.pathname.split("/")[1];
-    const replacedString = firstSplittedString.replace("-", " ");
-    document.title = `${toTitleCase(replacedString || "home")} - nAcademy`;
+    // counted number of '/' (slashes) in the route
+    const slashCount = location.pathname.split("/").filter((x) => x !== "").length;
+    let splittedString;
+    let replacedString;
+
+    if (slashCount === 1) {
+      splittedString = location.pathname.split("/")[1];
+    } else {
+      splittedString = location.pathname.split("/")[2];
+    }
+    // splittedString is not undefined
+    if (splittedString) {
+      replacedString = splittedString.replace("-", " ");
+    } else {
+      replacedString = splittedString;
+    }
+
+    // if splitted string is not undefined then set the main route name in title else set home in title
+    document.title = `${toTitleCase(replacedString || "home")} - nAcademy.online`;
     window.scrollTo(0, 0);
   }, [location.pathname]);
 

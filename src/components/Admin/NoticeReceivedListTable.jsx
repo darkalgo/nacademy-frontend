@@ -1,11 +1,7 @@
 import React from "react";
-import { Table, Tooltip } from "antd";
-import { FcAnswers } from "react-icons/fc";
-import { useHistory } from "react-router-dom";
+import { Table } from "antd";
 
 const NoticeReceivedListTable = () => {
-  const history = useHistory();
-
   const columns = [
     {
       title: "Name",
