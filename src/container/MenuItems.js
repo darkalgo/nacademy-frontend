@@ -1,4 +1,4 @@
-import { MdAlarm, MdAlarmOn, MdBookmarkAdd, MdCalendarToday, MdDashboard, MdFeedback, MdNotificationsActive, MdPendingActions, MdWifiTethering } from "react-icons/md";
+import { MdAlarm, MdAlarmOn, MdBookmarkAdd, MdCalendarToday, MdDashboard, MdFeedback, MdGroups, MdNotificationsActive, MdPendingActions, MdWifiTethering } from "react-icons/md";
 import { HiCollection } from "react-icons/hi";
 import { FaInfoCircle, FaPlusCircle, FaRegListAlt, FaRegMoneyBillAlt, FaUserCog, FaUsers, FaUserTie, FaWallet } from "react-icons/fa";
 
@@ -15,6 +15,7 @@ export const TUTOR_MENUS = [
 export const STUDENT_MENUS = [
   { name: "Dashboard", to: "/student/dashboard", key: "dashboard", icon: <MdDashboard /> },
   { name: "Online Tutors", to: "/student/online-tutors", key: "online-tutors", icon: <MdWifiTethering /> },
+  { name: "All Tutors", to: "/student/all-tutors", key: "all-tutors", icon: <MdGroups /> },
   { name: "Book Tutor", to: "/student/book-tutors", key: "book-tutors", icon: <MdBookmarkAdd /> },
   { name: "Upcoming Classes", to: "/student/upcoming-classes", key: "upcoming-classes", icon: <MdPendingActions /> },
   { name: "Ongoing Classes", to: "/student/ongoing-classes", key: "ongoing-classes", icon: <MdAlarm /> },

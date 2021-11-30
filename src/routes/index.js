@@ -4,12 +4,16 @@ import { Switch, Route } from "react-router-dom";
 import AdminApproveTutor from "../pages/Admin/AdminApproveTutor";
 import AdminCreateNotice from "../pages/Admin/AdminCreateNotice";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminNoticeDetails from "../pages/Admin/AdminNoticeDetails";
 import AdminPayTutor from "../pages/Admin/AdminPayTutor";
 import AdminStudentList from "../pages/Admin/AdminStudentList";
+import AdminStudentPackage from "../pages/Admin/AdminStudentPackage";
+import AdminTutorDetails from "../pages/Admin/AdminTutorDetails";
 import AdminTutorList from "../pages/Admin/AdminTutorList";
 import AdminViewNotice from "../pages/Admin/AdminViewNotice";
 import AdminViewFeedback from "../pages/Admin/AdminViewFeedback";
 import AdminViewTransactions from "../pages/Admin/AdminViewTransactions";
+import StudentAllTutors from "../pages/Students/StudentAllTutors";
 import StudentBookTutors from "../pages/Students/StudentBookTutors";
 import StudentCompletedClasses from "../pages/Students/StudentCompletedClasses";
 import StudentDashboard from "../pages/Students/StudentDashboard";
@@ -20,6 +24,7 @@ import StudentOnlineTutors from "../pages/Students/StudentOnlineTutors";
 import StudentProfile from "../pages/Students/StudentProfile";
 import StudentSubscription from "../pages/Students/StudentSubscription";
 import StudentUpcomingClasses from "../pages/Students/StudentUpcomingClasses";
+import StudentTutorDetails from "../pages/Students/StudentTutorDetails";
 import TutorCompletedClasses from "../pages/Tutors/TutorCompletedClasses";
 import TutorDashboard from "../pages/Tutors/TutorDashboard";
 import TutorFeedback from "../pages/Tutors/TutorFeedback";
@@ -28,9 +33,6 @@ import TutorNotices from "../pages/Tutors/TutorNotices";
 import TutorProfile from "../pages/Tutors/TutorProfile";
 import TutorTimeSlot from "../pages/Tutors/TutorTimeSlot";
 import TutorUpcomingClasses from "../pages/Tutors/TutorUpcomingClasses";
-import AdminStudentPackage from "../pages/Admin/AdminStudentPackage";
-import AdminTutorDetails from "../pages/Admin/AdminTutorDetails";
-import AdminNoticeDetails from "../pages/Admin/AdminNoticeDetails";
 
 function AppRoutes() {
   return (
@@ -57,6 +59,8 @@ function AppRoutes() {
         <Route exact path="/student/feedback" component={StudentFeedback} />
         <Route exact path="/student/profile" component={StudentProfile} />
         <Route exact path="/student/subscription" component={StudentSubscription} />
+        <Route exact path="/student/all-tutors" component={StudentAllTutors} />
+        <Route exact path="/student/all-tutors/:id" component={StudentTutorDetails} />
 
         {/* admin routes */}
         <Route exact path="/admin/dashboard" component={AdminDashboard} />
