@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Form, Row, Select, TimePicker, Typography } from "antd";
+import { Button, Checkbox, Col, Form, Row, Select, TimePicker, Typography } from "antd";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 
@@ -99,9 +99,16 @@ const TutorTimeSlot = () => {
             <Col lg={{ span: 2 }}>{dayNumber.length > 1 && <Button danger onClick={() => onCancel(i)} icon={<CloseOutlined />} style={{ marginTop: "40px" }}></Button>}</Col>
           </Row>
         ))}
+        <Row>
+          <Col xs={{ span: 24 }}>
+            <Form.Item name="continue_time">
+              <Checkbox checked>Continue this time for every month</Checkbox>
+            </Form.Item>
+          </Col>
+        </Row>
         <Row justify="center" className="mt-2">
           <Button type="primary" htmlType="submit" className="bg white-text">
-            Submit
+            Save Time Slots
           </Button>
         </Row>
       </Form>
