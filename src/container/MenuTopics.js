@@ -18,7 +18,7 @@ const TopicMenu = ({ onClick }) => {
   return (
     <div>
       <Menu mode="inline" selectedKeys={[path.split("/")[2]]} onClick={() => onClick()}>
-        {TUTOR_MENUS.map((el) => (
+        {STUDENT_MENUS.map((el) => (
           <Menu.Item key={el.key} icon={el.icon}>
             {el.name} <Link to={el.to} />
           </Menu.Item>
