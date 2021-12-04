@@ -18,11 +18,24 @@ const TopicMenu = ({ onClick }) => {
   return (
     <div>
       <Menu mode="inline" selectedKeys={[path.split("/")[2]]} onClick={() => onClick()}>
-        {STUDENT_MENUS.map((el) => (
-          <Menu.Item key={el.key} icon={el.icon}>
-            {el.name} <Link to={el.to} />
-          </Menu.Item>
-        ))}
+        {sessionStorage.getItem("role") === "student" &&
+          STUDENT_MENUS.map((el) => (
+            <Menu.Item key={el.key} icon={el.icon}>
+              {el.name} <Link to={el.to} />
+            </Menu.Item>
+          ))}
+        {sessionStorage.getItem("role") === "admin" &&
+          ADMIN_MENUS.map((el) => (
+            <Menu.Item key={el.key} icon={el.icon}>
+              {el.name} <Link to={el.to} />
+            </Menu.Item>
+          ))}
+        {sessionStorage.getItem("role") === "tutor" &&
+          TUTOR_MENUS.map((el) => (
+            <Menu.Item key={el.key} icon={el.icon}>
+              {el.name} <Link to={el.to} />
+            </Menu.Item>
+          ))}
       </Menu>
     </div>
   );

@@ -15,7 +15,16 @@ const Login = () => {
 
   const onFinish = (values) => {
     sessionStorage.setItem("accessToken", "lsdkfjlsdkf");
-    history.push("/admin/dashboard");
+    if (values.email === "admin@gmail.com") {
+      sessionStorage.setItem("role", "admin");
+      history.push("/admin/dashboard");
+    } else if (values.email === "student@gmail.com") {
+      sessionStorage.setItem("role", "student");
+      history.push("/student/dashboard");
+    } else {
+      sessionStorage.setItem("role", "tutor");
+      history.push("/tutor/dashboard");
+    }
     window.location.reload(false);
   };
 
