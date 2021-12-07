@@ -9,16 +9,6 @@ const AllAvailableTutorTable = () => {
       key: "name",
     },
     {
-      title: "Phone Number",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
-      title: "Email",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
       title: "Institution Name",
       dataIndex: "age",
       key: "age",

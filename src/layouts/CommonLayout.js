@@ -40,7 +40,6 @@ const CommonLayout = () => {
 
     // if splitted string is not undefined then set the main route name in title else set home in title
     document.title = `${toTitleCase(replacedString || "home")} - nAcademy.online`;
-    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (

@@ -9,7 +9,7 @@ export const TUTOR_MENUS = [
   { name: "Ongoing Classes", to: "/tutor/ongoing-classes", key: "ongoing-classes", icon: <MdAlarm /> },
   { name: "Completed Classes", to: "/tutor/completed-classes", key: "completed-classes", icon: <MdAlarmOn /> },
   { name: "Notices", to: "/tutor/notices", key: "notices", icon: <MdNotificationsActive /> },
-  { name: "Feedback", to: "/tutor/feedback", key: "feedback", icon: <MdFeedback /> },
+  { name: "Support", to: "/tutor/support", key: "support", icon: <MdFeedback /> },
 ];
 
 export const STUDENT_MENUS = [
@@ -21,7 +21,7 @@ export const STUDENT_MENUS = [
   { name: "Ongoing Classes", to: "/student/ongoing-classes", key: "ongoing-classes", icon: <MdAlarm /> },
   { name: "Completed Classes", to: "/student/completed-classes", key: "completed-classes", icon: <MdAlarmOn /> },
   { name: "Notices", to: "/student/notices", key: "notices", icon: <MdNotificationsActive /> },
-  { name: "Feedback", to: "/student/feedback", key: "feedback", icon: <MdFeedback /> },
+  { name: "Support", to: "/student/support", key: "support", icon: <MdFeedback /> },
   { name: "Subscription", to: "/student/subscription", key: "subscription", icon: <HiCollection /> },
 ];
 
@@ -34,5 +34,5 @@ export const ADMIN_MENUS = [
   { name: "View Transactions", to: "/admin/view-transactions", key: "view-transactions", icon: <FaWallet /> },
   { name: "Create Notice", to: "/admin/create-notice", key: "create-notice", icon: <FaPlusCircle /> },
   { name: "View Notice", to: "/admin/view-notice", key: "view-notice", icon: <FaRegListAlt /> },
-  { name: "View Feedback", to: "/admin/view-feedback", key: "view-feedback", icon: <FaInfoCircle /> },
+  { name: "View Supports", to: "/admin/view-support", key: "view-feedback", icon: <FaInfoCircle /> },
 ];

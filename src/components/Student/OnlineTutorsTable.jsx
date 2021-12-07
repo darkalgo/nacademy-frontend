@@ -9,11 +9,6 @@ const OnlineTutorsTable = () => {
       key: "name",
     },
     {
-      title: "Phone Number",
-      dataIndex: "age",
-      key: "age",
-    },
-    {
       title: "Institution Name",
       dataIndex: "age",
       key: "age",

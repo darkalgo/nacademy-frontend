@@ -45,7 +45,7 @@ function AppRoutes() {
         <Route exact path="/tutor/ongoing-classes" component={TutorOngoingClasses} />
         <Route exact path="/tutor/completed-classes" component={TutorCompletedClasses} />
         <Route exact path="/tutor/notices" component={TutorNotices} />
-        <Route exact path="/tutor/feedback" component={TutorFeedback} />
+        <Route exact path="/tutor/support" component={TutorFeedback} />
         <Route exact path="/tutor/profile" component={TutorProfile} />
 
         {/* student routes */}
@@ -56,7 +56,7 @@ function AppRoutes() {
         <Route exact path="/student/ongoing-classes" component={StudentOngoingClasses} />
         <Route exact path="/student/completed-classes" component={StudentCompletedClasses} />
         <Route exact path="/student/notices" component={StudentNotices} />
-        <Route exact path="/student/feedback" component={StudentFeedback} />
+        <Route exact path="/student/support" component={StudentFeedback} />
         <Route exact path="/student/profile" component={StudentProfile} />
         <Route exact path="/student/subscription" component={StudentSubscription} />
         <Route exact path="/student/all-tutors" component={StudentAllTutors} />
@@ -71,7 +71,7 @@ function AppRoutes() {
         <Route exact path="/admin/view-transactions" component={AdminViewTransactions} />
         <Route exact path="/admin/create-notice" component={AdminCreateNotice} />
         <Route exact path="/admin/view-notice" component={AdminViewNotice} />
-        <Route exact path="/admin/view-feedback" component={AdminViewFeedback} />
+        <Route exact path="/admin/view-support" component={AdminViewFeedback} />
         <Route exact path="/admin/student-package/:id" component={AdminStudentPackage} />
         <Route exact path="/admin/approve-tutor/:id" component={AdminTutorDetails} />
         <Route exact path="/admin/view-notice/:id" component={AdminNoticeDetails} />

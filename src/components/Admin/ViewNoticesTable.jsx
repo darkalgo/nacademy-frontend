@@ -67,7 +67,7 @@ const ViewNoticesTable = () => {
       tags: ["cool", "teacher"],
     },
   ];
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1500 }} />;
+  return <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} />;
 };
 
 export default ViewNoticesTable;

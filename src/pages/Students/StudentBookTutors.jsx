@@ -8,6 +8,7 @@ const { Option } = Select;
 
 const StudentBookTutors = () => {
   const [form] = Form.useForm();
+  const [form1] = Form.useForm();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -24,11 +25,11 @@ const StudentBookTutors = () => {
     console.log(value, mode);
   };
 
-  const onCalenderChange = (value) => {
-    console.log(moment(value).format("LL"));
+  const onFinish = (values) => {
+    console.log(moment(values.selected_date).format("ll"));
   };
 
-  const onFinish = (values) => {
+  const getSlot = (values) => {
     console.log(values);
   };
 
@@ -38,14 +39,32 @@ const StudentBookTutors = () => {
         <Title level={2}>Book A Tutor</Title>
       </div>
 
-      <Row>
-        <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
-          <Title level={5}>Please select a date to see available teachers </Title>
-        </Col>
-        <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
-          <Calendar fullscreen={false} disabledDate={disabledDate} onPanelChange={onPanelChange} onChange={onCalenderChange} />
-        </Col>
-      </Row>
+      <Form form={form} onFinish={onFinish}>
+        <Row>
+          <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
+            <Title level={5}>Please select a date to see available teachers</Title>
+          </Col>
+          <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
+            <Form.Item name="subject" label="Select Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Please select subject" }]}>
+              <Select showSearch optionFilterProp="children" allowClear>
+                <Option value="center">Center</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
+            <Form.Item name="selected_date" label="Select Date" labelCol={{ span: 24 }}>
+              <Calendar fullscreen={false} disabledDate={disabledDate} onPanelChange={onPanelChange} />
+            </Form.Item>
+          </Col>
+        </Row>
+        <div className="center">
+          <Form.Item>
+            <Button className="bg white-text" htmlType="submit">
+              Find Available Teachers
+            </Button>
+          </Form.Item>
+        </div>
+      </Form>
 
       <div className="center mb-2 mt-2">
         <Title level={2}>Available Teachers</Title>
@@ -89,7 +108,7 @@ const StudentBookTutors = () => {
         </Col>
       </Row>
       <Modal title="Available Time Slots" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
-        <Form form={form} onFinish={onFinish}>
+        <Form form={form1} onFinish={getSlot}>
           <Row>
             <Col xs={{ span: 24 }}>
               <Form.Item name="time_slot" label="Available Time Slots" labelCol={{ span: 24 }} rules={[{ required: true, message: "Please select a time slot" }]}>

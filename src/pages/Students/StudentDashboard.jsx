@@ -16,7 +16,7 @@ const StudentDashboard = () => {
           <DashboardCard title="Total Teacher Consultations" count="6" color="#673ab7" />
         </Col>
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-          <DashboardCard title="Total Money Spent" count="6580" color="#f57c00" />
+          <DashboardCard title="Upcoming Classes" count="6" color="#f57c00" />
         </Col>
         <Col xs={{ span: 24 }}>
           <AppCard heading="Consulted Teacher List">
