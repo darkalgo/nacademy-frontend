@@ -44,11 +44,22 @@ function AdminLayout() {
     setNavIsVisible(true);
   };
 
+  const dynamicProfilePage = () => {
+    if (sessionStorage.getItem("role") === "tutor") {
+      return "/tutor/profile";
+    } else if (sessionStorage.getItem("role") === "student") {
+      return "/student/profile";
+    }
+  };
+
   const menu = (
     <Menu>
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        User Profile <Link to="/student/profile" />
-      </Menu.Item>
+      {sessionStorage.getItem("role") !== "admin" && (
+        <Menu.Item key="1" icon={<UserOutlined />}>
+          User Profile <Link to={dynamicProfilePage} />
+        </Menu.Item>
+      )}
+
       <Menu.Item key="2" onClick={logout} icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
         Logout
       </Menu.Item>

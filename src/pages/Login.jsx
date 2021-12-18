@@ -4,6 +4,8 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory, Link } from "react-router-dom";
 
 import "../styles/PageStyles/Login.less";
+import { BaseAPI } from "../utils/Api";
+import Notification from "../components/controls/Notification";
 
 const { Title } = Typography;
 
@@ -13,19 +15,31 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const onFinish = (values) => {
-    sessionStorage.setItem("accessToken", "lsdkfjlsdkf");
-    if (values.email === "admin@gmail.com") {
-      sessionStorage.setItem("role", "admin");
-      history.push("/admin/dashboard");
-    } else if (values.email === "student@gmail.com") {
-      sessionStorage.setItem("role", "student");
-      history.push("/student/dashboard");
-    } else {
-      sessionStorage.setItem("role", "tutor");
-      history.push("/tutor/dashboard");
-    }
-    window.location.reload(false);
+  const onFinish = async ({ user_name, password }) => {
+    await BaseAPI.post("/auth/signin", { user_name, password })
+      .then((res) => {
+        console.log(res.data.data);
+        const response = res.data.data;
+        sessionStorage.setItem("accessToken", response.token);
+        sessionStorage.setItem("role", response.role);
+        sessionStorage.setItem("id", response.id);
+
+        if (response.role === "tutor") {
+          history.push("/tutor/dashboard");
+        } else if (response.role === "admin") {
+          history.push("/admin/dashboard");
+        } else if (response.role === "student") {
+          history.push("/student/dashboard");
+        }
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          Notification(err?.response?.data?.message, "Please fix this error and try again. Otherwise communicate with the admin", "error");
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      });
+    // window.location.reload(false);
   };
 
   return (
@@ -38,20 +52,16 @@ const Login = () => {
           <Row justify="center">
             <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item
-                name="email"
-                label="Email"
+                name="user_name"
+                label="User Name"
                 labelCol={{ span: 24 }}
                 rules={[
                   {
-                    type: "email",
-                    message: "The input is not valid E-mail!",
-                  },
-                  {
                     required: true,
-                    message: "Please input your E-mail!",
+                    message: "Please input your username!",
                   },
                 ]}>
-                <Input placeholder="Enter your email" />
+                <Input placeholder="Enter your username" />
               </Form.Item>
             </Col>
           </Row>

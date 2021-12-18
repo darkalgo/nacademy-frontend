@@ -11,6 +11,7 @@
     "apexcharts": "^3.30.0",
     "axios": "^0.21.1",
     "craco-less": "^1.18.0",
+    "env-cmd": "^10.1.0",
     "fuzzy-search": "^3.2.1",
     "git-commit-msg-linter": "^3.2.8",
     "moment": "^2.29.1",
@@ -24,8 +25,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "env-cmd -f .env.development craco start",
+    "start:stage:dev": "env-cmd -f .env.development craco start",
+    "start:stage:prod": "env-cmd -f .env.production craco start",
+    "build:stage:dev": "env-cmd -f .env.development craco build",
+    "build:stage:prod": "env-cmd -f .env.production craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
