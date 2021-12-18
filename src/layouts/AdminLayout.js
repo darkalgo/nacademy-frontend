@@ -36,7 +36,6 @@ function AdminLayout() {
       .finally(() => {
         sessionStorage.clear();
         history.push("/login");
-        window.location.reload(false);
       });
   };
 

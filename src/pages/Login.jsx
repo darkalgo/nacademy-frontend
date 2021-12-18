@@ -16,9 +16,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = async ({ user_name, password }) => {
+    setLoading(true);
     await BaseAPI.post("/auth/signin", { user_name, password })
       .then((res) => {
-        console.log(res.data.data);
         const response = res.data.data;
         sessionStorage.setItem("accessToken", response.token);
         sessionStorage.setItem("role", response.role);
@@ -38,7 +38,8 @@ const Login = () => {
         } else {
           Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
         }
-      });
+      })
+      .finally(() => setLoading(false));
     // window.location.reload(false);
   };
 
