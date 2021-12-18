@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 import { accountType, classNames, districtName, genders, groupNames, occupations, subjectNames } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
+import { BaseAPI } from "../utils/Api";
+import moment from "moment";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
@@ -14,11 +18,77 @@ for (let i = 10; i < 36; i++) {
 
 const Registration = () => {
   const [form] = Form.useForm();
+  const history = useHistory();
 
+  const [loading, setLoading] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState("Tutor");
   const [gender, setGender] = useState("Male");
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    let info = null;
+    if (selectedAccount === "Tutor") {
+      info = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone_number,
+        dob: moment(values.dob).format("YYYY-MM-DD"),
+        gender: gender,
+        address: values.address,
+        district: values.district,
+        occupation: values.occupation,
+        institute_name: values.institute_name,
+        user_name: values.username,
+        password: values.password,
+        department_name: values.department_name,
+        why_want_join: values.join_reason,
+        class_teach: values.tutor_class,
+        good_at_subject: values.subject,
+        favorite_subject: values.favorite_subject,
+      };
+    } else {
+      info = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone_number,
+        dob: moment(values.dob).format("YYYY-MM-DD"),
+        gender: gender,
+        address: values.address,
+        district: values.district,
+        occupation: values.occupation,
+        institute_name: values.institute_name,
+        user_name: values.username,
+        password: values.password,
+        group_name: values.group_name,
+        class_name: values.class_name,
+      };
+    }
+
+    let apiRoute = "";
+    if (selectedAccount === "Tutor") {
+      apiRoute = "/auth/signup-tutor";
+    } else {
+      apiRoute = "/auth/signup-student";
+    }
+
+    console.log(info);
+    console.log(apiRoute);
+
+    setLoading(true);
+    await BaseAPI.post(`${apiRoute}`, info)
+      .then((res) => {
+        Notification("Success", `${res.data.message}`, "success");
+        history.push("/login");
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          Notification(err?.response?.data?.message, "Please fix this error and try again. Otherwise communicate with the admin", "error");
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     console.log(values);
   };
 
@@ -37,6 +107,13 @@ const Registration = () => {
           </Col>
         </Row>
 
+        <Row justify="center">
+          <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Form.Item name="username" label="Username" labelCol={{ span: 24 }} rules={[{ required: true, message: "Username is required" }]}>
+              <Input />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item name="name" label="Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Name is required" }]}>
@@ -260,7 +337,7 @@ const Registration = () => {
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item>
               <Button block type="primary" htmlType="submit" className="bg white-text">
-                Submit
+                Create Account {loading && <LoadingOutlined />}
               </Button>
             </Form.Item>
           </Col>
