@@ -1,5 +1,5 @@
 import React from "react";
-import { Input, Table, Row, Typography, Col } from "antd";
+import { Input, Table, Row, Typography, Col, Card } from "antd";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -83,7 +83,9 @@ const StudentCompletedClasses = () => {
           <Search placeholder="Search text" allowClear enterButton onSearch={onSearch} />
         </Col>
       </Row>
-      <Table columns={columns} dataSource={data} />;
+      <Card className="card">
+        <Table columns={columns} dataSource={data} />
+      </Card>
     </>
   );
 };

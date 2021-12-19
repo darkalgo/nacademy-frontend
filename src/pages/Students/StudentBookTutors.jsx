@@ -3,6 +3,8 @@ import { Button, Calendar, Card, Col, Form, Modal, Row, Select, Typography } fro
 import { ClockCircleOutlined } from "@ant-design/icons";
 import moment from "moment";
 
+import { subjectNames } from "../../utils/Constants";
+
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -46,8 +48,12 @@ const StudentBookTutors = () => {
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
             <Form.Item name="subject" label="Select Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Please select subject" }]}>
-              <Select showSearch optionFilterProp="children" allowClear>
-                <Option value="center">Center</Option>
+              <Select style={{ width: "100%" }} allowClear showArrow>
+                {subjectNames.map((el) => (
+                  <Option value={el.id} key={el.id}>
+                    {el.name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>

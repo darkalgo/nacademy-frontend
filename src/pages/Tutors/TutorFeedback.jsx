@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Form, Input, Row, Typography, Upload, message, Button } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+
+import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
 const { Dragger } = Upload;
@@ -9,21 +11,38 @@ const { TextArea } = Input;
 const TutorFeedback = () => {
   const { form } = Form.useForm();
 
+  const [fileList, setFileList] = useState([]);
+
   const props = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
+    name: "Images",
+    multiple: true,
+    listType: "picture",
+    fileList: fileList,
+    action: `${process.env.REACT_APP_cloudinary}`,
+    beforeUpload: (file) => {
+      if (file.type !== "image/jpeg" && file.type !== "image/png" && file.type !== "image/svg+xml") {
+        Notification(`${file.name} is not an image`, "Please upload a correct image file", "error");
+      }
+      return file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/svg+xml";
     },
     onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+      let fileList = [...info.fileList];
+      // 1. Limit the number of uploaded files
+      // Only to show two recent uploaded files, and old ones will be replaced by the new
+      fileList = fileList.slice(-3);
+      // 2. Read from response and show file link
+      console.log(fileList);
+      fileList = fileList.map((file) => {
+        console.log("file", file);
+        // if (file.response) {
+        //   console.log(file);
+        //   // Component will show file.url as link
+        //   file.url = process.env.REACT_APP_s3_cdn + file.response.file_name;
+        //   file.image_name = file.response.file_name;
+        // }
+        return file;
+      });
+      setFileList(fileList.filter((file) => !!file.status));
     },
   };
 
@@ -34,7 +53,7 @@ const TutorFeedback = () => {
   return (
     <div>
       <Form form={form} onFinish={onFinish}>
-        <div  className="center mb-2">
+        <div className="center mb-2">
           <Title level={2}>Share Your Feedback</Title>
         </div>
 
@@ -65,7 +84,7 @@ const TutorFeedback = () => {
           </Col>
         </Row>
         <Row justify="center" className="mt-2">
-          <Button type="primary" htmlType="submit" size="large" className="bg white-text">
+          <Button type="primary" htmlType="submit" className="bg white-text">
             Submit Feedback
           </Button>
         </Row>

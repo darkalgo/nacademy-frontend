@@ -55,6 +55,7 @@ export const subjectNames = [
   { id: "Chemistry", name: "Chemistry" },
   { id: "Biology", name: "Biology" },
   { id: "ICT", name: "ICT" },
+  { id: "Others", name: "Others" },
 ];
 
 export const occupations = [

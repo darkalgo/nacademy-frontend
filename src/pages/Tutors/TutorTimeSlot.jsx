@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Checkbox, Col, Form, Row, Select, TimePicker, Typography } from "antd";
+import { Button, Checkbox, Col, Form, Input, Row, Select, TimePicker, Typography } from "antd";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 
@@ -13,6 +13,7 @@ const TutorTimeSlot = () => {
   const [form] = Form.useForm();
 
   const [dayNumber, setDayNumber] = useState([1]);
+  const [timeChecked, setTimeChecked] = useState(true);
 
   const addNewTimeSlot = () => {
     setDayNumber([...dayNumber, 1]);
@@ -89,8 +90,8 @@ const TutorTimeSlot = () => {
               </Form.Item>
             </Col>
             <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 7 }}>
-              <Form.Item name={`end_time_${i + 1}`} label="End Time" labelCol={{ span: 24 }} rules={[{ required: true, message: "End time is required" }]}>
-                <TimePicker minuteStep={10} use12Hours format={format} style={{ width: "100%" }} />
+              <Form.Item name={`end_time_${i + 1}`} label="End Time" labelCol={{ span: 24 }}>
+                <Input readOnly />
               </Form.Item>
             </Col>
             <Col lg={{ span: 1 }}>
@@ -102,7 +103,9 @@ const TutorTimeSlot = () => {
         <Row>
           <Col xs={{ span: 24 }}>
             <Form.Item name="continue_time">
-              <Checkbox checked>Continue this time for every month</Checkbox>
+              <Checkbox checked={timeChecked} onChange={(e) => setTimeChecked(e.target.checked)}>
+                Continue this time for every month
+              </Checkbox>
             </Form.Item>
           </Col>
         </Row>

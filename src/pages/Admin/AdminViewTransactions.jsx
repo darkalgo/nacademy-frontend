@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Input, Row, Typography } from "antd";
+import { Card, Col, Input, Row, Typography } from "antd";
 import WithdrawalTransactionTable from "../../components/Admin/WithdrawalTransactionTable";
 
 const { Search } = Input;
@@ -18,7 +18,9 @@ const AdminViewTransactions = () => {
         </Col>
       </Row>
 
-      <WithdrawalTransactionTable />
+      <Card className="card">
+        <WithdrawalTransactionTable />
+      </Card>
     </div>
   );
 };

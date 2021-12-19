@@ -247,7 +247,7 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="tutor_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
-                  <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
+                  <Select mode="multiple" style={{ width: "100%" }} allowClear showArrow>
                     {classNames.map((el) => (
                       <Option key={el.id} value={el.id}>
                         {el.name}
@@ -260,7 +260,7 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="subject" label="Subject You Are Good At" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
-                  <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
+                  <Select mode="multiple" style={{ width: "100%" }} showSearch optionFilterProp="children" allowClear showArrow>
                     {subjectNames.map((el) => (
                       <Option value={el.id} key={el.id}>
                         {el.name}
@@ -274,7 +274,7 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="favorite_subject" label="Favorite Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Favorite subject name is required" }]}>
-                  <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
+                  <Select mode="multiple" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
                     {subjectNames.map((el) => (
                       <Option value={el.id} key={el.id}>
                         {el.name}

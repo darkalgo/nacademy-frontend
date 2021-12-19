@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Input, Row, Typography } from "antd";
+import { Card, Col, Input, Row, Typography } from "antd";
 import ViewNoticesTable from "../../components/Admin/ViewNoticesTable";
 
 const { Title } = Typography;
@@ -12,13 +12,15 @@ const AdminViewNotice = () => {
         <Title level={2}>All Notices</Title>
       </div>
 
-      <Row justify="end" className="mb-2">
+      <Row justify="end" className="mb-1">
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
           <Search placeholder="input search text" enterButton />
         </Col>
       </Row>
 
-      <ViewNoticesTable />
+      <Card className="card">
+        <ViewNoticesTable />
+      </Card>
     </div>
   );
 };

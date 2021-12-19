@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 
-const TutorListTable = () => {
+const TutorListTable = ({ approveList }) => {
   const columns = [
     {
       title: "Tutor Name",
@@ -10,33 +10,28 @@ const TutorListTable = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
       title: "Email",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "email",
+      key: "email",
     },
     {
       title: "Institution Name",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "institute_name",
+      key: "institute_name",
     },
     {
       title: "Teaching Class",
-      dataIndex: "address",
-      key: "address",
-    },
-    {
-      title: "Group",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "teaching_class",
+      key: "teaching_class",
     },
     {
       title: "Average Rating",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "ratings",
+      key: "ratings",
     },
     {
       title: "Total Class Conducted",
@@ -55,35 +50,12 @@ const TutorListTable = () => {
     },
     {
       title: "Account Creation Date",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "createdAt",
+      key: "createdAt",
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1500 }} />;
+  return <Table columns={columns} dataSource={approveList} scroll={{ x: 1500 }} />;
 };
 
 export default TutorListTable;
