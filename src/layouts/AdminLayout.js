@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, Button, Drawer, Dropdown, Layout, Menu } from "antd";
-import { LogoutOutlined, LoadingOutlined, MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../utils/Api";
@@ -14,7 +14,6 @@ const { Header, Content, Sider } = Layout;
 function AdminLayout() {
   const history = useHistory();
 
-  const [loading, setLoading] = useState(false);
   const [navIsVisible, setNavIsVisible] = useState(false);
 
   const closeSidenav = () => {
@@ -59,7 +58,7 @@ function AdminLayout() {
         </Menu.Item>
       )}
 
-      <Menu.Item key="2" onClick={logout} icon={loading ? <LoadingOutlined /> : <LogoutOutlined />}>
+      <Menu.Item key="2" onClick={logout}>
         Logout
       </Menu.Item>
     </Menu>

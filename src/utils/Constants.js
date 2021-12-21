@@ -16,9 +16,9 @@ export const paymentOptionList = [
 ];
 
 export const noticeType = [
-  { id: "Information", name: "Information" },
-  { id: "Success", name: "Success" },
-  { id: "Warning", name: "Warning" },
+  { id: "info", name: "Information" },
+  { id: "success", name: "Success" },
+  { id: "warning", name: "Warning" },
 ];
 
 export const classNames = [

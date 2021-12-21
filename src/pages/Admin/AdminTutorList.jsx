@@ -41,7 +41,7 @@ const AdminTutorList = () => {
           }
         });
     })();
-  }, []);
+  }, [history]);
 
   return (
     <div>
