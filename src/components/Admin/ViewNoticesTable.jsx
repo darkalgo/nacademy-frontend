@@ -1,73 +1,65 @@
 import React from "react";
-import { Space, Table, Tooltip } from "antd";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Modal, Space, Table, Tooltip } from "antd";
+import { DeleteOutlined, EyeOutlined, WarningOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
-const ViewNoticesTable = () => {
+import { BaseAPI } from "../../utils/Api";
+import Notification from "../../components/controls/Notification";
+import ErrorHandler from "../../components/controls/ErrorHandler";
+
+const { confirm } = Modal;
+
+const ViewNoticesTable = ({ noticeList, deleteNotice }) => {
   const history = useHistory();
+
+  // functions
+  const confirmDelete = (value) => {
+    confirm({
+      title: "This action can't be undone. Are you sure you want to delete?",
+      icon: <WarningOutlined />,
+      okButtonProps: { type: "primary" },
+      okText: "Yes, Delete",
+      okType: "danger",
+
+      onOk() {
+        deleteNotice(value);
+      },
+      onCancel() {},
+    });
+  };
 
   const columns = [
     {
       title: "Message Header",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Sent From",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "header",
+      key: "header",
     },
     {
       title: "Sent Date",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "sent_date",
+      key: "sent_date",
     },
     {
       title: "Sent Time",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "sent_time",
+      key: "sent_time",
     },
     {
       title: "Action",
-      dataIndex: "address",
-      key: "address",
       render: (text, record) => (
         <Space size="large">
           <Tooltip title="View Details">
             <EyeOutlined className="icon-style" onClick={() => history.push("/admin/view-notice/3")} />
           </Tooltip>
           <Tooltip title="Delete Notice">
-            <DeleteOutlined className="icon-style" style={{ color: "red" }} />
+            <DeleteOutlined className="icon-style" style={{ color: "red" }} onClick={() => confirmDelete(record.id)} />
           </Tooltip>
         </Space>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1000 }} />;
+  return <Table columns={columns} dataSource={noticeList} scroll={{ x: 1000 }} />;
 };
 
 export default ViewNoticesTable;

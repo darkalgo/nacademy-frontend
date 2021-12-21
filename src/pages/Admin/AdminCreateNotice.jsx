@@ -15,6 +15,7 @@ const AdminCreateNotice = () => {
   const [form] = Form.useForm();
   const history = useHistory();
 
+  // states
   const [loading, setLoading] = useState(false);
   const [studentList, setStudentList] = useState([]);
   const [tutorList, setTutorList] = useState([]);

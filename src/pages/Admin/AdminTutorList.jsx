@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import TutorListTable from "../../components/Admin/TutorListTable";
 import { BaseAPI } from "../../utils/Api";
+import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -12,6 +13,7 @@ const { Search } = Input;
 const AdminTutorList = () => {
   const history = useHistory();
 
+  // states
   const [approvedTutorList, setApprovedTutorList] = useState([]);
 
   useEffect(() => {
