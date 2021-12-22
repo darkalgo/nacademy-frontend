@@ -72,7 +72,7 @@ const TutorFeedback = () => {
           </Col>
         </Row>
         <Row justify="center">
-          <Col xs={{ span: 24 }} md={{ span: 12 }}>
+          <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <Form.Item label="Upload file" labelCol={{ span: 24 }}>
               <Dragger {...props}>
                 <p className="ant-upload-drag-icon">
