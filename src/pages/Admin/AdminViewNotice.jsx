@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Input, Spin, Typography } from "antd";
+import { Card, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../../utils/Api";
@@ -8,7 +8,6 @@ import Notification from "../../components/controls/Notification";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 
 const { Title } = Typography;
-const { Search } = Input;
 
 const AdminViewNotice = () => {
   const history = useHistory();
@@ -49,7 +48,7 @@ const AdminViewNotice = () => {
     return () => {
       setNoticeList([]);
     };
-  }, []);
+  }, [history]);
 
   // function
   const deleteNotice = async (value) => {

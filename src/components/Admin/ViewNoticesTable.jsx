@@ -3,10 +3,6 @@ import { Modal, Space, Table, Tooltip } from "antd";
 import { DeleteOutlined, EyeOutlined, WarningOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
-import { BaseAPI } from "../../utils/Api";
-import Notification from "../../components/controls/Notification";
-import ErrorHandler from "../../components/controls/ErrorHandler";
-
 const { confirm } = Modal;
 
 const ViewNoticesTable = ({ noticeList, deleteNotice }) => {
@@ -49,7 +45,7 @@ const ViewNoticesTable = ({ noticeList, deleteNotice }) => {
       render: (text, record) => (
         <Space size="large">
           <Tooltip title="View Details">
-            <EyeOutlined className="icon-style" onClick={() => history.push("/admin/view-notice/3")} />
+            <EyeOutlined className="icon-style" onClick={() => history.push(`/admin/view-notice/${record.id}`)} />
           </Tooltip>
           <Tooltip title="Delete Notice">
             <DeleteOutlined className="icon-style" style={{ color: "red" }} onClick={() => confirmDelete(record.id)} />
