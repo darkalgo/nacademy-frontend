@@ -63,6 +63,10 @@ const TutorTimeSlot = () => {
     console.log(values);
     const body = formatDataFromValue(values);
     console.log(body);
+
+    // const Mins = (moment(values.start_time_1).hours() * 60) + moment(values.start_time_1).minutes();
+    // console.log(Mins); // 1200
+    // console.log(moment(values.start_time_1).format('LT')); // 8:10 PM
   };
 
   return (
