@@ -40,7 +40,7 @@ const StudentFeedback = () => {
     </div>
   );
 
-  const onFinish = async (values) => {
+  const onFinish = async ({ subject, description }) => {
     setLoading(true);
     let info = {};
     if (imageUrl === "") {

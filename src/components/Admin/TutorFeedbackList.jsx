@@ -39,7 +39,7 @@ const TutorFeedbackList = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history]);
 
   return (
     <Spin spinning={loading}>

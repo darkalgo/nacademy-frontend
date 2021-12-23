@@ -39,7 +39,8 @@ const StudentFeedbackList = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history]);
+
   return (
     <Spin spinning={loading}>
       <Row gutter={[16, 16]} justify="center">
