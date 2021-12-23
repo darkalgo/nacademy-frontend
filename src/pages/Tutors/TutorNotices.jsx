@@ -44,7 +44,7 @@ const TutorNotices = () => {
     return () => {
       setNoticeList([]);
     };
-  }, []);
+  }, [history]);
 
   return (
     <Spin spinning={loading}>

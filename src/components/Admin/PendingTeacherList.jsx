@@ -2,25 +2,25 @@ import { useEffect, useState } from "react";
 import { Col, Row, Spin } from "antd";
 import { useHistory } from "react-router-dom";
 
-import { BaseAPI } from "../../utils/Api";
+import EmptyState from "../controls/EmptyState";
+import ApproveTutorCard from "./ApproveTutorCard";
 import ErrorHandler from "../controls/ErrorHandler";
 import Notification from "../controls/Notification";
-import FeedbackCard from "./FeedbackCard";
-import EmptyState from "../controls/EmptyState";
+import { BaseAPI } from "../../utils/Api";
 
-const StudentFeedbackList = () => {
+const PendingTeacherList = () => {
   const history = useHistory();
 
   // states
   const [loading, setLoading] = useState(false);
-  const [studentFeedbackList, setStudentFeedbackList] = useState([]);
+  const [pendingList, setPendingList] = useState([]);
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       BaseAPI.post(
-        "/admins/get-supports",
-        { role: "students" },
+        "/tutors/list",
+        { status: "pending" },
         {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
@@ -28,7 +28,7 @@ const StudentFeedbackList = () => {
         }
       )
         .then((res) => {
-          setStudentFeedbackList(res.data.data);
+          setPendingList(res.data.data);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -39,22 +39,23 @@ const StudentFeedbackList = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history]);
+
   return (
     <Spin spinning={loading}>
-      <Row gutter={[16, 16]} justify="center">
-        {studentFeedbackList.length > 0 ? (
-          studentFeedbackList.map((el) => (
-            <Col xs={{ span: 24 }} lg={{ span: 12 }} key={el.id}>
-              <FeedbackCard feedback={el} />
+      <Row gutter={[16, 16]}>
+        {pendingList.length > 0 ? (
+          pendingList.map((el) => (
+            <Col xs={{ span: 24 }} md={{ span: 12 }} key={el.id}>
+              <ApproveTutorCard info={el} />
             </Col>
           ))
         ) : (
-          <EmptyState description="Hmmm 🤔. No feedback from tutors." />
+          <EmptyState description="You have no pending tutor 😁" />
         )}
       </Row>
     </Spin>
   );
 };
 
-export default StudentFeedbackList;
+export default PendingTeacherList;

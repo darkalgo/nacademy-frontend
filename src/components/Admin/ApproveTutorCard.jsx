@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 const { Title } = Typography;
 
-const ApproveTutorCard = () => {
+const ApproveTutorCard = ({ info }) => {
   const history = useHistory();
 
   return (
@@ -16,7 +16,7 @@ const ApproveTutorCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 14 }}>
-          <Title level={5}>Shahed Khandakar</Title>
+          <Title level={5}>{info.name}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -24,7 +24,7 @@ const ApproveTutorCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 14 }}>
-          <Title level={5}>0147578556</Title>
+          <Title level={5}>{info.phone}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -32,7 +32,7 @@ const ApproveTutorCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 14 }}>
-          <Title level={5}>Shahedkhandakar@gmail.com</Title>
+          <Title level={5}>{info.email}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -40,7 +40,7 @@ const ApproveTutorCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 14 }}>
-          <Title level={5}>Daffodil International University</Title>
+          <Title level={5}>{info.institute_name}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -49,11 +49,11 @@ const ApproveTutorCard = () => {
         </Col>
         <Col xs={{ span: 14 }}>
           <Title level={5}>
-            <Tag color="orange">Pending</Tag>
+            <Tag color={`${info.status === "pending" ? "orange" : info.status === "accept" ? "green" : "red"}`}>{info.status}</Tag>
           </Title>
         </Col>
         <Col xs={{ span: 24 }} className="mt-1">
-          <Button block className="bg white-text" onClick={() => history.push("/admin/approve-tutor/2")}>
+          <Button block className="bg white-text" onClick={() => history.push(`/admin/approve-tutor/${info.id}`)}>
             View Details
           </Button>
         </Col>

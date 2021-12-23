@@ -46,8 +46,8 @@ const TutorFeedbackList = () => {
       <Row gutter={[16, 16]} justify="center">
         {tutorFeedbackList.length > 0 ? (
           tutorFeedbackList.map((el) => (
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
-              <FeedbackCard key={el.id} feedback={el} />
+            <Col xs={{ span: 24 }} lg={{ span: 12 }} key={el.id}>
+              <FeedbackCard feedback={el} />
             </Col>
           ))
         ) : (
