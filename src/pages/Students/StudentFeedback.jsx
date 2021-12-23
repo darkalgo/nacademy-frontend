@@ -42,19 +42,24 @@ const StudentFeedback = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    await BaseAPI.post(
-      "/students/supports",
-      {
-        subject: "test24",
-        description: "test app",
-        upload_file: "https://imgur.com/gallery/IColMEL",
+    let info = {};
+    if (imageUrl === "") {
+      info = {
+        subject,
+        description,
+      };
+    } else {
+      info = {
+        subject,
+        description,
+        upload_file: imageUrl,
+      };
+    }
+    await BaseAPI.post("/students/supports", info, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
-      {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-      }
-    )
+    })
       .then((res) => {
         Notification("Thank You", "Your feedback has been sent.", "success");
         setImageUrl("");

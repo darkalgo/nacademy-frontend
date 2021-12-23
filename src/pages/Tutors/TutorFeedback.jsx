@@ -54,7 +54,7 @@ const TutorFeedback = () => {
         upload_file: imageUrl,
       };
     }
-
+    setLoading(true);
     await BaseAPI.post("/students/supports", info, {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
