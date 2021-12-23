@@ -1,8 +1,8 @@
 import React from "react";
 import { Col, Row } from "antd";
 
-import AppCard from "../../components/assets/AppCard";
-import DashboardCard from "../../components/assets/DashboardCard";
+import AppCard from "../../components/common/AppCard";
+import DashboardCard from "../../components/common/DashboardCard";
 import TeacherListTable from "../../components/Student/TeacherListTable";
 
 const StudentDashboard = () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row, Typography } from "antd";
 
-import AppCard from "../../components/assets/AppCard";
+import AppCard from "../../components/common/AppCard";
 import OnlineTutorsTable from "../../components/Student/OnlineTutorsTable";
 
 const { Title } = Typography;

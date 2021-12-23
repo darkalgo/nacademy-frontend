@@ -3,7 +3,7 @@ import { Alert, Card, Descriptions, Spin, Typography } from "antd";
 import { useHistory, useParams } from "react-router-dom";
 
 import { BaseAPI } from "../../utils/Api";
-import AppCard from "../../components/assets/AppCard";
+import AppCard from "../../components/common/AppCard";
 import NoticeReceivedListTable from "../../components/Admin/NoticeReceivedListTable";
 import Notification from "../../components/controls/Notification";
 import ErrorHandler from "../../components/controls/ErrorHandler";

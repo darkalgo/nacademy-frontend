@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Card, Col, Form, Input, Rate, Row, Typography } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
-import AppCard from "../../components/assets/AppCard";
+import AppCard from "../../components/common/AppCard";
 
 const { Link, Title } = Typography;
 const { TextArea } = Input;

@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 
-import AppCard from "../../components/assets/AppCard";
-import DashboardCard from "../../components/assets/DashboardCard";
+import AppCard from "../../components/common/AppCard";
+import DashboardCard from "../../components/common/DashboardCard";
 import LineChart from "../../components/Tutor/charts/LineChart";
 import PieChart from "../../components/Tutor/charts/PieChart";
 import TodayClassListTable from "../../components/Tutor/TodayClassListTable";
