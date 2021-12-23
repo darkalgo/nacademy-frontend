@@ -45,6 +45,7 @@ const TutorNotices = () => {
       setNoticeList([]);
     };
   }, []);
+
   return (
     <Spin spinning={loading}>
       <Row justify="center">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Avatar, Button, Drawer, Dropdown, Layout, Menu } from "antd";
-import { MenuOutlined, UserOutlined } from "@ant-design/icons";
+import { MenuOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../utils/Api";
@@ -58,7 +58,7 @@ function AdminLayout() {
         </Menu.Item>
       )}
 
-      <Menu.Item key="2" onClick={logout}>
+      <Menu.Item key="2" onClick={logout} icon={<LogoutOutlined />}>
         Logout
       </Menu.Item>
     </Menu>
