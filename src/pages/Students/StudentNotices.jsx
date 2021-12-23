@@ -29,7 +29,6 @@ const TutorNotices = () => {
         }
       )
         .then((res) => {
-          console.log(res.data.data);
           setNoticeList(res.data.data);
         })
         .catch((err) => {

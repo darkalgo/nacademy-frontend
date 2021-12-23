@@ -1,42 +1,81 @@
-import React from "react";
-import { Col, Form, Input, Row, Typography, Upload, message, Button } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Col, Form, Input, Row, Typography, Upload, message, Button, Spin } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+
+import Notification from "../../components/controls/Notification";
+import ErrorHandler from "../../components/controls/ErrorHandler";
+import { BaseAPI } from "../../utils/Api";
 
 const { Title } = Typography;
-const { Dragger } = Upload;
 const { TextArea } = Input;
 
 const StudentFeedback = () => {
-  const { form } = Form.useForm();
+  const history = useHistory();
+  const [form] = Form.useForm();
 
-  const props = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+  // states
+  const [imageUrl, setImageUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  // functions
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      Notification("Error", "You can only upload JPG/PNG file.", "error");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      Notification("Error", "Image must smaller than 5MB.", "error");
+    }
+
+    return isJpgOrPng && isLt2M;
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    await BaseAPI.post(
+      "/students/supports",
+      {
+        subject: "test24",
+        description: "test app",
+        upload_file: "https://imgur.com/gallery/IColMEL",
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      }
+    )
+      .then((res) => {
+        Notification("Thank You", "Your feedback has been sent.", "success");
+        setImageUrl("");
+        form.resetFields();
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <Form form={form} onFinish={onFinish}>
-        <Row justify="center" className="mb-2">
+        <div className="center mb-2">
           <Title level={2}>Share Your Feedback</Title>
-        </Row>
+        </div>
 
         <Row justify="center">
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
@@ -54,23 +93,45 @@ const StudentFeedback = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }}>
-            <Form.Item label="Upload file" labelCol={{ span: 24 }}>
-              <Dragger {...props}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-              </Dragger>
+            <Form.Item label="Upload Image (If necessary)" labelCol={{ span: 24 }}>
+              <Upload
+                name="product image"
+                listType="picture-card"
+                showUploadList={false}
+                maxCount={3}
+                multiple
+                action={async (file) => {
+                  setLoading(true);
+                  const formData = new FormData();
+                  formData.append("file", file);
+                  formData.append("upload_preset", "refgi3u1");
+
+                  await axios
+                    .post(process.env.REACT_APP_cloudinary, formData)
+                    .then((res) => {
+                      console.log(res.data.secure_url);
+                      setImageUrl(res.data.secure_url);
+                      message.success("Image uploaded successfully");
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      Notification("Error", "Something went wrong while uploading image", "error");
+                    })
+                    .finally(() => setLoading(false));
+                }}
+                beforeUpload={beforeUpload}>
+                {imageUrl ? <img src={imageUrl} alt="avatar" style={{ maxWidth: "55%" }} /> : uploadButton}
+              </Upload>
             </Form.Item>
           </Col>
         </Row>
         <Row justify="center" className="mt-2">
-          <Button type="primary" htmlType="submit" size="large" className="bg white-text">
+          <Button type="primary" htmlType="submit" className="bg white-text">
             Submit Feedback
           </Button>
         </Row>
       </Form>
-    </div>
+    </Spin>
   );
 };
 
