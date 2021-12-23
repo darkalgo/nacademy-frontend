@@ -41,20 +41,25 @@ const TutorFeedback = () => {
   );
 
   const onFinish = async ({ subject, description }) => {
-    setLoading(true);
-    await BaseAPI.post(
-      "/students/supports",
-      {
+    let info = {};
+    if (imageUrl === "") {
+      info = {
+        subject,
+        description,
+      };
+    } else {
+      info = {
         subject,
         description,
         upload_file: imageUrl,
+      };
+    }
+
+    await BaseAPI.post("/students/supports", info, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
-      {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-      }
-    )
+    })
       .then(() => {
         Notification("Thank You", "Your feedback has been sent.", "success");
         setImageUrl("");
