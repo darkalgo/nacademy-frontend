@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Row, Spin, Typography } from "antd";
+import { Alert, List, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../../utils/Api";
@@ -53,22 +53,31 @@ const TutorNotices = () => {
       </Row>
 
       {noticeList.length > 0 ? (
-        noticeList.map((el) => (
-          <Alert
-            key={el.id}
-            message={
-              <div>
-                <Row justify="space-between">
-                  <Title level={4}>{el.header}</Title>
-                  <span>{el.sent_date}</span>
-                </Row>
-              </div>
-            }
-            description={el.body}
-            type={el.type}
-            showIcon
-          />
-        ))
+        <List
+          itemLayout="vertical"
+          dataSource={noticeList}
+          pagination={{
+            pageSize: 10,
+          }}
+          renderItem={(el) => (
+            <List.Item>
+              <Alert
+                key={el.id}
+                message={
+                  <div>
+                    <Row justify="space-between">
+                      <Title level={4}>{el.header}</Title>
+                      <span>{el.sent_date}</span>
+                    </Row>
+                  </div>
+                }
+                description={el.body}
+                type={el.type}
+                showIcon
+              />
+            </List.Item>
+          )}
+        />
       ) : (
         <Row justify="center">
           <EmptyState description="You have no notice to see." />
