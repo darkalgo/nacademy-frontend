@@ -1,7 +1,7 @@
-import React from "react";
 import { Tabs, Typography } from "antd";
 
-import FeedbackCard from "../../components/Admin/FeedbackCard";
+import TutorFeedbackList from "../../components/Admin/TutorFeedbackList";
+import StudentFeedbackList from "../../components/Admin/StudentFeedbackList";
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -13,12 +13,12 @@ const AdminViewFeedback = () => {
         <Title level={2}>All Feedback</Title>
       </div>
 
-      <Tabs defaultActiveKey="1" centered>
+      <Tabs centered>
         <TabPane tab="Teacher Feedback" key="1">
-          <FeedbackCard />
+          <TutorFeedbackList />
         </TabPane>
         <TabPane tab="Student Feedback" key="2">
-          <FeedbackCard />
+          <StudentFeedbackList />
         </TabPane>
       </Tabs>
     </div>
