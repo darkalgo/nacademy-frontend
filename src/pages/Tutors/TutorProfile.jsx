@@ -1,24 +1,105 @@
-import React, { useState } from "react";
-import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Spin, Typography } from "antd";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
 
 import { emailValidation, mobileNumberValidation } from "../../utils/Validations";
 import { classNames, districtName, genders, occupations, subjectNames } from "../../utils/Constants";
+import { BaseAPI } from "../../utils/Api";
+import Notification from "../../components/controls/Notification";
+import ErrorHandler from "../../components/controls/ErrorHandler";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 
 const TutorProfile = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
 
   const [gender, setGender] = useState("Male");
+  const [loading, setLoading] = useState(false);
 
-  const onFinish = (values) => {
-    console.log(values);
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await BaseAPI.get(`/tutors/${sessionStorage.getItem("id")}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      })
+        .then((res) => {
+          console.log(res.data.data);
+          const info = res.data.data;
+          setGender(info.gender);
+          form.setFieldsValue({
+            name: info.name,
+            email: info.email,
+            phone_number: info.phone,
+            dob: moment(info.dob),
+            occupation: info.occupation,
+            address: info.address,
+            district: info.district,
+            institute_name: info.institute_name,
+            department_name: info.department_name,
+            teaching_class: info.teaching_class.split(","),
+            subject_good_at: info.good_at_subjects.split(","),
+            favorite_subject: info.favorite_subject.split(","),
+          });
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        })
+        .finally(() => setLoading(false));
+    })();
+  }, []);
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    const info = {
+      id: sessionStorage.getItem("id"),
+      name: values.name,
+      email: values.email,
+      phone: values.phone_number,
+      dob: moment(values.dob).format("YYYY-MM-DD"),
+      gender: gender,
+      address: values.address,
+      district: values.district,
+      occupation: values.occupation,
+      institute_name: values.institute_name,
+      department_name: values.department_name,
+      teaching_class: values.teaching_class,
+      why_want_join: "Valo lagce",
+      class_teach: values.teaching_class,
+      good_at_subject: values.subject_good_at,
+      favorite_subject: values.favorite_subject,
+    };
+    console.log(info);
+
+    await BaseAPI.patch("/tutors", info, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+    })
+      .then(() => {
+        Notification("Congratulations", "Your profile has been updated successfully", "success");
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <Form form={form} onFinish={onFinish}>
         <div className="center">
           <Title level={3}>Profile</Title>
@@ -108,7 +189,7 @@ const TutorProfile = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Form.Item name="institution" label="Institution" labelCol={{ span: 24 }} rules={[{ required: true, message: "Institution is required" }]}>
+            <Form.Item name="institute_name" label="Institution Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Institution is required" }]}>
               <Input />
             </Form.Item>
           </Col>
@@ -122,8 +203,8 @@ const TutorProfile = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Form.Item name="tutor_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
-              <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear>
+            <Form.Item name="teaching_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
+              <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
                 {classNames.map((el) => (
                   <Option key={el.id} value={el.id}>
                     {el.name}
@@ -135,8 +216,22 @@ const TutorProfile = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Form.Item name="subject" label="Subject You Are Good At" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
-              <Select mode="tags" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear>
+            <Form.Item name="subject_good_at" label="Subject You Are Good At" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
+              <Select mode="multiple" style={{ width: "100%" }} showSearch optionFilterProp="children" allowClear showArrow>
+                {subjectNames.map((el) => (
+                  <Option value={el.id} key={el.id}>
+                    {el.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <small>You can add subject name that are not listed by typing on the field</small>
+          </Col>
+        </Row>
+        <Row justify="center">
+          <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+            <Form.Item name="favorite_subject" label="Favorite Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
+              <Select mode="multiple" style={{ width: "100%" }} showSearch optionFilterProp="children" allowClear showArrow>
                 {subjectNames.map((el) => (
                   <Option value={el.id} key={el.id}>
                     {el.name}
@@ -157,7 +252,7 @@ const TutorProfile = () => {
           </Col>
         </Row>
       </Form>
-    </div>
+    </Spin>
   );
 };
 
