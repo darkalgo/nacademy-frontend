@@ -37,7 +37,6 @@ const AdminViewNotice = () => {
             ...el,
             key: el.id,
           }));
-          console.log(data);
           setNoticeList(data);
           setSearchList(data);
         })

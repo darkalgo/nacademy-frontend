@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Col, Row, Spin } from "antd";
+import { Col, Input, Row, Spin } from "antd";
 import { useHistory } from "react-router-dom";
+import FuzzySearch from "fuzzy-search";
 
 import { BaseAPI } from "../../utils/Api";
 import ErrorHandler from "../controls/ErrorHandler";
@@ -8,12 +9,15 @@ import Notification from "../controls/Notification";
 import FeedbackCard from "./FeedbackCard";
 import EmptyState from "../controls/EmptyState";
 
+const { Search } = Input;
+
 const TutorFeedbackList = () => {
   const history = useHistory();
 
   // states
   const [loading, setLoading] = useState(false);
   const [tutorFeedbackList, setTutorFeedbackList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +32,9 @@ const TutorFeedbackList = () => {
         }
       )
         .then((res) => {
+          console.log(res.data.data);
           setTutorFeedbackList(res.data.data);
+          setSearchList(res.data.data);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -41,8 +47,34 @@ const TutorFeedbackList = () => {
     })();
   }, [history]);
 
+  // search functionality
+  const searcher = new FuzzySearch(searchList, ["name", "subject", "email", "phone"], { sort: true });
+
+  const handleSearch = (value) => {
+    if (value) {
+      const result = searcher.search(value);
+      setTutorFeedbackList([...result]);
+    } else {
+      setTutorFeedbackList(searchList);
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.value) {
+      const result = searcher.search(e.target.value);
+      setTutorFeedbackList([...result]);
+    } else {
+      setTutorFeedbackList(searchList);
+    }
+  };
+
   return (
     <Spin spinning={loading}>
+      <Row justify="end" className="mb-1">
+        <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+          <Search placeholder="input search text" enterButton onSearch={handleSearch} onChange={handleChange} />
+        </Col>
+      </Row>
+
       <Row gutter={[16, 16]} justify="center">
         {tutorFeedbackList.length > 0 ? (
           tutorFeedbackList.map((el) => (
