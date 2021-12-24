@@ -32,6 +32,12 @@ const FeedbackCard = ({ feedback }) => {
           <Col xs={{ span: 14 }}>
             <Title level={5}>{feedback.email}</Title>
           </Col>
+          <Col xs={{ span: 7 }}>
+            <Title level={5}>Sent Date:</Title>
+          </Col>
+          <Col xs={{ span: 14 }}>
+            <Title level={5}>{feedback.createdAt}</Title>
+          </Col>
         </Row>
         <Divider plain>Feedback</Divider>
         <Title level={4}>{feedback.subject}</Title>

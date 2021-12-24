@@ -47,7 +47,7 @@ const StudentFeedbackList = () => {
   }, [history]);
 
   // search functionality
-  const searcher = new FuzzySearch(searchList, ["name", "subject", "email", "phone"], { sort: true });
+  const searcher = new FuzzySearch(searchList, ["name", "subject", "email", "phone", "createdAt"], { sort: true });
 
   const handleSearch = (value) => {
     if (value) {
