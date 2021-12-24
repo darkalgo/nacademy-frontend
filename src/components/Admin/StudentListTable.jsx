@@ -58,7 +58,7 @@ const StudentListTable = ({ info }) => {
       key: "address",
       render: (text, record) => (
         <Tooltip title="Package Details">
-          <FcAnswers className="icon-style" onClick={() => history.push("/admin/student-package/3")} />
+          <FcAnswers className="icon-style" onClick={() => history.push(`/admin/student-package/${record.id}`)} />
         </Tooltip>
       ),
     },
