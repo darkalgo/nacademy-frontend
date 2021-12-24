@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Input, Row, Typography } from "antd";
+import { Card, Col, Input, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import ErrorHandler from "../../components/controls/ErrorHandler";
@@ -14,10 +14,12 @@ const AdminTutorList = () => {
   const history = useHistory();
 
   // states
+  const [loading, setLoading] = useState(false);
   const [approvedTutorList, setApprovedTutorList] = useState([]);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       await BaseAPI.post(
         "/tutors/list",
         { status: "accept" },
@@ -40,12 +42,13 @@ const AdminTutorList = () => {
           } else {
             Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
           }
-        });
+        })
+        .finally(() => setLoading(false));
     })();
   }, [history]);
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <div className="center">
         <Title level={2}>Tutor List</Title>
       </div>
@@ -59,7 +62,7 @@ const AdminTutorList = () => {
       <Card className="card">
         <TutorListTable approveList={approvedTutorList} />
       </Card>
-    </div>
+    </Spin>
   );
 };
 
