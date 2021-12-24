@@ -1,23 +1,99 @@
-import React, { useState } from "react";
-import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Spin, Typography } from "antd";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
+
 import { emailValidation, mobileNumberValidation } from "../../utils/Validations";
 import { classNames, districtName, genders, groupNames, occupations } from "../../utils/Constants";
+import { BaseAPI } from "../../utils/Api";
+import Notification from "../../components/controls/Notification";
+import ErrorHandler from "../../components/controls/ErrorHandler";
 
 const { Text, Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
 
 const StudentProfile = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
 
+  // states
   const [gender, setGender] = useState("Male");
+  const [loading, setLoading] = useState(false);
 
-  const onFinish = (values) => {
-    console.log(values);
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await BaseAPI.get(`/students/${sessionStorage.getItem("id")}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      })
+        .then((res) => {
+          console.log(res.data.data);
+          const info = res.data.data;
+          setGender(info.gender);
+          form.setFieldsValue({
+            name: info.name,
+            email: info.email,
+            phone_number: info.phone,
+            dob: moment(info.dob),
+            address: info.address,
+            occupation: info.occupation,
+            district: info.district,
+            institute_name: info.institute_name,
+            group_name: info.group_name,
+            class_name: info.class_name,
+          });
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        })
+        .finally(() => setLoading(false));
+    })();
+  }, []);
+
+  const onFinish = async (values) => {
+    setLoading(true);
+    const info = {
+      id: sessionStorage.getItem("id"),
+      name: values.name,
+      email: values.email,
+      phone: values.phone_number,
+      dob: moment(values.dob).format("YYYY-MM-DD"),
+      gender: gender,
+      address: values.address,
+      district: values.district,
+      occupation: values.occupation,
+      institute_name: values.institute_name,
+      group_name: values.group_name,
+      class_name: values.class_name,
+    };
+
+    await BaseAPI.patch("/students", info, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+    })
+      .then(() => {
+        Notification("Congratulations", "Your profile has been updated successfully", "success");
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <Row justify="center">
         <Title level={2}>Profile</Title>
       </Row>
@@ -149,7 +225,7 @@ const StudentProfile = () => {
           </Col>
         </Row>
       </Form>
-    </div>
+    </Spin>
   );
 };
 
