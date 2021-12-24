@@ -1,29 +1,29 @@
 import React, { useEffect, useContext } from "react";
 import { Col, Row } from "antd";
-import openSocket from 'socket.io-client';
+import openSocket from "socket.io-client";
 
 import AppCard from "../../components/common/AppCard";
 import DashboardCard from "../../components/common/DashboardCard";
 import LineChart from "../../components/Tutor/charts/LineChart";
 import PieChart from "../../components/Tutor/charts/PieChart";
 import TodayClassListTable from "../../components/Tutor/TodayClassListTable";
-import { AppRootContext } from '../../contexts/AppRootContext';
+import { AppRootContext } from "../../contexts/AppRootContext";
 
 const TutorDashboard = () => {
-
   const { socket, setSocket } = useContext(AppRootContext);
+
   useEffect(() => {
     if (!socket) {
-      const socket = openSocket(process.env.REACT_APP_SocketUrl)
-      socket.on('connect', msg => {
+      const socket = openSocket(process.env.REACT_APP_SocketUrl);
+      socket.on("connect", (msg) => {
         console.log("connection ok");
         if (sessionStorage.getItem("role") === 'tutor') {
           socket.emit('register', { user_id: `${sessionStorage.getItem("id")}`, socket_id: `${socket.id}`});
         }
         setSocket(socket);
-      })
+      });
     }
-  }, [])
+  }, []);
 
   return (
     <div>
