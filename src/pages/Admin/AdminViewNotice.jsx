@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card, Spin, Typography } from "antd";
+import { Card, Col, Input, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
+import FuzzySearch from "fuzzy-search";
 
 import { BaseAPI } from "../../utils/Api";
 import ViewNoticesTable from "../../components/Admin/ViewNoticesTable";
@@ -8,6 +9,7 @@ import Notification from "../../components/controls/Notification";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 
 const { Title } = Typography;
+const { Search } = Input;
 
 const AdminViewNotice = () => {
   const history = useHistory();
@@ -15,6 +17,7 @@ const AdminViewNotice = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -34,7 +37,9 @@ const AdminViewNotice = () => {
             ...el,
             key: el.id,
           }));
+          console.log(data);
           setNoticeList(data);
+          setSearchList(data);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -70,11 +75,37 @@ const AdminViewNotice = () => {
       });
   };
 
+  // search functionality
+  const searcher = new FuzzySearch(searchList, ["header", "sent_date", "type"], { sort: true });
+
+  const handleSearch = (value) => {
+    if (value) {
+      const result = searcher.search(value);
+      setNoticeList([...result]);
+    } else {
+      setNoticeList(searchList);
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.value) {
+      const result = searcher.search(e.target.value);
+      setNoticeList([...result]);
+    } else {
+      setNoticeList(searchList);
+    }
+  };
+
   return (
     <Spin spinning={loading}>
       <div className="center">
         <Title level={2}>All Notices</Title>
       </div>
+
+      <Row justify="end" className="mb-1">
+        <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+          <Search placeholder="input search text" enterButton onSearch={handleSearch} onChange={handleChange} />
+        </Col>
+      </Row>
 
       <Card className="card">
         <ViewNoticesTable noticeList={noticeList} deleteNotice={deleteNotice} />

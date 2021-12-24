@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Input, Row, Typography } from "antd";
+import { Card, Col, Input, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
+import FuzzySearch from "fuzzy-search";
 
 import StudentListTable from "../../components/Admin/StudentListTable";
 import ErrorHandler from "../../components/controls/ErrorHandler";
@@ -16,6 +17,7 @@ const AdminStudentList = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [studentList, setStudentList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -34,8 +36,8 @@ const AdminStudentList = () => {
             ...el,
             key: el.id,
           }));
-          console.log(response);
           setStudentList(response);
+          setSearchList(response);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -48,21 +50,41 @@ const AdminStudentList = () => {
     })();
   }, [history]);
 
+  // search functionality
+  const searcher = new FuzzySearch(searchList, ["name", "email", "phone", "institute_name", "group", "class_name"], { sort: true });
+
+  const handleSearch = (value) => {
+    if (value) {
+      const result = searcher.search(value);
+      setStudentList([...result]);
+    } else {
+      setStudentList(searchList);
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.value) {
+      const result = searcher.search(e.target.value);
+      setStudentList([...result]);
+    } else {
+      setStudentList(searchList);
+    }
+  };
+
   return (
-    <div>
+    <Spin spinning={loading}>
       <div className="center">
         <Title level={2}>Student List</Title>
       </div>
 
       <Row justify="end" className="mb-1">
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-          <Search placeholder="Search text" enterButton />
+          <Search placeholder="Search text" enterButton onSearch={handleSearch} onChange={handleChange} />
         </Col>
       </Row>
       <Card className="card">
         <StudentListTable info={studentList} />
       </Card>
-    </div>
+    </Spin>
   );
 };
 

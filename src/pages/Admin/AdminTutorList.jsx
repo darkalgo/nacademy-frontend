@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Input, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
+import FuzzySearch from "fuzzy-search";
 
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import TutorListTable from "../../components/Admin/TutorListTable";
@@ -16,6 +17,7 @@ const AdminTutorList = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [approvedTutorList, setApprovedTutorList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +37,7 @@ const AdminTutorList = () => {
             key: el.id,
           }));
           setApprovedTutorList(response);
+          setSearchList(response);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -47,6 +50,26 @@ const AdminTutorList = () => {
     })();
   }, [history]);
 
+  // search functionality
+  const searcher = new FuzzySearch(searchList, ["name", "email", "phone", "institute_name", "ratings"], { sort: true });
+
+  const handleSearch = (value) => {
+    if (value) {
+      const result = searcher.search(value);
+      setApprovedTutorList([...result]);
+    } else {
+      setApprovedTutorList(searchList);
+    }
+  };
+  const handleChange = (e) => {
+    if (e.target.value) {
+      const result = searcher.search(e.target.value);
+      setApprovedTutorList([...result]);
+    } else {
+      setApprovedTutorList(searchList);
+    }
+  };
+
   return (
     <Spin spinning={loading}>
       <div className="center">
@@ -55,7 +78,7 @@ const AdminTutorList = () => {
 
       <Row justify="end" className="mb-1">
         <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-          <Search placeholder="input search text" enterButton />
+          <Search placeholder="input search text" enterButton onSearch={handleSearch} onChange={handleChange} />
         </Col>
       </Row>
 
