@@ -17,7 +17,9 @@ const TutorDashboard = () => {
       const socket = openSocket(process.env.REACT_APP_SocketUrl)
       socket.on('connect', msg => {
         console.log("connection ok");
-        socket.emit('register', { user_id: `${sessionStorage.getItem("id")}`, socket_id: `${socket.id}`});
+        if (sessionStorage.getItem("role") === 'tutor') {
+          socket.emit('register', { user_id: `${sessionStorage.getItem("id")}`, socket_id: `${socket.id}`});
+        }
         setSocket(socket);
       })
     }

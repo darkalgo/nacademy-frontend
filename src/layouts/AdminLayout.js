@@ -21,8 +21,11 @@ function AdminLayout() {
     setNavIsVisible(false);
   };
 
-  const logout = () => { 
-    socket.emit('logout', { user_id: sessionStorage.getItem('id') });
+  const logout = () => {
+    if (sessionStorage.getItem('role') === 'tutor' && socket) {
+      socket.emit('logout', { user_id: sessionStorage.getItem('id') });
+    }
+    
     sessionStorage.clear();
     history.push("/login"); 
   };
