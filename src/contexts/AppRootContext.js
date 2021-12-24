@@ -4,8 +4,9 @@ const AppRootContext = createContext();
 
 const AppRootContextProvider = ({ children }) => {
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const [socket, setSocket] = useState();
 
-  return <AppRootContext.Provider value={{ navIsVisible, setNavIsVisible }}>{children}</AppRootContext.Provider>;
+  return <AppRootContext.Provider value={{ navIsVisible, setNavIsVisible, socket, setSocket }}>{children}</AppRootContext.Provider>;
 };
 
 export { AppRootContext, AppRootContextProvider };

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Avatar, Button, Drawer, Dropdown, Layout, Menu } from "antd";
 import { MenuOutlined, UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
-
-import { BaseAPI } from "../utils/Api";
+ 
 import MenuTopics from "../container/MenuTopics";
 import AppRoutes from "../routes";
+import { AppRootContext } from '../contexts/AppRootContext';
 import "../styles/Navbar.less";
 import "../styles/Sidebar.less";
 
@@ -15,27 +15,16 @@ function AdminLayout() {
   const history = useHistory();
 
   const [navIsVisible, setNavIsVisible] = useState(false);
+  const { socket } = useContext(AppRootContext);
 
   const closeSidenav = () => {
     setNavIsVisible(false);
   };
 
-  const logout = () => {
-    BaseAPI.get("/auth/logout", {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-    })
-      .then(() => {
-        sessionStorage.clear();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        sessionStorage.clear();
-        history.push("/login");
-      });
+  const logout = () => { 
+    socket.emit('logout', { user_id: sessionStorage.getItem('id') });
+    sessionStorage.clear();
+    history.push("/login"); 
   };
 
   const openSidenav = () => {

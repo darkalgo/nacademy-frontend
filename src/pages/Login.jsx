@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Input, Button, Typography, Row, Col } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory, Link } from "react-router-dom";
+import openSocket from 'socket.io-client';
 
 import "../styles/PageStyles/Login.less";
 import { BaseAPI } from "../utils/Api";
 import Notification from "../components/controls/Notification";
+import { AppRootContext } from '../contexts/AppRootContext';
 
 const { Title } = Typography;
 
@@ -14,6 +16,7 @@ const Login = () => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
+  const { setSocket } = useContext(AppRootContext);
 
   const onFinish = async ({ user_name, password }) => {
     setLoading(true);
@@ -23,7 +26,14 @@ const Login = () => {
         sessionStorage.setItem("accessToken", response.token);
         sessionStorage.setItem("role", response.role);
         sessionStorage.setItem("id", response.id);
-
+       
+        const socket = openSocket(process.env.REACT_APP_SocketUrl)
+        socket.on('connect', msg => {
+          console.log("connection ok");
+          socket.emit('register', { user_id: `${response.id}`, socket_id: `${socket.id}`});
+          setSocket(socket);
+        })
+        
         if (response.role === "tutor") {
           history.push("/tutor/dashboard");
         } else if (response.role === "admin") {
