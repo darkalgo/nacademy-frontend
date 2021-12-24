@@ -1,10 +1,73 @@
-import React from "react";
-import { Button, Card, Col, Descriptions, Row, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Button, Card, Col, Descriptions, Row, Spin, Typography } from "antd";
+import { useHistory, useParams } from "react-router-dom";
+
+import { BaseAPI } from "../../utils/Api";
+import ErrorHandler from "../../components/controls/ErrorHandler";
+import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
+
 const AdminTutorDetails = () => {
+  const { id } = useParams();
+  const history = useHistory();
+
+  // states
+  const [loading, setLoading] = useState(false);
+  const [tutorInfo, setTutorInfo] = useState({});
+
+  useEffect(() => {
+    getTutorInformation(id);
+  }, []);
+
+  // functions
+  const getTutorInformation = async (id) => {
+    setLoading(true);
+    await BaseAPI.get(`/tutors/${id}`, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+    })
+      .then((res) => {
+        setTutorInfo(res.data.data);
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const approveAccount = async (status, id) => {
+    setLoading(true);
+    await BaseAPI.patch(
+      `/tutors/account-approved/${id}`,
+      { status },
+      {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      }
+    )
+      .then(() => {
+        Notification("Modified!", "Account modified successfully", "success");
+        getTutorInformation(id);
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
-    <div>
+    <Spin spinning={loading}>
       <div className="center">
         <Title level={2}>Tutor Information</Title>
       </div>
@@ -12,33 +75,37 @@ const AdminTutorDetails = () => {
         <Col xs={{ span: 24 }}>
           <Card className="card">
             <Descriptions bordered>
-              <Descriptions.Item label="Full Name">Zhou Maomao</Descriptions.Item>
-              <Descriptions.Item label="Email">sldf@gmail.com</Descriptions.Item>
-              <Descriptions.Item label="Phone Number">01487556546</Descriptions.Item>
-              <Descriptions.Item label="Date of Birth">12 November, 1998</Descriptions.Item>
-              <Descriptions.Item label="Gender">Male</Descriptions.Item>
-              <Descriptions.Item label="Address">No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China</Descriptions.Item>
-              <Descriptions.Item label="District">Dhaka</Descriptions.Item>
-              <Descriptions.Item label="Occupation">Student</Descriptions.Item>
-              <Descriptions.Item label="Institute Name">Daffodil International University</Descriptions.Item>
-              <Descriptions.Item label="Department Name">Software Engineering</Descriptions.Item>
-              <Descriptions.Item label="Classes Will Teach">Class 1, Class 2</Descriptions.Item>
-              <Descriptions.Item label="Subjects Good At">Physics, Math, English</Descriptions.Item>
-              <Descriptions.Item label="Favorite Subject">Physics, Math, English</Descriptions.Item>
-              <Descriptions.Item label="Joining Reason">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel nisi necessitatibus sapiente quas laudantium voluptas sed dolorem quos quod nostrum!
-              </Descriptions.Item>
+              <Descriptions.Item label="Full Name">{tutorInfo.name}</Descriptions.Item>
+              <Descriptions.Item label="Email">{tutorInfo.email}</Descriptions.Item>
+              <Descriptions.Item label="Phone Number">{tutorInfo.phone}</Descriptions.Item>
+              <Descriptions.Item label="Date of Birth">{tutorInfo.dob}</Descriptions.Item>
+              <Descriptions.Item label="Gender">{tutorInfo.gender}</Descriptions.Item>
+              <Descriptions.Item label="Address">{tutorInfo.address}</Descriptions.Item>
+              <Descriptions.Item label="District">{tutorInfo.district}</Descriptions.Item>
+              <Descriptions.Item label="Occupation">{tutorInfo.occupation}</Descriptions.Item>
+              <Descriptions.Item label="Institute Name">{tutorInfo.institute_name}</Descriptions.Item>
+              <Descriptions.Item label="Department Name">{tutorInfo.department_name}</Descriptions.Item>
+              <Descriptions.Item label="Classes Will Teach">{tutorInfo.teaching_class}</Descriptions.Item>
+              <Descriptions.Item label="Subjects Good At">{tutorInfo.good_at_subjects}</Descriptions.Item>
+              <Descriptions.Item label="Favorite Subject">{tutorInfo.favorite_subject}</Descriptions.Item>
+              <Descriptions.Item label="Joining Reason">{tutorInfo.why_want_join}</Descriptions.Item>
             </Descriptions>
           </Card>
         </Col>
       </Row>
-      <div className="center mt-2">
-        <Button type="primary" style={{ marginRight: "1em" }}>
-          Accept Request
-        </Button>
-        <Button danger>Reject Request</Button>
-      </div>
-    </div>
+      {tutorInfo.status !== "accept" && (
+        <div className="center mt-2">
+          <Button type="primary" style={{ marginRight: "1em" }} onClick={() => approveAccount("accept", tutorInfo.id)}>
+            Accept Request
+          </Button>
+          {tutorInfo.status !== "reject" && (
+            <Button danger onClick={() => approveAccount("reject", tutorInfo.id)}>
+              Reject Request
+            </Button>
+          )}
+        </div>
+      )}
+    </Spin>
   );
 };
 
