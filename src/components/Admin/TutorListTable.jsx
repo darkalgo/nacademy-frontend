@@ -1,7 +1,11 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Tooltip } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 
 const TutorListTable = ({ approveList }) => {
+  const history = useHistory();
+
   const columns = [
     {
       title: "Tutor Name",
@@ -52,6 +56,14 @@ const TutorListTable = ({ approveList }) => {
       title: "Account Creation Date",
       dataIndex: "createdAt",
       key: "createdAt",
+    },
+    {
+      title: "Action",
+      render: (text, record) => (
+        <Tooltip title="View Details">
+          <EyeOutlined className="icon-style" onClick={() => history.push(`/admin/approve-tutor/${record.id}`)} />
+        </Tooltip>
+      ),
     },
   ];
 
