@@ -18,7 +18,7 @@ const AdminTutorDetails = () => {
 
   useEffect(() => {
     getTutorInformation(id);
-  }, []);
+  }, [id]);
 
   // functions
   const getTutorInformation = async (id) => {

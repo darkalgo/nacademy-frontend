@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Space, Table, Tag, Tooltip } from "antd";
+import { Modal, Space, Table, Tooltip } from "antd";
 import { DeleteOutlined, EyeOutlined, WarningOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
