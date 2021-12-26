@@ -29,7 +29,6 @@ const TutorProfile = () => {
         },
       })
         .then((res) => {
-          console.log(res.data.data);
           const info = res.data.data;
           setGender(info.gender);
           form.setFieldsValue({
@@ -56,7 +55,7 @@ const TutorProfile = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history, form]);
 
   const onFinish = async (values) => {
     setLoading(true);

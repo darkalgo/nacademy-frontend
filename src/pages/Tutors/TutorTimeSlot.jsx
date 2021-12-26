@@ -1,20 +1,50 @@
-import React, { useState } from "react";
-import { Button, Checkbox, Col, Form, Input, Row, Select, TimePicker, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Checkbox, Col, Form, Input, Row, Select, Spin, TimePicker, Typography } from "antd";
 import { CloseOutlined, PlusOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 import { weekdays } from "../../utils/Constants";
+import { BaseAPI } from "../../utils/Api";
+import ErrorHandler from "../../components/controls/ErrorHandler";
+import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
 const { Option } = Select;
 const format = "HH:mm";
 
 const TutorTimeSlot = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
 
+  // states
+  const [loading, setLoading] = useState(false);
   const [dayNumber, setDayNumber] = useState([1]);
   const [timeChecked, setTimeChecked] = useState(true);
 
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await BaseAPI.get(`/tutors/slots/${sessionStorage.getItem("id")}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      })
+        .then((res) => {
+          console.log(res.data.data);
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        })
+        .finally(() => setLoading(false));
+    })();
+  }, []);
+
+  // functions
   const addNewTimeSlot = () => {
     setDayNumber([...dayNumber, 1]);
   };
@@ -70,7 +100,7 @@ const TutorTimeSlot = () => {
   };
 
   return (
-    <>
+    <Spin spinning={loading}>
       <div className="center">
         <Title level={2}>Teaching Time Slots</Title>
       </div>
@@ -119,7 +149,7 @@ const TutorTimeSlot = () => {
           </Button>
         </Row>
       </Form>
-    </>
+    </Spin>
   );
 };
 
