@@ -225,7 +225,6 @@ const TutorProfile = () => {
                 ))}
               </Select>
             </Form.Item>
-            <small>You can add subject name that are not listed by typing on the field</small>
           </Col>
         </Row>
         <Row justify="center">
@@ -239,7 +238,6 @@ const TutorProfile = () => {
                 ))}
               </Select>
             </Form.Item>
-            <small>You can add subject name that are not listed by typing on the field</small>
           </Col>
         </Row>
         <Row justify="center" className="mt-2">

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row, Typography } from "antd";
+import { useHistory } from "react-router-dom";
 
 import AppCard from "../../components/common/AppCard";
 import OnlineTutorsTable from "../../components/Student/OnlineTutorsTable";
@@ -7,6 +8,12 @@ import OnlineTutorsTable from "../../components/Student/OnlineTutorsTable";
 const { Title } = Typography;
 
 const StudentOnlineTutors = () => {
+  const history = useHistory();
+
+  // states
+  const [loading, setLoading] = useState(false);
+  const [onlineTutorList, setOnlineTutorList] = useState([]);
+
   return (
     <>
       <Row justify="center">
