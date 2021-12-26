@@ -9,7 +9,7 @@ import EmptyState from "../../components/controls/EmptyState";
 
 const { Title } = Typography;
 
-const TutorNotices = () => {
+const StudentNotices = () => {
   const history = useHistory();
 
   // states
@@ -123,4 +123,4 @@ const TutorNotices = () => {
   );
 };
 
-export default TutorNotices;
+export default StudentNotices;
