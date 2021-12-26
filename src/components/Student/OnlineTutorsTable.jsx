@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 
-const OnlineTutorsTable = () => {
+const OnlineTutorsTable = ({ tutorInfo }) => {
   const columns = [
     {
       title: "Teacher Name",
@@ -10,50 +10,27 @@ const OnlineTutorsTable = () => {
     },
     {
       title: "Institution Name",
-      dataIndex: "age",
-      key: "age",
+      dataIndex: "institute_name",
+      key: "institute_name",
     },
     {
-      title: "Department Name",
-      dataIndex: "age",
-      key: "age",
+      title: "Teaching Classes",
+      dataIndex: "teaching_class",
+      key: "teaching_class",
     },
     {
       title: "Subject",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "good_at_subjects",
+      key: "good_at_subjects",
     },
     {
       title: "Rating",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "ratings",
+      key: "ratings",
     },
   ];
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
-  return <Table columns={columns} dataSource={data} scroll={{ x: 1500 }} />;
+  return <Table columns={columns} dataSource={tutorInfo} scroll={{ x: 1500 }} />;
 };
 
 export default OnlineTutorsTable;
