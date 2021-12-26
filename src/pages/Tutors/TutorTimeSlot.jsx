@@ -116,6 +116,12 @@ const TutorTimeSlot = () => {
     // console.log(moment(values.start_time_1).format('LT')); // 8:10 PM
   };
 
+  const onChangeStartTime = (time, pos) => {
+    form.setFieldsValue({
+      [`end_time_${pos}`]: moment(time).add(1, 'hours').format("LT")
+    });
+  }
+
   return (
     <Spin spinning={loading}>
       <div className="center">
@@ -137,7 +143,7 @@ const TutorTimeSlot = () => {
             </Col>
             <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 7 }}>
               <Form.Item name={`start_time_${i + 1}`} label="Start Time" labelCol={{ span: 24 }} rules={[{ required: true, message: "Start time is required" }]}>
-                <TimePicker minuteStep={10} use12Hours format={format} style={{ width: "100%" }} />
+                <TimePicker minuteStep={10} use12Hours format={format} onChange={(e) => onChangeStartTime(e, i + 1)} style={{ width: "100%" }} />
               </Form.Item>
             </Col>
             <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 7 }}>
