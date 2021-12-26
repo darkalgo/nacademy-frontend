@@ -93,28 +93,53 @@ const TutorTimeSlot = () => {
   };
 
   const formatDataFromValue = (value) => {
+    delete value.continue_time;
     const objArr = Object.getOwnPropertyNames(value);
     const formattedData = [];
     for (let i = 0; i < objArr.length; i += 3) {
-      formattedData.push({
-        weekday: value[objArr[i]],
-        start_time: moment(value[objArr[i + 1]]).format("LT"),
-        end_time: moment(value[objArr[i + 2]]).format("LT"),
-      });
+      const pos = formattedData.findIndex(el => el.day === value[objArr[i]]);
+      if (pos === -1) {
+        formattedData.push({
+          day: value[objArr[i]],
+          slots: [{
+            "start_str": moment(value[objArr[i + 1]]).format("LT"),
+            "start_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes(),
+            "end_str": moment(value[objArr[i + 1]]).add(70, 'minutes').format("LT"),
+            "end_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes() + 70,
+          }]
+        });
+      } else {
+        formattedData[pos].slots.push({
+          "start_str": moment(value[objArr[i + 1]]).format("LT"),
+          "start_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes(),
+          "end_str": moment(value[objArr[i + 1]]).add(70, 'minutes').format("LT"),
+          "end_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes() + 70,
+        })
+      }
     }
 
-    console.log("formattedData", formattedData);
-    return formattedData;
+    let duplicated_day = "";
+    for (let i = 0; i < formattedData.length; i++) {
+      const { day, slots } = formattedData[i];
+      if (slots.length > 1) {
+        for (let j = 0; j < slots.length - 1; j++) {
+          if (slots[j].start_num <= slots[j + 1].start_num && slots[j + 1].start_num < slots[j].end_num) {
+            duplicated_day = day;
+            break;
+          }
+        }
+      }
+      if (duplicated_day.length > 0) break;
+    }
+
+    return { body: formattedData, duplicated_day};
   };
 
   const onFinish = (values) => {
-    console.log(values);
-    const body = formatDataFromValue(values);
+    const { body, duplicated_day } = formatDataFromValue(values);
+    if (duplicated_day.length > 0) return Notification("Duplicated", `Duplicated slot in ${duplicated_day}`, "error");
     console.log(body);
-
-    // const Mins = (moment(values.start_time_1).hours() * 60) + moment(values.start_time_1).minutes();
-    // console.log(Mins); // 1200
-    // console.log(moment(values.start_time_1).format('LT')); // 8:10 PM
+    console.log(timeChecked)
   };
 
   const onChangeStartTime = (time, pos) => {
