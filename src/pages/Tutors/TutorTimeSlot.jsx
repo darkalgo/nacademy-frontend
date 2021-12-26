@@ -20,6 +20,7 @@ const TutorTimeSlot = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [dayNumber, setDayNumber] = useState([1]);
+  const [existingSlots, setExistingSlots] = useState([]);
   const [timeChecked, setTimeChecked] = useState(true);
 
   useEffect(() => {
@@ -32,6 +33,7 @@ const TutorTimeSlot = () => {
       })
         .then((res) => {
           console.log(res.data.data);
+          setExistingSlots(res.data.data);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
