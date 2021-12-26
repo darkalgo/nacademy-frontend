@@ -11,7 +11,7 @@ import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
 const { Option } = Select;
-const format = "HH:mm";
+const format = "h:mm A";
 
 const TutorTimeSlot = () => {
   const history = useHistory();
@@ -20,7 +20,7 @@ const TutorTimeSlot = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [dayNumber, setDayNumber] = useState([1]);
-  const [existingSlots, setExistingSlots] = useState([]);
+  const [data, setData] = useState([]);
   const [timeChecked, setTimeChecked] = useState(true);
 
   useEffect(() => {
@@ -33,7 +33,20 @@ const TutorTimeSlot = () => {
       })
         .then((res) => {
           console.log(res.data.data);
-          setExistingSlots(res.data.data);
+          const { data } = res.data;
+          setData(data);
+          setDayNumber([...Array(data.SlotsInfo.length + 1).fill(1)]);
+          setTimeChecked(data.continue_every_month);
+
+          data.SlotsInfo.map((el, i) => {
+            const dateObj = new Date();
+            const dateStr = dateObj.toISOString().split('T').shift();
+            form.setFieldsValue({
+              [`weekday_${i + 1}`]: el.day,
+              [`start_time_${i + 1}`]: moment(dateStr + ' ' + el.start_time),
+              [`end_time_${i + 1}`]: el.end_time,
+            });
+          })
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -88,6 +101,8 @@ const TutorTimeSlot = () => {
         end_time: moment(value[objArr[i + 2]]).format("LT"),
       });
     }
+
+    console.log("formattedData", formattedData);
     return formattedData;
   };
 
@@ -113,7 +128,7 @@ const TutorTimeSlot = () => {
               <Form.Item name={`weekday_${i + 1}`} label="Day" labelCol={{ span: 24 }} rules={[{ required: true, message: "Day is required" }]}>
                 <Select placeholder="Select day">
                   {weekdays.map((el) => (
-                    <Option key={el.id} value={el.id}>
+                    <Option key={el.id} value={el.name}>
                       {el.name}
                     </Option>
                   ))}
