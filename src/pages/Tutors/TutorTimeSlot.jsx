@@ -21,6 +21,7 @@ const TutorTimeSlot = () => {
   const [loading, setLoading] = useState(false);
   const [dayNumber, setDayNumber] = useState([1]);
   const [data, setData] = useState([]);
+  const [validateData, setValidateData] = useState([]);
   const [timeChecked, setTimeChecked] = useState(true);
 
   useEffect(() => {
@@ -118,7 +119,7 @@ const TutorTimeSlot = () => {
 
   const onChangeStartTime = (time, pos) => {
     form.setFieldsValue({
-      [`end_time_${pos}`]: moment(time).add(1, 'hours').format("LT")
+      [`end_time_${pos}`]: moment(time).add(70, 'minutes').format("LT")
     });
   }
 
