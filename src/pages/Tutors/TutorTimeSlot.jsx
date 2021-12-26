@@ -36,7 +36,7 @@ const TutorTimeSlot = () => {
           console.log(res.data.data);
           const { data } = res.data;
           setData(data);
-          setDayNumber([...Array(data.SlotsInfo.length + 1).fill(1)]);
+          setDayNumber([...Array(data.SlotsInfo.length > 0 ? data.SlotsInfo.length : 1).fill(1)]);
           setTimeChecked(data.continue_every_month);
 
           data.SlotsInfo.map((el, i) => {
