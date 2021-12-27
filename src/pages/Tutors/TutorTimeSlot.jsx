@@ -123,10 +123,17 @@ const TutorTimeSlot = () => {
       const { day, slots } = formattedData[i];
       if (slots.length > 1) {
         for (let j = 0; j < slots.length - 1; j++) {
-          if (slots[j].start_num <= slots[j + 1].start_num && slots[j + 1].start_num < slots[j].end_num) {
-            duplicated_day = day;
-            break;
+          for (let k = j + 1; k < slots.length; k++) {
+            if (slots[j].start_num < slots[k].start_num && slots[k].start_num < slots[j].end_num) {
+              duplicated_day = day;
+              break;
+            }
+            else if (slots[j].start_num < slots[k].end_num && slots[k].end_num < slots[j].end_num) {
+              duplicated_day = day;
+              break;
+            }
           }
+          if (duplicated_day.length > 0) break;
         }
       }
       if (duplicated_day.length > 0) break;
@@ -137,7 +144,7 @@ const TutorTimeSlot = () => {
 
   const onFinish = (values) => {
     const { body, duplicated_day } = formatDataFromValue(values);
-    if (duplicated_day.length > 0) return Notification("Duplicated", `Duplicated slot in ${duplicated_day}`, "error");
+    if (duplicated_day.length > 0) return Notification("Overlap", `Slot overlap in ${duplicated_day}`, "error");
     console.log(body);
     console.log(timeChecked)
   };
