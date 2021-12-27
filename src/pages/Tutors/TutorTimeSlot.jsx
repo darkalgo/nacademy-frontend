@@ -41,13 +41,13 @@ const TutorTimeSlot = () => {
 
           data.SlotsInfo.map((el, i) => {
             const dateObj = new Date();
-            const dateStr = dateObj.toISOString().split('T').shift();
+            const dateStr = dateObj.toISOString().split("T").shift();
             form.setFieldsValue({
               [`weekday_${i + 1}`]: el.day,
-              [`start_time_${i + 1}`]: moment(dateStr + ' ' + el.start_time),
+              [`start_time_${i + 1}`]: moment(dateStr + " " + el.start_time),
               [`end_time_${i + 1}`]: el.end_time,
             });
-          })
+          });
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -92,29 +92,41 @@ const TutorTimeSlot = () => {
     setDayNumber(values);
   };
 
+  const onChangeStartTime = (time, pos) => {
+    form.setFieldsValue({
+      [`end_time_${pos}`]: moment(time).add(70, "minutes").format("LT"),
+    });
+  };
+
   const formatDataFromValue = (value) => {
     delete value.continue_time;
     const objArr = Object.getOwnPropertyNames(value);
     const formattedData = [];
     for (let i = 0; i < objArr.length; i += 3) {
-      const pos = formattedData.findIndex(el => el.day === value[objArr[i]]);
+      const pos = formattedData.findIndex((el) => el.day === value[objArr[i]]);
       if (pos === -1) {
         formattedData.push({
           day: value[objArr[i]],
-          slots: [{
-            "start_str": moment(value[objArr[i + 1]]).format("LT"),
-            "start_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes(),
-            "end_str": moment(value[objArr[i + 1]]).add(70, 'minutes').format("LT"),
-            "end_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes() + 70,
-          }]
+          slots: [
+            {
+              start_str: moment(value[objArr[i + 1]]).format("LT"),
+              start_num: moment(value[objArr[i + 1]]).hours() * 60 + moment(value[objArr[i + 1]]).minutes(),
+              end_str: moment(value[objArr[i + 1]])
+                .add(70, "minutes")
+                .format("LT"),
+              end_num: moment(value[objArr[i + 1]]).hours() * 60 + moment(value[objArr[i + 1]]).minutes() + 70,
+            },
+          ],
         });
       } else {
         formattedData[pos].slots.push({
-          "start_str": moment(value[objArr[i + 1]]).format("LT"),
-          "start_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes(),
-          "end_str": moment(value[objArr[i + 1]]).add(70, 'minutes').format("LT"),
-          "end_num": (moment(value[objArr[i + 1]]).hours() * 60) + moment(value[objArr[i + 1]]).minutes() + 70,
-        })
+          start_str: moment(value[objArr[i + 1]]).format("LT"),
+          start_num: moment(value[objArr[i + 1]]).hours() * 60 + moment(value[objArr[i + 1]]).minutes(),
+          end_str: moment(value[objArr[i + 1]])
+            .add(70, "minutes")
+            .format("LT"),
+          end_num: moment(value[objArr[i + 1]]).hours() * 60 + moment(value[objArr[i + 1]]).minutes() + 70,
+        });
       }
     }
 
@@ -127,8 +139,7 @@ const TutorTimeSlot = () => {
             if (slots[j].start_num < slots[k].start_num && slots[k].start_num < slots[j].end_num) {
               duplicated_day = day;
               break;
-            }
-            else if (slots[j].start_num < slots[k].end_num && slots[k].end_num < slots[j].end_num) {
+            } else if (slots[j].start_num < slots[k].end_num && slots[k].end_num < slots[j].end_num) {
               duplicated_day = day;
               break;
             }
@@ -139,21 +150,34 @@ const TutorTimeSlot = () => {
       if (duplicated_day.length > 0) break;
     }
 
-    return { body: formattedData, duplicated_day};
+    return { body: formattedData, duplicated_day };
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const { body, duplicated_day } = formatDataFromValue(values);
     if (duplicated_day.length > 0) return Notification("Overlap", `Slot overlap in ${duplicated_day}`, "error");
-    console.log(body);
-    console.log(timeChecked)
+    setLoading(true);
+    await BaseAPI.post(
+      "tutors/slots",
+      { data: body, continue_every_month: timeChecked },
+      {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      }
+    )
+      .then(() => {
+        Notification("Success", "Time slots modified successfully", "success");
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
-
-  const onChangeStartTime = (time, pos) => {
-    form.setFieldsValue({
-      [`end_time_${pos}`]: moment(time).add(70, 'minutes').format("LT")
-    });
-  }
 
   return (
     <Spin spinning={loading}>

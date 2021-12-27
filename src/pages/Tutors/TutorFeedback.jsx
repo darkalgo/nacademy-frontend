@@ -66,7 +66,6 @@ const TutorFeedback = () => {
         form.resetFields();
       })
       .catch((err) => {
-        console.log("error", err);
         if (err?.response?.data?.message) {
           ErrorHandler(err?.response?.data?.message, history);
         } else {
