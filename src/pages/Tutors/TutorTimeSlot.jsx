@@ -20,8 +20,6 @@ const TutorTimeSlot = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [dayNumber, setDayNumber] = useState([1]);
-  const [data, setData] = useState([]);
-  const [validateData, setValidateData] = useState([]);
   const [timeChecked, setTimeChecked] = useState(true);
 
   useEffect(() => {
@@ -35,7 +33,6 @@ const TutorTimeSlot = () => {
         .then((res) => {
           console.log(res.data.data);
           const { data } = res.data;
-          setData(data);
           setDayNumber([...Array(data.SlotsInfo.length > 0 ? data.SlotsInfo.length : 1).fill(1)]);
           setTimeChecked(data.continue_every_month);
 
@@ -58,7 +55,7 @@ const TutorTimeSlot = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history, form]);
 
   // functions
   const addNewTimeSlot = () => {
