@@ -1,42 +1,67 @@
 import React, { useState } from "react";
-import { Button, Calendar, Card, Col, Form, Modal, Row, Select, Typography } from "antd";
-import { ClockCircleOutlined } from "@ant-design/icons";
+import { Button, Calendar, Col, Form, Row, Select, Spin, Typography } from "antd";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 
 import { subjectNames } from "../../utils/Constants";
+import ErrorHandler from "../controls/ErrorHandler";
+import Notification from "../controls/Notification";
+import { BaseAPI } from "../../utils/Api";
+import EmptyState from "../controls/EmptyState";
+import AvailableTeacherCard from "./AvailableTeacherCard";
 
 const { Title } = Typography;
 const { Option } = Select;
 
 const IndividualBook = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
-  const [form1] = Form.useForm();
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const [availableTeachers, setAvailableTeachers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [noData, setNoData] = useState(null);
+  const [subject, setSubject] = useState("");
 
   const disabledDate = (current) => {
     // Can not select days before today and today
     return current && current < moment().endOf("day");
   };
 
-  const onPanelChange = (value, mode) => {
-    console.log(value, mode);
-  };
+  const onFinish = async (values) => {
+    setLoading(true);
+    setSubject(values.subject);
 
-  const onFinish = (values) => {
-    console.log(moment(values.selected_date).format("ll"));
-  };
+    const body = {
+      date: moment(values.selected_date).format("YYYY-MM-DD"),
+      subject: values.subject,
+    };
 
-  const getSlot = (values) => {
-    console.log(values);
+    await BaseAPI.post("/students/get-available-teachers-single", body, {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+    })
+      .then((res) => {
+        console.log(res.data.data);
+        if (res.data.data.length !== 0) {
+          setNoData(false);
+          setAvailableTeachers(res.data.data);
+        } else {
+          setNoData(true);
+        }
+      })
+      .catch((err) => {
+        if (err?.response?.data?.message) {
+          ErrorHandler(err?.response?.data?.message, history);
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <Form form={form} onFinish={onFinish}>
         <Row>
           <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
@@ -55,7 +80,7 @@ const IndividualBook = () => {
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
             <Form.Item name="selected_date" label="Select Date" labelCol={{ span: 24 }}>
-              <Calendar fullscreen={false} disabledDate={disabledDate} onPanelChange={onPanelChange} />
+              <Calendar fullscreen={false} disabledDate={disabledDate} />
             </Form.Item>
           </Col>
         </Row>
@@ -68,68 +93,15 @@ const IndividualBook = () => {
         </div>
       </Form>
 
-      <div className="center mb-2 mt-2">
-        <Title level={2}>Available Teachers</Title>
-      </div>
-
-      <Row gutter={[16, 16]}>
-        <Col xs={{ span: 24 }} md={{ span: 12 }}>
-          <Card className="card">
-            <Row gutter={[8, 8]}>
-              <Col xs={{ span: 6 }}>
-                <Title level={5} className="primary-color">
-                  Name:
-                </Title>
-              </Col>
-              <Col xs={{ span: 18 }}>
-                <Title level={5}>Kamal Hossain</Title>
-              </Col>
-              <Col xs={{ span: 6 }}>
-                <Title level={5} className="primary-color">
-                  Varsity Name:
-                </Title>
-              </Col>
-              <Col xs={{ span: 18 }}>
-                <Title level={5}>Daffodil International University</Title>
-              </Col>
-              <Col xs={{ span: 6 }}>
-                <Title level={5} className="primary-color">
-                  Department Name:
-                </Title>
-              </Col>
-              <Col xs={{ span: 18 }}>
-                <Title level={5}>Software Engineering</Title>
-              </Col>
-            </Row>
-            <Row justify="center">
-              <Button block className="bg white-text mt-1" icon={<ClockCircleOutlined />} onClick={showModal}>
-                View Available Slots
-              </Button>
-            </Row>
-          </Card>
-        </Col>
+      <Row gutter={[16, 16]} justify="center">
+        {availableTeachers.map((el) => (
+          <Col xs={{ span: 24 }} lg={{ span: 12 }} key={el.tutor_id}>
+            <AvailableTeacherCard info={el} subject={subject} />
+          </Col>
+        ))}
+        {noData && <EmptyState description="Sorry! No teacher found on given data 😢" />}
       </Row>
-      <Modal title="Available Time Slots" visible={isModalVisible} onCancel={() => setIsModalVisible(false)} footer={null}>
-        <Form form={form1} onFinish={getSlot}>
-          <Row>
-            <Col xs={{ span: 24 }}>
-              <Form.Item name="time_slot" label="Available Time Slots" labelCol={{ span: 24 }} rules={[{ required: true, message: "Please select a time slot" }]}>
-                <Select>
-                  <Option></Option>
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col xs={{ span: 24 }}>
-              <Form.Item>
-                <Button block className="bg white-text" htmlType="submit">
-                  Get Slot
-                </Button>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
-    </div>
+    </Spin>
   );
 };
 

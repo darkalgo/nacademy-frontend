@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Button, List, Row, Spin, Typography } from "antd";
+import { Alert, Button, List, message, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import { BaseAPI } from "../../utils/Api";
@@ -15,6 +15,7 @@ const StudentNotices = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
+  const [unSeenNotices, setUnSeenNotices] = useState([]);
 
   useEffect(() => {
     getNotices();
@@ -36,7 +37,6 @@ const StudentNotices = () => {
       }
     )
       .then((res) => {
-        console.log(res.data.data);
         setNoticeList(res.data.data);
       })
       .catch((err) => {
@@ -50,31 +50,34 @@ const StudentNotices = () => {
   };
 
   const markAllToRead = async () => {
-    setLoading(true);
     let unSeenNoticeIds = [];
     const unSeenNotices = noticeList.filter((el) => el.is_view === 0);
     unSeenNoticeIds.push(unSeenNotices.map((el) => el.id));
-    await BaseAPI.patch(
-      "/students/read-notices",
-      { notices: unSeenNoticeIds[0] },
-      {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-      }
-    )
-      .then((res) => {
-        console.log(res);
-        getNotices();
-      })
-      .catch((err) => {
-        if (err?.response?.data?.message) {
-          ErrorHandler(err?.response?.data?.message, history);
-        } else {
-          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+    if (unSeenNotices.length > 0) {
+      setLoading(true);
+      await BaseAPI.patch(
+        "/students/read-notices",
+        { notices: unSeenNoticeIds[0] },
+        {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          },
         }
-      })
-      .finally(() => setLoading(false));
+      )
+        .then(() => {
+          getNotices();
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        })
+        .finally(() => setLoading(false));
+    } else {
+      message.error("No unseen notifications");
+    }
   };
 
   return (
@@ -84,7 +87,7 @@ const StudentNotices = () => {
       </Row>
 
       <Row justify="end">
-        <Button onClick={markAllToRead}>Mark All To Read</Button>
+        <Button onClick={markAllToRead}>Mark All As Read</Button>
       </Row>
 
       {noticeList.length > 0 ? (
