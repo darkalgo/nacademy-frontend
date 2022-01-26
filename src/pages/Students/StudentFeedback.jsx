@@ -85,14 +85,14 @@ const StudentFeedback = () => {
         <Row justify="center">
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <Form.Item name="subject" label="Subject" labelCol={{ span: 24 }} rules={[{ required: true }]}>
-              <Input />
+              <Input placeholder="Your subject name" />
             </Form.Item>
           </Col>
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} lg={{ span: 12 }}>
             <Form.Item name="description" label="Description" labelCol={{ span: 24 }} rules={[{ required: true }]}>
-              <TextArea />
+              <TextArea placeholder="Your message" />
             </Form.Item>
           </Col>
         </Row>

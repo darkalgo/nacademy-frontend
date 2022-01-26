@@ -2,12 +2,12 @@ import React, { useState, useContext } from "react";
 import { Form, Input, Button, Typography, Row, Col } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory, Link } from "react-router-dom";
-import openSocket from 'socket.io-client';
+import openSocket from "socket.io-client";
 
 import "../styles/PageStyles/Login.less";
 import { BaseAPI } from "../utils/Api";
 import Notification from "../components/controls/Notification";
-import { AppRootContext } from '../contexts/AppRootContext';
+import { AppRootContext } from "../contexts/AppRootContext";
 
 const { Title } = Typography;
 
@@ -26,16 +26,16 @@ const Login = () => {
         sessionStorage.setItem("accessToken", response.token);
         sessionStorage.setItem("role", response.role);
         sessionStorage.setItem("id", response.id);
-       
-        const socket = openSocket(process.env.REACT_APP_SocketUrl)
-        socket.on('connect', msg => {
+
+        const socket = openSocket(process.env.REACT_APP_SocketUrl);
+        socket.on("connect", (msg) => {
           console.log("connection ok");
-          if (response.role === 'tutor') {
-            socket.emit('register', { user_id: `${response.id}`, socket_id: `${socket.id}`});
+          if (response.role === "tutor") {
+            socket.emit("register", { user_id: `${response.id}`, socket_id: `${socket.id}` });
           }
           setSocket(socket);
-        })
-        
+        });
+
         if (response.role === "tutor") {
           history.push("/tutor/dashboard");
         } else if (response.role === "admin") {
@@ -97,7 +97,7 @@ const Login = () => {
           <Row justify="center">
             <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item>
-                <Button block type="primary" disabled={loading} htmlType="submit" className="login-form-button">
+                <Button block type="primary" disabled={loading} htmlType="submit">
                   {loading && <LoadingOutlined />} Log In
                 </Button>
               </Form.Item>

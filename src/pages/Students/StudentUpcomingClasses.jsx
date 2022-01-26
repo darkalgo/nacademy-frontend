@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Typography } from "antd";
+import { Col, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import UpcomingClassCard from "../../components/Student/UpcomingClassCard";
@@ -25,7 +25,6 @@ const StudentUpcomingClasses = () => {
         },
       })
         .then((res) => {
-          console.log(res.data.data);
           setClassList(res.data.data);
         })
         .catch((err) => {
@@ -44,7 +43,7 @@ const StudentUpcomingClasses = () => {
   }, [history]);
 
   return (
-    <div>
+    <Spin spinning={loading}>
       <Row justify="center">
         <Title level={2}>List Of Upcoming Classes</Title>
       </Row>
@@ -62,7 +61,7 @@ const StudentUpcomingClasses = () => {
           <EmptyState description="You have no upcoming classes at this moment. How about booking a teacher? 😃" />
         </Row>
       )}
-    </div>
+    </Spin>
   );
 };
 
