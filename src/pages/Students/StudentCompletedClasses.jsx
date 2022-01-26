@@ -144,6 +144,7 @@ const StudentCompletedClasses = () => {
             <Option value="cancel">Cancelled Class</Option>
           </Select>
         </Col>
+
         <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
           <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
         </Col>

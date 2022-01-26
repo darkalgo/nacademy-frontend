@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Card, Spin, Typography } from "antd";
+import { Card, Col, Input, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 import { nanoid } from "nanoid";
+import FuzzySearch from "fuzzy-search";
 
 import AllAvailableTutorTable from "../../components/Student/AllAvailableTutorTable";
 import { BaseAPI } from "../../utils/Api";
@@ -9,12 +10,14 @@ import ErrorHandler from "../../components/controls/ErrorHandler";
 import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
+const { Search } = Input;
 
 const StudentAllTutors = () => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
   const [teacherList, setTeacherList] = useState([]);
+  const [searchedTeacherList, setSearchedTeacherList] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +37,7 @@ const StudentAllTutors = () => {
             key: nanoid(3),
           }));
           setTeacherList(info);
+          setSearchedTeacherList(info);
         })
         .catch((err) => {
           if (err?.response?.data?.message) {
@@ -50,15 +54,41 @@ const StudentAllTutors = () => {
     };
   }, [history]);
 
+  const searcher = new FuzzySearch(teacherList, ["name", "email", "institute_name"], { sort: true });
+
+  const handleOnSearch = (value) => {
+    if (value) {
+      const result = searcher.search(value);
+      setSearchedTeacherList([...result]);
+    } else {
+      setSearchedTeacherList(teacherList);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    if (e.target.value) {
+      const result = searcher.search(e.target.value);
+      setSearchedTeacherList([...result]);
+    } else {
+      setSearchedTeacherList(teacherList);
+    }
+  };
+
   return (
     <div>
       <div className="center">
         <Title level={2}>All Teachers Information</Title>
       </div>
 
+      <Row justify="end" className="mb-1">
+        <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+          <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
+        </Col>
+      </Row>
+
       <Spin spinning={loading}>
         <Card className="card">
-          <AllAvailableTutorTable info={teacherList} />
+          <AllAvailableTutorTable info={searchedTeacherList} />
         </Card>
       </Spin>
     </div>
