@@ -36,7 +36,6 @@ const StudentCompletedClasses = () => {
         }
       )
         .then((res) => {
-          console.log(res.data.data);
           const info = res.data.data.map((el) => ({
             ...el,
             key: el.id,
