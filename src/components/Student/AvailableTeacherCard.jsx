@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Col, Form, Modal, Rate, Row, Select, Spin, Typography } from "antd";
+import { Button, Card, Col, Form, Modal, Rate, Row, Select, Typography } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
@@ -50,7 +50,7 @@ const AvailableTeacherCard = ({ info, subject }) => {
     <>
       <Card className="card">
         <Row justify="center" className="mb-2">
-          <img src="https://picsum.photos/200/300" alt="image" style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }} />
+          <img src="https://picsum.photos/200/300" alt="teacher" style={{ width: "100px", height: "100px", borderRadius: "50%", objectFit: "cover" }} />
         </Row>
         <Row gutter={[8, 8]}>
           <Col xs={{ span: 6 }}>

@@ -15,7 +15,6 @@ const StudentNotices = () => {
   // states
   const [loading, setLoading] = useState(false);
   const [noticeList, setNoticeList] = useState([]);
-  const [unSeenNotices, setUnSeenNotices] = useState([]);
 
   useEffect(() => {
     getNotices();

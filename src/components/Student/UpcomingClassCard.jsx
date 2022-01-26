@@ -1,9 +1,10 @@
 import { Button, Card, Col, Row, Typography } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const { Title } = Typography;
 
-const UpcomingClassCard = () => {
+const UpcomingClassCard = ({ info }) => {
   return (
     <Card className="card">
       <Row gutter={[8, 8]}>
@@ -13,7 +14,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>Biology class 2nd chapter </Title>
+          <Title level={5}>{info.agenda} </Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -21,7 +22,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>November 21, 2021 </Title>
+          <Title level={5}>{moment(info.date).format("LL")}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -29,7 +30,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>10:00 am </Title>
+          <Title level={5}>{info.start_time}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -37,7 +38,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>11:00 am </Title>
+          <Title level={5}>{info.end_time}</Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -45,7 +46,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>Md. Kamal Ahmed </Title>
+          <Title level={5}>{info.name} </Title>
         </Col>
         <Col xs={{ span: 8 }}>
           <Title level={5} className="primary-color">
@@ -53,7 +54,7 @@ const UpcomingClassCard = () => {
           </Title>
         </Col>
         <Col xs={{ span: 16 }}>
-          <Title level={5}>Biology </Title>
+          <Title level={5}>{info.subject}</Title>
         </Col>
         <Col xs={{ span: 24 }}>
           <Button block danger type="text" icon={<CloseCircleOutlined />} size="large" className="error-btn">

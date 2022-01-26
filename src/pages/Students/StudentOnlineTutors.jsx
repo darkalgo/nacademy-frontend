@@ -7,6 +7,7 @@ import OnlineTutorsTable from "../../components/Student/OnlineTutorsTable";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import Notification from "../../components/controls/Notification";
 import { BaseAPI } from "../../utils/Api";
+import EmptyState from "../../components/controls/EmptyState";
 
 const { Title } = Typography;
 
@@ -48,13 +49,17 @@ const StudentOnlineTutors = () => {
       <Row justify="center" className="mb-2">
         <span style={{ fontSize: "5em", color: "#00c853", fontWeight: "bold" }}>{onlineTutorList.length || 0}</span>
       </Row>
-      <Row>
-        <Col xs={{ span: 24 }}>
-          <AppCard heading="Online Teacher Information">
-            <OnlineTutorsTable tutorInfo={onlineTutorList} />
-          </AppCard>
-        </Col>
-      </Row>
+      {onlineTutorList.length > 0 ? (
+        <Row justify="center">
+          <Col xs={{ span: 24 }}>
+            <AppCard heading="Online Teacher Information">
+              <OnlineTutorsTable tutorInfo={onlineTutorList} />
+            </AppCard>
+          </Col>
+        </Row>
+      ) : (
+        <EmptyState description="Hmmm 🤔 No teacher is online right now." />
+      )}
     </Spin>
   );
 };
