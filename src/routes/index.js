@@ -33,6 +33,7 @@ import TutorNotices from "../pages/Tutors/TutorNotices";
 import TutorProfile from "../pages/Tutors/TutorProfile";
 import TutorTimeSlot from "../pages/Tutors/TutorTimeSlot";
 import TutorUpcomingClasses from "../pages/Tutors/TutorUpcomingClasses";
+import StudentCompletedClassDetails from "../pages/Students/StudentCompletedClassDetails";
 
 function AppRoutes() {
   return (
@@ -61,6 +62,7 @@ function AppRoutes() {
         <Route exact path="/student/subscription" component={StudentSubscription} />
         <Route exact path="/student/all-tutors" component={StudentAllTutors} />
         <Route exact path="/student/all-tutors/:id" component={StudentTutorDetails} />
+        <Route exact path="/student/classes/:id" component={StudentCompletedClassDetails} />
 
         {/* admin routes */}
         <Route exact path="/admin/dashboard" component={AdminDashboard} />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Input, Table, Row, Typography, Col, Card, Spin, Select } from "antd";
+import { Input, Table, Row, Typography, Col, Card, Spin, Select, Tooltip } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
 
@@ -73,6 +74,7 @@ const StudentCompletedClasses = () => {
       setSearchedClassList(classList);
     }
   };
+
   const handleSearchChange = (e) => {
     if (e.target.value) {
       const result = searcher.search(e.target.value);
@@ -125,8 +127,11 @@ const StudentCompletedClasses = () => {
     },
     {
       title: "Action",
-      dataIndex: "address",
-      key: "address",
+      render: (text, record) => (
+        <Tooltip title="View Details">
+          <EyeOutlined className="icon-style" onClick={() => history.push(`/student/classes/${record.id}`)} />
+        </Tooltip>
+      ),
     },
   ];
 
