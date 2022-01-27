@@ -21,24 +21,26 @@ const AdminTutorDetails = () => {
   }, [id]);
 
   // functions
-  const getTutorInformation = async (id) => {
-    setLoading(true);
-    await BaseAPI.get(`/tutors/${id}`, {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-    })
-      .then((res) => {
-        setTutorInfo(res.data.data);
+  const getTutorInformation = (id) => {
+    (async () => {
+      setLoading(true);
+      await BaseAPI.get(`/tutors/${id}`, {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
       })
-      .catch((err) => {
-        if (err?.response?.data?.message) {
-          ErrorHandler(err?.response?.data?.message, history);
-        } else {
-          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
-        }
-      })
-      .finally(() => setLoading(false));
+        .then((res) => {
+          setTutorInfo(res.data.data);
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        })
+        .finally(() => setLoading(false));
+    })();
   };
 
   const approveAccount = async (status, id) => {

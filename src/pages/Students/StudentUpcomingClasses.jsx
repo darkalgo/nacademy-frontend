@@ -19,7 +19,7 @@ const StudentUpcomingClasses = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      BaseAPI.get("/students/get-upcoming-classes", {
+      await BaseAPI.get("/students/get-upcoming-classes", {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
