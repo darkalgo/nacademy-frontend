@@ -26,14 +26,11 @@ const StudentNotices = () => {
   // functions
   const getNotices = async () => {
     setLoading(true);
-    await BaseAPI.get(
-      "/students/notices",
-      {
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-      }
-    )
+    await BaseAPI.get("/students/notices", {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+    })
       .then((res) => {
         setNoticeList(res.data.data);
       })
@@ -84,37 +81,38 @@ const StudentNotices = () => {
         <Title level={2}>All Notices</Title>
       </Row>
 
-      <Row justify="end">
-        <Button onClick={markAllToRead}>Mark All As Read</Button>
-      </Row>
-
       {noticeList.length > 0 ? (
-        <List
-          itemLayout="vertical"
-          dataSource={noticeList}
-          pagination={{
-            pageSize: 10,
-          }}
-          renderItem={(el) => (
-            <List.Item>
-              <Alert
-                key={el.id}
-                message={
-                  <div>
-                    <Row justify="space-between">
-                      <Title level={4}>{el.header}</Title>
-                      <span>{el.sent_date}</span>
-                    </Row>
-                  </div>
-                }
-                description={el.body}
-                type={el.is_view === 0 && el.type}
-                showIcon={el.is_view === 0 && true}
-                style={{ backgroundColor: `${el.is_view === 1 ? "#D4D4D4" : ""}` }}
-              />
-            </List.Item>
-          )}
-        />
+        <>
+          <Row justify="end">
+            <Button onClick={markAllToRead}>Mark All As Read</Button>
+          </Row>
+          <List
+            itemLayout="vertical"
+            dataSource={noticeList}
+            pagination={{
+              pageSize: 10,
+            }}
+            renderItem={(el) => (
+              <List.Item>
+                <Alert
+                  key={el.id}
+                  message={
+                    <div>
+                      <Row justify="space-between">
+                        <Title level={4}>{el.header}</Title>
+                        <span>{el.sent_date}</span>
+                      </Row>
+                    </div>
+                  }
+                  description={el.body}
+                  type={el.is_view === 0 && el.type}
+                  showIcon={el.is_view === 0 && true}
+                  style={{ backgroundColor: `${el.is_view === 1 ? "#D4D4D4" : ""}` }}
+                />
+              </List.Item>
+            )}
+          />
+      </>
       ) : (
         <Row justify="center">
           <EmptyState description="You have no notice to see." />

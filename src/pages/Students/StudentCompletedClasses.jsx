@@ -7,6 +7,7 @@ import FuzzySearch from "fuzzy-search";
 import { BaseAPI } from "../../utils/Api";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import Notification from "../../components/controls/Notification";
+import EmptyState from "../../components/controls/EmptyState";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -141,22 +142,30 @@ const StudentCompletedClasses = () => {
         <Title level={2}> {status === "completed" ? "Completed" : "Cancelled"} Classes</Title>
       </Row>
 
-      <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
-        <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-          <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
-            <Option value="completed">Completed Class</Option>
-            <Option value="cancel">Cancelled Class</Option>
-          </Select>
-        </Col>
+      {classList.lenth > 0 ? (
+        <>
+          <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
+            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+              <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
+                <Option value="completed">Completed Class</Option>
+                <Option value="cancel">Cancelled Class</Option>
+              </Select>
+            </Col>
 
-        <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-          <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
-        </Col>
-      </Row>
+            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+              <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
+            </Col>
+          </Row>
 
-      <Card className="card">
-        <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1000 }} />
-      </Card>
+          <Card className="card">
+            <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1000 }} />
+          </Card>
+        </>
+      ) : (
+        <Row justify="center">
+          <EmptyState description="You have not conducted any class yet" />
+        </Row>
+      )}
     </Spin>
   );
 };

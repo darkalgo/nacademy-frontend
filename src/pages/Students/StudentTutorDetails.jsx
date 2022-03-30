@@ -28,7 +28,7 @@ const StudentTutorDetails = () => {
         },
       })
         .then((res) => {
-          console.log(res.data.data)
+          console.log(res.data.data);
           setTutorInfo(res.data.data);
         })
         .catch((err) => {
@@ -59,9 +59,21 @@ const StudentTutorDetails = () => {
               <Descriptions.Item label="Occupation">{tutorInfo.occupation}</Descriptions.Item>
               <Descriptions.Item label="Institute Name">{tutorInfo.institute_name}</Descriptions.Item>
               <Descriptions.Item label="Department Name">{tutorInfo.department_name}</Descriptions.Item>
-              <Descriptions.Item label="Classes Will Teach">{tutorInfo.teaching_class}</Descriptions.Item>
-              <Descriptions.Item label="Subjects Good At">{tutorInfo.good_at_subjects}</Descriptions.Item>
-              <Descriptions.Item label="Favorite Subject">{tutorInfo.favoriteSubjects?.map(el => <span> {el.name} </span>,)}</Descriptions.Item>
+              <Descriptions.Item label="Classes Will Teach">
+                {tutorInfo.teachGroups?.map((el, i) => (
+                  <span key={i}> {el.name}, &nbsp;</span>
+                ))}
+              </Descriptions.Item>
+              <Descriptions.Item label="Subjects Good At">
+                {tutorInfo.goodSubjects?.map((el, i) => (
+                  <span key={i}>{el.name}, &nbsp;</span>
+                ))}
+              </Descriptions.Item>
+              <Descriptions.Item label="Favorite Subject">
+                {tutorInfo.favoriteSubjects?.map((el, i) => (
+                  <span key={i}> {el.name}, &nbsp; </span>
+                ))}
+              </Descriptions.Item>
             </Descriptions>
           </Card>
         </Col>
