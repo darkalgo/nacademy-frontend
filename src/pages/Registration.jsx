@@ -1,9 +1,9 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 
-import { accountType, classNames, districtName, genders, groupNames, occupations, subjectNames } from "../utils/Constants";
+import { accountType, districtName, genders, occupations } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
 import { BaseAPI } from "../utils/Api";
 import moment from "moment";
@@ -21,36 +21,37 @@ const Registration = () => {
   const [selectedAccount, setSelectedAccount] = useState("Tutor");
   const [gender, setGender] = useState("Male");
   const [classList, setClassList] = useState([]);
-  const [goodAtSubjects, setGoodAtSubjects] = useState([])
-  const [favoriteSubjects, setFavoriteSubjects] = useState([])
+  const [goodAtSubjects, setGoodAtSubjects] = useState([]);
+  const [favoriteSubjects, setFavoriteSubjects] = useState([]);
 
   useEffect(() => {
-    (async() => {
-      await BaseAPI.get('/tutors/get-subjects').then(res => {
-        console.log(res.data)
-        setClassList(res.data.data)
-      }).catch(err => {
-        if (err?.response?.data?.message) {
-          Notification(err?.response?.data?.message, "Please fix this error and try again. Otherwise communicate with the admin", "error");
-        } else {
-          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
-        }
-      })
-    })()
-  }, [])
+    (async () => {
+      await BaseAPI.get("/tutors/get-subjects")
+        .then((res) => {
+          setClassList(res.data.data);
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message) {
+            Notification(err?.response?.data?.message, "Please fix this error and try again. Otherwise communicate with the admin", "error");
+          } else {
+            Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+          }
+        });
+    })();
+  }, []);
 
-  const onClassChange = value => {
+  const onClassChange = (value) => {
     let subjects = [];
-    value.forEach(gro => {
-      subjects = [...subjects, ...classList.find(el => el.group_id === gro).subjects];
+    value.forEach((gro) => {
+      subjects = [...subjects, ...classList.find((el) => el.group_id === gro).subjects];
     });
     setGoodAtSubjects([...subjects]);
     setFavoriteSubjects([...subjects]);
-  }
+  };
 
   const onFinish = async (values) => {
     let info = null;
-    if (selectedAccount === "Tuftor") {
+    if (selectedAccount === "Tutor") {
       info = {
         name: values.name,
         email: values.email,
@@ -65,7 +66,7 @@ const Registration = () => {
         password: values.password,
         department_name: values.department_name,
         why_want_join: values.join_reason,
-        class_teach: values.tutor_class,
+        group_teach: values.tutor_class,
         good_at_subject: values.subject,
         favorite_subject: values.favorite_subject,
       };
@@ -82,8 +83,7 @@ const Registration = () => {
         institute_name: values.institute_name,
         user_name: values.username,
         password: values.password,
-        group_name: values.group_name,
-        class_name: values.class_name,
+        groups: values.group_name,
       };
     }
 
@@ -233,22 +233,9 @@ const Registration = () => {
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="group_name" label="Group Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Group name is required" }]}>
                   <Select>
-                    {groupNames.map((el) => (
-                      <Option key={el.id} value={el.id}>
-                        {el.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row justify="center">
-              <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-                <Form.Item name="class_name" label="Class Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
-                  <Select>
-                    {classNames.map((el) => (
-                      <Option key={el.id} value={el.id}>
-                        {el.name}
+                    {classList.map((el) => (
+                      <Option key={el.group_id} value={el.group_id}>
+                        {el.group_name}
                       </Option>
                     ))}
                   </Select>
@@ -281,10 +268,18 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="subject" label="Subject You Are Good At" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
-                  <Select mode="multiple" style={{ width: "100%" }} showSearch allowClear showArrow>
-                    {subjectNames.map((el) => (
+                  <Select
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    showSearch
+                    allowClear
+                    showArrow
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterSort={(optionA, optionB) => optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())}>
+                    {goodAtSubjects.map((el) => (
                       <Option value={el.id} key={el.id}>
-                        {el.name}
+                        {el.subject}
                       </Option>
                     ))}
                   </Select>
@@ -294,10 +289,18 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="favorite_subject" label="Favorite Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Favorite subject name is required" }]}>
-                  <Select mode="multiple" style={{ width: "100%" }} tokenSeparators={[","]} showSearch allowClear showArrow>
-                    {subjectNames.map((el) => (
+                  <Select
+                    mode="multiple"
+                    style={{ width: "100%" }}
+                    showSearch
+                    allowClear
+                    showArrow
+                    optionFilterProp="children"
+                    filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterSort={(optionA, optionB) => optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())}>
+                    {favoriteSubjects.map((el) => (
                       <Option value={el.id} key={el.id}>
-                        {el.name}
+                        {el.subject}
                       </Option>
                     ))}
                   </Select>
