@@ -26,9 +26,8 @@ const StudentNotices = () => {
   // functions
   const getNotices = async () => {
     setLoading(true);
-    await BaseAPI.post(
+    await BaseAPI.get(
       "/students/notices",
-      {},
       {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("accessToken"),

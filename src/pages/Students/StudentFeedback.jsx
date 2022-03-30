@@ -60,7 +60,7 @@ const StudentFeedback = () => {
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     })
-      .then((res) => {
+      .then(() => {
         Notification("Thank You", "Your feedback has been sent.", "success");
         setImageUrl("");
         form.resetFields();

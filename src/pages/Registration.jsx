@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 
 import { accountType, districtName, genders, occupations } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
 import { BaseAPI } from "../utils/Api";
-import moment from "moment";
 import Notification from "../components/controls/Notification";
 
 const { Title } = Typography;
@@ -95,6 +95,7 @@ const Registration = () => {
     }
 
     setLoading(true);
+    console.log('info',info)
     await BaseAPI.post(`${apiRoute}`, info)
       .then((res) => {
         Notification("Success", `${res.data.message}`, "success");
@@ -232,7 +233,7 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="group_name" label="Group Name" labelCol={{ span: 24 }} rules={[{ required: true, message: "Group name is required" }]}>
-                  <Select>
+                  <Select mode="multiple">
                     {classList.map((el) => (
                       <Option key={el.group_id} value={el.group_id}>
                         {el.group_name}

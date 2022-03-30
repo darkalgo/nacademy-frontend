@@ -25,6 +25,7 @@ const TutorUpcomingClasses = () => {
         },
       })
         .then((res) => {
+          console.log(res.data.data)
           setClassList(res.data.data);
         })
         .catch((err) => {

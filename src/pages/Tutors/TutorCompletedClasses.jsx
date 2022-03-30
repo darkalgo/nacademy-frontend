@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
 
 import { BaseAPI } from "../../utils/Api";
+import EmptyState from "../../components/controls/EmptyState";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import Notification from "../../components/controls/Notification";
 
@@ -36,7 +37,6 @@ const TutorCompletedClasses = () => {
         }
       )
         .then((res) => {
-          console.log(res.data.data);
           const info = res.data.data.map((el) => ({
             ...el,
             key: el.id,
@@ -138,22 +138,30 @@ const TutorCompletedClasses = () => {
         <Title level={2}>Completed Classes</Title>
       </div>
 
-      <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
-        <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-          <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
-            <Option value="completed">Completed Class</Option>
-            <Option value="cancel">Cancelled Class</Option>
-          </Select>
-        </Col>
+      {classList.length > 0 ? (
+        <>
+          <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
+            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+              <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
+                <Option value="completed">Completed Class</Option>
+                <Option value="cancel">Cancelled Class</Option>
+              </Select>
+            </Col>
 
-        <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-          <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
-        </Col>
-      </Row>
+            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+              <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
+            </Col>
+          </Row>
 
-      <Card className="card">
-        <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1200 }} />
-      </Card>
+          <Card className="card">
+            <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1200 }} />
+          </Card>
+        </>
+      ) : (
+        <Row justify="center">
+          <EmptyState description="Uh oh! You haven't completed any class yet." />
+        </Row>
+      )}
     </Spin>
   );
 };
