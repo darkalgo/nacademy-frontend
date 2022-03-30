@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import {useEffect, useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+
 import { accountType, classNames, districtName, genders, groupNames, occupations, subjectNames } from "../utils/Constants";
 import { mobileNumberValidation, passwordValidation } from "../utils/Validations";
 import { BaseAPI } from "../utils/Api";
 import moment from "moment";
+import Notification from "../components/controls/Notification";
 
-const { Text, Title } = Typography;
+const { Title } = Typography;
 const { TextArea } = Input;
 const { Option } = Select;
-
-const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
 
 const Registration = () => {
   const [form] = Form.useForm();
@@ -23,10 +20,38 @@ const Registration = () => {
   const [loading, setLoading] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState("Tutor");
   const [gender, setGender] = useState("Male");
+  const [classList, setClassList] = useState([]);
+  const [goodAtSubjects, setGoodAtSubjects] = useState([])
+  const [favoriteSubjects, setFavoriteSubjects] = useState([])
+
+  useEffect(() => {
+    (async() => {
+      await BaseAPI.get('/tutors/get-subjects').then(res => {
+        console.log(res.data)
+        setClassList(res.data.data)
+      }).catch(err => {
+        if (err?.response?.data?.message) {
+          Notification(err?.response?.data?.message, "Please fix this error and try again. Otherwise communicate with the admin", "error");
+        } else {
+          Notification("Something went wrong", "Please check your internet connection and try again or communicate with the admin", "error");
+        }
+      })
+    })()
+  }, [])
+
+  const onClassChange = value => {
+    console.log(value)
+    console.log(classList)
+    const subjects = [];
+    
+    // const balchal = setGoodAtSubjects(value.map(el => classList.map(el2 => el === el2.group_id)))
+    // console.log(balchal)
+    
+  }
 
   const onFinish = async (values) => {
     let info = null;
-    if (selectedAccount === "Tutor") {
+    if (selectedAccount === "Tuftor") {
       info = {
         name: values.name,
         email: values.email,
@@ -70,9 +95,6 @@ const Registration = () => {
       apiRoute = "/auth/signup-student";
     }
 
-    console.log(info);
-    console.log(apiRoute);
-
     setLoading(true);
     await BaseAPI.post(`${apiRoute}`, info)
       .then((res) => {
@@ -93,9 +115,9 @@ const Registration = () => {
   };
 
   return (
-    <div style={{ padding: "20px 20px" }}>
-      <Form form={form} onFinish={onFinish}>
-        <Row justify="center">
+    <div className="mt-2">
+      <Form form={form} onFinish={onFinish} layout="vertical">
+        <Row justify="center" className="mb-2">
           <Title level={3}>Create account to get started</Title>
         </Row>
         <Row justify="center">
@@ -158,10 +180,10 @@ const Registration = () => {
         </Row>
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
-            <Text>
+            <Title level={5}>
               Select gender &nbsp; &nbsp;
               <Radio.Group options={genders} onChange={(e) => setGender(e.target.value)} value={gender} optionType="button" buttonStyle="solid" />
-            </Text>
+            </Title>
           </Col>
         </Row>
         <Row justify="center">
@@ -174,7 +196,7 @@ const Registration = () => {
         <Row justify="center">
           <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
             <Form.Item name="district" label="District" labelCol={{ span: 24 }} rules={[{ required: true, message: "District is required" }]}>
-              <Select showSearch optionFilterProp="children" allowClear showArrow>
+              <Select showSearch allowClear showArrow>
                 {districtName.map((el) => (
                   <Option key={el.id} value={el.id}>
                     {el.name}
@@ -247,10 +269,10 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="tutor_class" label="Which class you will teach" labelCol={{ span: 24 }} rules={[{ required: true, message: "Class name is required" }]}>
-                  <Select mode="multiple" style={{ width: "100%" }} allowClear showArrow>
-                    {classNames.map((el) => (
-                      <Option key={el.id} value={el.id}>
-                        {el.name}
+                  <Select mode="multiple" style={{ width: "100%" }} allowClear showArrow onChange={onClassChange}>
+                    {classList.map((el) => (
+                      <Option key={el.group_id} value={el.group_id}>
+                        {el.group_name}
                       </Option>
                     ))}
                   </Select>
@@ -260,7 +282,7 @@ const Registration = () => {
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="subject" label="Subject You Are Good At" labelCol={{ span: 24 }} rules={[{ required: true, message: "Subject name is required" }]}>
-                  <Select mode="multiple" style={{ width: "100%" }} showSearch optionFilterProp="children" allowClear showArrow>
+                  <Select mode="multiple" style={{ width: "100%" }} showSearch allowClear showArrow>
                     {subjectNames.map((el) => (
                       <Option value={el.id} key={el.id}>
                         {el.name}
@@ -268,13 +290,12 @@ const Registration = () => {
                     ))}
                   </Select>
                 </Form.Item>
-                <small>You can add subject name that are not listed by typing on the field</small>
               </Col>
             </Row>
             <Row justify="center">
               <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
                 <Form.Item name="favorite_subject" label="Favorite Subject" labelCol={{ span: 24 }} rules={[{ required: true, message: "Favorite subject name is required" }]}>
-                  <Select mode="multiple" style={{ width: "100%" }} tokenSeparators={[","]} showSearch optionFilterProp="children" allowClear showArrow>
+                  <Select mode="multiple" style={{ width: "100%" }} tokenSeparators={[","]} showSearch allowClear showArrow>
                     {subjectNames.map((el) => (
                       <Option value={el.id} key={el.id}>
                         {el.name}
@@ -282,7 +303,6 @@ const Registration = () => {
                     ))}
                   </Select>
                 </Form.Item>
-                <small>You can add subject name that are not listed by typing on the field</small>
               </Col>
             </Row>
             <Row justify="center">
