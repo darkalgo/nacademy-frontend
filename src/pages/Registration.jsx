@@ -40,13 +40,12 @@ const Registration = () => {
   }, [])
 
   const onClassChange = value => {
-    console.log(value)
-    console.log(classList)
-    const subjects = [];
-    
-    // const balchal = setGoodAtSubjects(value.map(el => classList.map(el2 => el === el2.group_id)))
-    // console.log(balchal)
-    
+    let subjects = [];
+    value.forEach(gro => {
+      subjects = [...subjects, ...classList.find(el => el.group_id === gro).subjects];
+    });
+    setGoodAtSubjects([...subjects]);
+    setFavoriteSubjects([...subjects]);
   }
 
   const onFinish = async (values) => {
