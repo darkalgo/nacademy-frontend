@@ -1,12 +1,61 @@
-import { Button, Card, Col, Row, Typography } from "antd";
-import { SendOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Modal, Row, Typography } from "antd";
+import { SendOutlined, CloseCircleOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Countdown from "react-countdown";
 import moment from "moment";
+import {useHistory} from "react-router-dom";
+
+import { BaseAPI } from "../../utils/Api";
+import ErrorHandler from "../controls/ErrorHandler";
+import Notification from "../controls/Notification";
 
 const { Title } = Typography;
 
 const UpcomingClassCard = ({ info }) => {
-  console.log(info)
+  const history = useHistory();
+
+
+  const cancelClass = (value) => {
+    console.log(value)
+    Modal.confirm({
+      title: "Selected class will be canceled!",
+      icon: <ExclamationCircleOutlined />,
+      content:
+        "When clicked the Yes button, the class will be canceled. Are you sure you want to make change?",
+      okText: "Yes, Cancel",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          await BaseAPI.post(
+            "students/cancel-class",
+            { id: value },
+            {
+              headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+              },
+            }
+          );
+          Notification("Success", "Class has been removed.", "success");
+        } catch (err) {
+          if (err?.response?.data?.message) {
+            ErrorHandler(err?.response?.data?.message, history);
+          } else {
+            Notification(
+              "Something went wrong",
+              "Please check your internet connection and try again or communicate with the admin",
+              "error"
+            );
+          }
+        }
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  }
+  
+
+
   return (
     <Card className="card">
       <Row gutter={[8, 8]}>
@@ -72,14 +121,14 @@ const UpcomingClassCard = ({ info }) => {
         </Col>
         {info.is_open && (
           <Col xs={{ span: 24 }}>
-            <Button block type="primary" icon={<SendOutlined />} size="large">
+            <Button block type="primary" icon={<SendOutlined />} size="large" to={info.class_link}>
               Join Class
             </Button>
           </Col>
         )}
         {!info.is_open && (
           <Col xs={{ span: 24 }}>
-            <Button block danger type="text" icon={<CloseCircleOutlined />} size="large" className="error-btn">
+            <Button block danger type="text" icon={<CloseCircleOutlined />} size="large" className="error-btn" onClick={() => cancelClass(info.id)}>
               Cancel Class
             </Button>
           </Col>
