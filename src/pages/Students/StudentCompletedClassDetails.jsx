@@ -53,16 +53,16 @@ const StudentCompletedClassDetails = () => {
         <Col xs={{ span: 24 }}>
           <Card className="card">
             <Descriptions bordered title="Class Information">
-              <Descriptions.Item label="Class Agenda">{classDetails?.classInfo?.agenda}</Descriptions.Item>
-              <Descriptions.Item label="Class Name">{classDetails?.classInfo?.class_name}</Descriptions.Item>
-              <Descriptions.Item label="Subject">{classDetails?.classInfo?.subject}</Descriptions.Item>
+              <Descriptions.Item label="Class Agenda">{classDetails?.agenda}</Descriptions.Item>
+              <Descriptions.Item label="Group Name">{classDetails?.group_name}</Descriptions.Item>
+              <Descriptions.Item label="Subject">{classDetails?.subject}</Descriptions.Item>
               <Descriptions.Item label="Class Conducted Date">{moment(classDetails?.classInfo?.date).format("LL")}</Descriptions.Item>
-              <Descriptions.Item label="Start Time">{classDetails?.classInfo?.start_time}</Descriptions.Item>
-              <Descriptions.Item label="End Time">{classDetails?.classInfo?.end_time}</Descriptions.Item>
-              <Descriptions.Item label="Student Name">{classDetails?.classInfo?.student_name}</Descriptions.Item>
-              <Descriptions.Item label="Student Institution Name">{classDetails?.classInfo?.student_institute_name}</Descriptions.Item>
-              <Descriptions.Item label="Tutor Name">{classDetails?.classInfo?.tutor_name}</Descriptions.Item>
-              <Descriptions.Item label="Tutor Institution Name">{classDetails?.classInfo?.tutor_institute_name}</Descriptions.Item>
+              <Descriptions.Item label="Start Time">{classDetails?.start_time}</Descriptions.Item>
+              <Descriptions.Item label="End Time">{classDetails?.end_time}</Descriptions.Item>
+              <Descriptions.Item label="Student Name">{classDetails?.student_name}</Descriptions.Item>
+              <Descriptions.Item label="Student Institution Name">{classDetails?.student_institute_name}</Descriptions.Item>
+              <Descriptions.Item label="Tutor Name">{classDetails?.tutor_name}</Descriptions.Item>
+              <Descriptions.Item label="Tutor Institution Name">{classDetails?.tutor_institute_name}</Descriptions.Item>
             </Descriptions>
           </Card>
         </Col>
@@ -70,8 +70,8 @@ const StudentCompletedClassDetails = () => {
         <Col xs={{ span: 24 }}>
           <Card className="card">
             <Descriptions bordered title="Feedback">
-              <Descriptions.Item label="Given Rating">{classDetails?.ratingInfo?.rating}</Descriptions.Item>
-              <Descriptions.Item label="Comment">{classDetails?.ratingInfo?.comment}</Descriptions.Item>
+              <Descriptions.Item label="Given Rating">{classDetails?.rating?.rating}</Descriptions.Item>
+              <Descriptions.Item label="Comment">{classDetails?.rating?.comment}</Descriptions.Item>
             </Descriptions>
           </Card>
         </Col>

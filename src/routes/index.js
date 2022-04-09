@@ -13,18 +13,21 @@ import AdminTutorList from "../pages/Admin/AdminTutorList";
 import AdminViewNotice from "../pages/Admin/AdminViewNotice";
 import AdminViewFeedback from "../pages/Admin/AdminViewFeedback";
 import AdminViewTransactions from "../pages/Admin/AdminViewTransactions";
+
 import StudentAllTutors from "../pages/Students/StudentAllTutors";
 import StudentBookTutors from "../pages/Students/StudentBookTutors";
 import StudentCompletedClasses from "../pages/Students/StudentCompletedClasses";
 import StudentDashboard from "../pages/Students/StudentDashboard";
 import StudentFeedback from "../pages/Students/StudentFeedback";
 import StudentNotices from "../pages/Students/StudentNotices";
-import StudentOngoingClasses from "../pages/Students/StudentOngoingClasses";
 import StudentOnlineTutors from "../pages/Students/StudentOnlineTutors";
 import StudentProfile from "../pages/Students/StudentProfile";
 import StudentSubscription from "../pages/Students/StudentSubscription";
 import StudentUpcomingClasses from "../pages/Students/StudentUpcomingClasses";
 import StudentTutorDetails from "../pages/Students/StudentTutorDetails";
+import StudentCompletedClassDetails from "../pages/Students/StudentCompletedClassDetails";
+import StudentCancelledClasses from "../pages/Students/StudentCancelledClasses";
+
 import TutorCompletedClasses from "../pages/Tutors/TutorCompletedClasses";
 import TutorDashboard from "../pages/Tutors/TutorDashboard";
 import TutorFeedback from "../pages/Tutors/TutorFeedback";
@@ -33,7 +36,7 @@ import TutorNotices from "../pages/Tutors/TutorNotices";
 import TutorProfile from "../pages/Tutors/TutorProfile";
 import TutorTimeSlot from "../pages/Tutors/TutorTimeSlot";
 import TutorUpcomingClasses from "../pages/Tutors/TutorUpcomingClasses";
-import StudentCompletedClassDetails from "../pages/Students/StudentCompletedClassDetails";
+
 
 function AppRoutes() {
   return (
@@ -54,8 +57,8 @@ function AppRoutes() {
         <Route exact path="/student/online-tutors" component={StudentOnlineTutors} />
         <Route exact path="/student/book-tutors" component={StudentBookTutors} />
         <Route exact path="/student/upcoming-classes" component={StudentUpcomingClasses} />
-        <Route exact path="/student/ongoing-classes" component={StudentOngoingClasses} />
         <Route exact path="/student/completed-classes" component={StudentCompletedClasses} />
+        <Route exact path="/student/cancelled-classes" component={StudentCancelledClasses} />
         <Route exact path="/student/notices" component={StudentNotices} />
         <Route exact path="/student/support" component={StudentFeedback} />
         <Route exact path="/student/profile" component={StudentProfile} />

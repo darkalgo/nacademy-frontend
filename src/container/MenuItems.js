@@ -1,6 +1,7 @@
 import { MdAlarm, MdAlarmOn, MdBookmarkAdd, MdCalendarToday, MdDashboard, MdFeedback, MdGroups, MdNotificationsActive, MdPendingActions, MdWifiTethering } from "react-icons/md";
 import { HiCollection } from "react-icons/hi";
 import { FaInfoCircle, FaPlusCircle, FaRegListAlt, FaRegMoneyBillAlt, FaUserCog, FaUsers, FaUserTie, FaWallet } from "react-icons/fa";
+import { BiMessageSquareX } from "react-icons/bi";
 
 export const TUTOR_MENUS = [
   { name: "Dashboard", to: "/tutor/dashboard", key: "dashboard", icon: <MdDashboard /> },
@@ -18,8 +19,8 @@ export const STUDENT_MENUS = [
   { name: "All Tutors", to: "/student/all-tutors", key: "all-tutors", icon: <MdGroups /> },
   { name: "Book Tutor", to: "/student/book-tutors", key: "book-tutors", icon: <MdBookmarkAdd /> },
   { name: "Upcoming Classes", to: "/student/upcoming-classes", key: "upcoming-classes", icon: <MdPendingActions /> },
-  { name: "Ongoing Classes", to: "/student/ongoing-classes", key: "ongoing-classes", icon: <MdAlarm /> },
   { name: "Completed Classes", to: "/student/completed-classes", key: "completed-classes", icon: <MdAlarmOn /> },
+  { name: "Cancelled Classes", to: "/student/cancelled-classes", key: "cancelled-classes", icon: <BiMessageSquareX /> },
   { name: "Notices", to: "/student/notices", key: "notices", icon: <MdNotificationsActive /> },
   { name: "Support", to: "/student/support", key: "support", icon: <MdFeedback /> },
   { name: "Subscription", to: "/student/subscription", key: "subscription", icon: <HiCollection /> },

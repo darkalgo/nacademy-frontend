@@ -21,8 +21,8 @@ const AdminTutorDetails = () => {
   }, [id]);
 
   // functions
-  const getTutorInformation = (id) => {
-    (async () => {
+  const getTutorInformation = async (id) => {
+    
       setLoading(true);
       await BaseAPI.get(`/tutors/${id}`, {
         headers: {
@@ -40,7 +40,7 @@ const AdminTutorDetails = () => {
           }
         })
         .finally(() => setLoading(false));
-    })();
+   
   };
 
   const approveAccount = async (status, id) => {

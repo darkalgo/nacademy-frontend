@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Input, Table, Row, Typography, Col, Card, Spin, Select, Tooltip } from "antd";
+import { Input, Table, Row, Typography, Col, Card, Spin, Tooltip } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
@@ -11,7 +11,6 @@ import EmptyState from "../../components/controls/EmptyState";
 
 const { Title } = Typography;
 const { Search } = Input;
-const { Option } = Select;
 
 const StudentCompletedClasses = () => {
   const history = useHistory();
@@ -19,29 +18,22 @@ const StudentCompletedClasses = () => {
   const [loading, setLoading] = useState(false);
   const [classList, setClassList] = useState([]);
   const [searchedClassList, setSearchedClassList] = useState([]);
-  const [status, setStatus] = useState("completed");
 
   useEffect(() => {
-    getClassList(status);
-  }, []);
-
-  const getClassList = (status) => {
     (async () => {
       setLoading(true);
-      await BaseAPI.post(
-        "/students/classes",
-        { status },
-        {
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-          },
-        }
-      )
+      await BaseAPI.get("/students/get-complete-classes", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      })
         .then((res) => {
+          console.log(res.data.data);
           const info = res.data.data.map((el) => ({
             ...el,
             key: el.id,
           }));
+          console.log(info);
           setClassList(info);
           setSearchedClassList(info);
         })
@@ -54,18 +46,9 @@ const StudentCompletedClasses = () => {
         })
         .finally(() => setLoading(false));
     })();
-  };
+  }, []);
 
-  const onClassStatusChange = (value) => {
-    if (value === "completed") {
-      setStatus("completed");
-    } else {
-      setStatus("cancel");
-    }
-    getClassList(value);
-  };
-
-  const searcher = new FuzzySearch(classList, ["agenda", "subject", "tutor_name"], { sort: true });
+  const searcher = new FuzzySearch(classList, ["agenda", "subject", "tutor"], { sort: true });
 
   const handleOnSearch = (value) => {
     if (value) {
@@ -118,8 +101,8 @@ const StudentCompletedClasses = () => {
     },
     {
       title: "Teacher Name",
-      dataIndex: "tutor_name",
-      key: "tutor_name",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Rating",
@@ -138,22 +121,15 @@ const StudentCompletedClasses = () => {
 
   return (
     <Spin spinning={loading}>
-      <Row justify="center">
-        <Title level={2}> {status === "completed" ? "Completed" : "Cancelled"} Classes</Title>
-      </Row>
+      <div className="center">
+        <Title level={2}> Completed Classes</Title>
+      </div>
 
-      {classList.lenth > 0 ? (
+      {classList.length > 0 ? (
         <>
-          <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
-            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-              <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
-                <Option value="completed">Completed Class</Option>
-                <Option value="cancel">Cancelled Class</Option>
-              </Select>
-            </Col>
-
-            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-              <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
+          <Row justify="end" className="mb-1">
+            <Col xs={{ span: 24 }} md={{ span: 8 }} >
+              <Search placeholder="Search by class name, subjects and teacher" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
             </Col>
           </Row>
 

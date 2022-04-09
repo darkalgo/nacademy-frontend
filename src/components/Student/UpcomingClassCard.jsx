@@ -54,8 +54,6 @@ const UpcomingClassCard = ({ info }) => {
     });
   }
   
-
-
   return (
     <Card className="card">
       <Row gutter={[8, 8]}>
@@ -121,7 +119,7 @@ const UpcomingClassCard = ({ info }) => {
         </Col>
         {info.is_open && (
           <Col xs={{ span: 24 }}>
-            <Button block type="primary" icon={<SendOutlined />} size="large" to={info.class_link}>
+            <Button block type="primary" icon={<SendOutlined />} size="large" href={info.class_link}>
               Join Class
             </Button>
           </Col>

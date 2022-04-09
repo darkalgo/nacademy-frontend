@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Tag, Space } from "antd";
+import { Table, Tag } from "antd";
 
 const TodayClassListTable = () => {
   const columns = [
