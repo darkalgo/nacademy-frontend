@@ -65,7 +65,9 @@ const UpcomingClassCard = ({ info }) => {
         </Col>
         <Col xs={{ span: 16 }}>
           <Title level={5}>
-            {/* <Countdown date={moment(info?.date).add(info?.start_time_min, "minutes")._d}>Your class has started. Please join.</Countdown> */}
+          {moment(moment(info.date).add(info.start_time_min, "minutes")._d).isSameOrAfter(moment()._d) === true ? 
+            <Countdown date={moment(info.date).add(info.start_time_min, "minutes")._d}>Your class has started. Please join.</Countdown> : 
+            'Your class has started. Please join.'}
           </Title>
         </Col>
         {info.is_open && (
