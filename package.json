@@ -19,6 +19,7 @@
     "numeral": "^2.0.6",
     "react": "^17.0.2",
     "react-apexcharts": "^1.3.9",
+    "react-countdown": "^2.3.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
@@ -28,12 +29,7 @@
   },
   "scripts": {
     "start": "env-cmd -f .env.development craco start",
-    "start:stage:dev": "env-cmd -f .env.development craco start",
-    "start:stage:prod": "env-cmd -f .env.production craco start",
-    "build:stage:dev": "env-cmd -f .env.development craco build",
-    "build:stage:prod": "env-cmd -f .env.production craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "build": "env-cmd -f .env.production craco build"
   },
   "eslintConfig": {
     "extends": [

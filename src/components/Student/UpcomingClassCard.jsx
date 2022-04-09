@@ -1,10 +1,12 @@
 import { Button, Card, Col, Row, Typography } from "antd";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { SendOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import Countdown from "react-countdown";
 import moment from "moment";
 
 const { Title } = Typography;
 
 const UpcomingClassCard = ({ info }) => {
+  console.log(info)
   return (
     <Card className="card">
       <Row gutter={[8, 8]}>
@@ -56,11 +58,30 @@ const UpcomingClassCard = ({ info }) => {
         <Col xs={{ span: 16 }}>
           <Title level={5}>{info.subject}</Title>
         </Col>
-        <Col xs={{ span: 24 }}>
-          <Button block danger type="text" icon={<CloseCircleOutlined />} size="large" className="error-btn">
-            Cancel Class
-          </Button>
+        <Col xs={{ span: 8 }}>
+          <Title level={5} className="primary-color">
+            Class Starts In:
+          </Title>
         </Col>
+        <Col xs={{ span: 16 }}>
+          <Title level={5}>
+            {/* <Countdown date={moment(info?.date).add(info?.start_time_min, "minutes")._d}>Your class has started. Please join.</Countdown> */}
+          </Title>
+        </Col>
+        {info.is_open && (
+          <Col xs={{ span: 24 }}>
+            <Button block type="primary" icon={<SendOutlined />} size="large">
+              Join Class
+            </Button>
+          </Col>
+        )}
+        {!info.is_open && (
+          <Col xs={{ span: 24 }}>
+            <Button block danger type="text" icon={<CloseCircleOutlined />} size="large" className="error-btn">
+              Cancel Class
+            </Button>
+          </Col>
+        )}
       </Row>
     </Card>
   );
