@@ -97,7 +97,7 @@ const Login = () => {
           <Row justify="center">
             <Col xs={{ span: 24 }} lg={{ span: 8 }}>
               <Form.Item>
-                <Button block type="primary" disabled={loading} htmlType="submit">
+                <Button block type="primary" disabled={loading} htmlType="submit" className="bg white-text">
                   {loading && <LoadingOutlined />} Log In
                 </Button>
               </Form.Item>

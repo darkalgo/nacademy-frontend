@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 
 import { AppRootContextProvider } from "../contexts/AppRootContext";
@@ -47,8 +47,13 @@ const CommonLayout = () => {
       <Layout>
         {!sessionStorage.getItem("accessToken") && (
           <Header className="site-layout-sub-header-background">
-            <div>
-              <Menu mode="horizontal" selectedKeys={[path.split("/")[1]]}>
+            <Link to="/login">
+              <Button type="text">Login</Button>
+            </Link>
+            <Link to="/registration">
+              <Button type="text">Register</Button>
+            </Link>
+            {/* <Menu mode="horizontal" selectedKeys={[path.split("/")[1]]}>
                 <Menu.Item key="">
                   Home <Link to="/" />
                 </Menu.Item>
@@ -58,8 +63,7 @@ const CommonLayout = () => {
                 <Menu.Item key="registration">
                   Registration <Link to="/registration" />
                 </Menu.Item>
-              </Menu>
-            </div>
+              </Menu> */}
           </Header>
         )}
         <Content>
