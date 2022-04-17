@@ -43,17 +43,19 @@ const PendingTeacherList = () => {
 
   return (
     <Spin spinning={loading}>
-      <Row gutter={[16, 16]}>
-        {pendingList.length > 0 ? (
-          pendingList.map((el) => (
+      {pendingList.length > 0 ? (
+        <Row gutter={[16, 16]}>
+          {pendingList.map((el) => (
             <Col xs={{ span: 24 }} md={{ span: 12 }} key={el.id}>
               <ApproveTutorCard info={el} />
             </Col>
-          ))
-        ) : (
+          ))}
+        </Row>
+      ) : (
+        <Row justify="center">
           <EmptyState description="You have no pending tutor 😁" />
-        )}
-      </Row>
+        </Row>
+      )}
     </Spin>
   );
 };

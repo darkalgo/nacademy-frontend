@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Card, Col, Form, Input, Row, Select, Spin, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Select, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 
 import { noticeType } from "../../utils/Constants";
@@ -37,9 +37,8 @@ const AdminCreateNotice = () => {
         ),
 
         // get all students
-        BaseAPI.post(
+        BaseAPI.get(
           "/students/list",
-          {},
           {
             headers: {
               Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
@@ -108,7 +107,6 @@ const AdminCreateNotice = () => {
         <Title level={2}>Create Notice</Title>
       </div>
 
-      <Card className="card">
         <Form form={form} onFinish={onFinish}>
           <Row gutter={[16, 16]}>
             <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
@@ -185,7 +183,6 @@ const AdminCreateNotice = () => {
             </Form.Item>
           </div>
         </Form>
-      </Card>
     </Spin>
   );
 };

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Input, Table, Row, Typography, Col, Card, Spin, Tooltip } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Card, Col, Input, Table, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
 
 import { BaseAPI } from "../../utils/Api";
+import EmptyState from "../../components/controls/EmptyState";
 import ErrorHandler from "../../components/controls/ErrorHandler";
 import Notification from "../../components/controls/Notification";
-import EmptyState from "../../components/controls/EmptyState";
 
 const { Title } = Typography;
 const { Search } = Input;
 
-const StudentCompletedClasses = () => {
+const TutorCancelledClasses = () => {
   const history = useHistory();
 
   const [loading, setLoading] = useState(false);
@@ -22,18 +21,17 @@ const StudentCompletedClasses = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await BaseAPI.get("/students/get-complete-classes", {
+      await BaseAPI.get("/tutors/get-cancel-classes", {
         headers: {
           Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
       })
         .then((res) => {
-          console.log(res.data.data);
+            console.log(res.data.data)
           const info = res.data.data.map((el) => ({
             ...el,
             key: el.id,
           }));
-          console.log(info);
           setClassList(info);
           setSearchedClassList(info);
         })
@@ -48,7 +46,8 @@ const StudentCompletedClasses = () => {
     })();
   }, [history]);
 
-  const searcher = new FuzzySearch(classList, ["agenda", "subject", "tutor"], { sort: true });
+
+  const searcher = new FuzzySearch(classList, ["agenda", "subject", "name"], { sort: true });
 
   const handleOnSearch = (value) => {
     if (value) {
@@ -75,7 +74,7 @@ const StudentCompletedClasses = () => {
       key: "agenda",
     },
     {
-      title: "Subject Name",
+      title: "Subject",
       dataIndex: "subject",
       key: "subject",
     },
@@ -100,50 +99,47 @@ const StudentCompletedClasses = () => {
       key: "address",
     },
     {
-      title: "Teacher Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Student Name",
+      dataIndex: "student_name",
+      key: "student_name",
+    },
+    {
+      title: "Student Institution Name",
+      dataIndex: "student_institute_name",
+      key: "student_institute_name",
     },
     {
       title: "Rating",
-      dataIndex: "tutor_ratings",
-      key: "tutor_ratings",
-    },
-    {
-      title: "Action",
-      render: (text, record) => (
-        <Tooltip title="View Details">
-          <EyeOutlined className="icon-style" onClick={() => history.push(`/student/classes/${record.id}`)} />
-        </Tooltip>
-      ),
+      dataIndex: "address",
+      key: "address",
     },
   ];
 
   return (
     <Spin spinning={loading}>
       <div className="center">
-        <Title level={2}> Completed Classes</Title>
+        <Title level={2}>Cancelled Classes</Title>
       </div>
 
       {classList.length > 0 ? (
         <>
-          <Row justify="end" className="mb-1">
-            <Col xs={{ span: 24 }} md={{ span: 8 }} >
-              <Search placeholder="Search by class name, subjects and teacher" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
+          <Row justify="end" className="mb-1" gutter={[8, 8]}>
+            <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
             </Col>
           </Row>
 
           <Card className="card">
-            <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1000 }} />
+            <Table columns={columns} dataSource={searchedClassList} scroll={{ x: 1200 }} />
           </Card>
         </>
       ) : (
         <Row justify="center">
-          <EmptyState description="You have not conducted any class yet" />
+          <EmptyState description="Wow! You haven't cancelled any class yet." />
         </Row>
       )}
     </Spin>
   );
 };
 
-export default StudentCompletedClasses;
+export default TutorCancelledClasses;

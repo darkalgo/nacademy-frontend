@@ -25,9 +25,11 @@ const AdminStudentPackage = () => {
         },
       })
         .then((res) => {
+          console.log(res.data.data)
           setStudentDetails(res.data.data);
         })
         .catch((err) => {
+          console.log(err)
           if (err?.response?.data?.message) {
             ErrorHandler(err?.response?.data?.message, history);
           } else {
@@ -49,9 +51,12 @@ const AdminStudentPackage = () => {
           <Descriptions.Item label="Email">{studentDetails.email}</Descriptions.Item>
           <Descriptions.Item label="Phone">{studentDetails.phone}</Descriptions.Item>
           <Descriptions.Item label="Date Of Birth">{studentDetails.dob}</Descriptions.Item>
+          <Descriptions.Item label="Gender">{studentDetails.gender}</Descriptions.Item>
           <Descriptions.Item label="Institute Name">{studentDetails.institute_name}</Descriptions.Item>
-          <Descriptions.Item label="Class Name">{studentDetails.class_name}</Descriptions.Item>
-          <Descriptions.Item label="Group Name">{studentDetails.group_name}</Descriptions.Item>
+          <Descriptions.Item label="Group Name">{studentDetails.groups?.map(el => el.name.concat(', '))}</Descriptions.Item>
+          <Descriptions.Item label="Occupation">{studentDetails.occupation}</Descriptions.Item>
+          <Descriptions.Item label="District">{studentDetails.district}</Descriptions.Item>
+          <Descriptions.Item label="Address">{studentDetails.address}</Descriptions.Item>
           <Descriptions.Item label="Account Creation Date">{studentDetails.createdAt}</Descriptions.Item>
         </Descriptions>
       </Card>

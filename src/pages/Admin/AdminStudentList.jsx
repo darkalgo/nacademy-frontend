@@ -22,9 +22,8 @@ const AdminStudentList = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await BaseAPI.post(
+      await BaseAPI.get(
         "/students/list",
-        {},
         {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
@@ -32,6 +31,7 @@ const AdminStudentList = () => {
         }
       )
         .then((res) => {
+          console.log(res.data.data)
           let response = res.data.data.map((el) => ({
             ...el,
             key: el.id,

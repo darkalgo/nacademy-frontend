@@ -9,6 +9,7 @@ export const TUTOR_MENUS = [
   { name: "Upcoming Classes", to: "/tutor/upcoming-classes", key: "upcoming-classes", icon: <MdPendingActions /> },
   { name: "Ongoing Classes", to: "/tutor/ongoing-classes", key: "ongoing-classes", icon: <MdAlarm /> },
   { name: "Completed Classes", to: "/tutor/completed-classes", key: "completed-classes", icon: <MdAlarmOn /> },
+  { name: "Cancelled Classes", to: "/tutor/cancelled-classes", key: "cancelled-classes", icon: <BiMessageSquareX /> },
   { name: "Notices", to: "/tutor/notices", key: "notices", icon: <MdNotificationsActive /> },
   { name: "Support", to: "/tutor/support", key: "support", icon: <MdFeedback /> },
 ];

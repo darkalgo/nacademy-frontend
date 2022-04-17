@@ -23,9 +23,8 @@ const AdminViewNotice = () => {
     (async () => {
       setLoading(true);
 
-      await BaseAPI.post(
+      await BaseAPI.get(
         "/admins/get-notices",
-        {},
         {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("accessToken"),

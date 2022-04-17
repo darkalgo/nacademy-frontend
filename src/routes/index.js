@@ -36,6 +36,7 @@ import TutorNotices from "../pages/Tutors/TutorNotices";
 import TutorProfile from "../pages/Tutors/TutorProfile";
 import TutorTimeSlot from "../pages/Tutors/TutorTimeSlot";
 import TutorUpcomingClasses from "../pages/Tutors/TutorUpcomingClasses";
+import TutorCancelledClasses from "../pages/Tutors/TutorCancelledClasses";
 
 
 function AppRoutes() {
@@ -48,6 +49,7 @@ function AppRoutes() {
         <Route exact path="/tutor/upcoming-classes" component={TutorUpcomingClasses} />
         <Route exact path="/tutor/ongoing-classes" component={TutorOngoingClasses} />
         <Route exact path="/tutor/completed-classes" component={TutorCompletedClasses} />
+        <Route exact path="/tutor/cancelled-classes" component={TutorCancelledClasses} />
         <Route exact path="/tutor/notices" component={TutorNotices} />
         <Route exact path="/tutor/support" component={TutorFeedback} />
         <Route exact path="/tutor/profile" component={TutorProfile} />

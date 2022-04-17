@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Input, Table, Row, Spin, Typography, Select } from "antd";
+import { Card, Col, Input, Table, Row, Spin, Typography } from "antd";
 import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
 
@@ -10,7 +10,6 @@ import Notification from "../../components/controls/Notification";
 
 const { Title } = Typography;
 const { Search } = Input;
-const { Option } = Select;
 
 const TutorCompletedClasses = () => {
   const history = useHistory();
@@ -18,24 +17,15 @@ const TutorCompletedClasses = () => {
   const [loading, setLoading] = useState(false);
   const [classList, setClassList] = useState([]);
   const [searchedClassList, setSearchedClassList] = useState([]);
-  const [status, setStatus] = useState("completed");
 
   useEffect(() => {
-    getClassList(status);
-  }, []);
-
-  const getClassList = (status) => {
     (async () => {
       setLoading(true);
-      await BaseAPI.post(
-        "/tutors/classes",
-        { status },
-        {
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-          },
-        }
-      )
+      await BaseAPI.get("/tutors/get-complete-classes", {
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      })
         .then((res) => {
           const info = res.data.data.map((el) => ({
             ...el,
@@ -53,16 +43,8 @@ const TutorCompletedClasses = () => {
         })
         .finally(() => setLoading(false));
     })();
-  };
+  }, [history]);
 
-  const onClassStatusChange = (value) => {
-    if (value === "completed") {
-      setStatus("completed");
-    } else {
-      setStatus("cancel");
-    }
-    getClassList(value);
-  };
 
   const searcher = new FuzzySearch(classList, ["agenda", "subject", "tutor_name"], { sort: true });
 
@@ -117,13 +99,8 @@ const TutorCompletedClasses = () => {
     },
     {
       title: "Student Name",
-      dataIndex: "student_name",
-      key: "student_name",
-    },
-    {
-      title: "Student Institution Name",
-      dataIndex: "student_institute_name",
-      key: "student_institute_name",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Rating",
@@ -140,15 +117,8 @@ const TutorCompletedClasses = () => {
 
       {classList.length > 0 ? (
         <>
-          <Row justify="space-between" className="mb-1" gutter={[8, 8]}>
-            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
-              <Select defaultValue="completed" placeholder="Select Class Status" style={{ width: "100%" }} onChange={onClassStatusChange}>
-                <Option value="completed">Completed Class</Option>
-                <Option value="cancel">Cancelled Class</Option>
-              </Select>
-            </Col>
-
-            <Col xs={{ span: 24 }} md={{ span: 8 }} lg={{ span: 6 }}>
+          <Row justify="end" className="mb-1" gutter={[8, 8]}>
+            <Col xs={{ span: 24 }} md={{ span: 12 }} lg={{ span: 8 }}>
               <Search placeholder="Search class" allowClear enterButton onSearch={handleOnSearch} onChange={handleSearchChange} />
             </Col>
           </Row>

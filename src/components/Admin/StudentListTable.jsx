@@ -33,14 +33,9 @@ const StudentListTable = ({ info }) => {
       key: "institute_name",
     },
     {
-      title: "Class Name",
-      dataIndex: "class_name",
-      key: "class_name",
-    },
-    {
       title: "Group",
-      dataIndex: "group_name",
-      key: "group_name",
+      dataIndex: "groups",
+      key: "groups",
     },
     {
       title: "Account Creation Date",

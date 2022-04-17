@@ -14,9 +14,9 @@ const { Title } = Typography;
 const Login = () => {
   const [form] = Form.useForm();
   const history = useHistory();
+  const { setSocket } = useContext(AppRootContext);
 
   const [loading, setLoading] = useState(false);
-  const { setSocket } = useContext(AppRootContext);
 
   const onFinish = async ({ user_name, password }) => {
     setLoading(true);

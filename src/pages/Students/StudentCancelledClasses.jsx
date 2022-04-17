@@ -146,8 +146,7 @@
 // export default StudentOngoingClasses;
 
 import React, { useEffect, useState } from "react";
-import { Input, Table, Row, Typography, Col, Card, Spin, Tooltip } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { Input, Table, Row, Typography, Col, Card, Spin } from "antd";
 import { useHistory } from "react-router-dom";
 import FuzzySearch from "fuzzy-search";
 
@@ -193,7 +192,7 @@ const StudentCancelledClasses = () => {
         })
         .finally(() => setLoading(false));
     })();
-  }, []);
+  }, [history]);
 
   const searcher = new FuzzySearch(classList, ["agenda", "subject", "tutor_name"], { sort: true });
 

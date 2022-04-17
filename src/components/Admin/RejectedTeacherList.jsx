@@ -43,17 +43,19 @@ const RejectedTeacherList = () => {
 
   return (
     <Spin spinning={loading}>
-      <Row gutter={[16, 16]}>
-        {rejectedList.length > 0 ? (
-          rejectedList.map((el) => (
+      {rejectedList.length > 0 ? (
+        <Row gutter={[16, 16]}>
+          {rejectedList.map((el) => (
             <Col xs={{ span: 24 }} md={{ span: 12 }} key={el.id}>
               <ApproveTutorCard info={el} />
             </Col>
-          ))
-        ) : (
+          ))}
+        </Row>
+      ) : (
+        <Row justify="center">
           <EmptyState description="You haven't rejected any teacher yet 😊" />
-        )}
-      </Row>
+        </Row>
+      )}
     </Spin>
   );
 };

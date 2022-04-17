@@ -41,7 +41,7 @@ const StudentCompletedClassDetails = () => {
     return () => {
       setClassDetails([]);
     };
-  }, []);
+  }, [history]);
 
   return (
     <Spin spinning={loading}>

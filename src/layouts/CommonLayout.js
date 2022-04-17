@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Layout, Menu } from "antd";
+import React, { useEffect } from "react";
+import { Button, Layout } from "antd";
 import { Link, Switch, Route, useLocation } from "react-router-dom";
 
 import { AppRootContextProvider } from "../contexts/AppRootContext";
@@ -16,11 +16,8 @@ const { Content, Footer, Header } = Layout;
 const CommonLayout = () => {
   const location = useLocation();
 
-  const [path, setPath] = useState("");
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    setPath(location.pathname);
     // counted number of '/' (slashes) in the route
     const slashCount = location.pathname.split("/").filter((x) => x !== "").length;
     let splittedString;
